@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_realoc.c                                        :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: imicah <imicah@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/14 15:50:37 by imicah            #+#    #+#             */
-/*   Updated: 2020/06/14 15:50:38 by imicah           ###   ########.fr       */
+/*   Created: 2020/06/15 15:41:14 by imicah            #+#    #+#             */
+/*   Updated: 2020/06/15 15:41:14 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "libft.h"
 
-void 	*ft_realloc(char *src, int size)
+char	*ft_strcpy(char *dest, const char *src)
 {
-	char	*temp;
+	char	*res;
 
-	temp = src;
-	if (src)
-	{
-		size += ft_strlen(src);
-		src = (char*)malloc(sizeof(char) * size);
-		ft_strcpy(src, temp);
-		free(temp);
-	}
-	else
-		src = (char*)malloc(sizeof(char) * size);
+	res = dest;
+	while (*src)
+		*(dest++) = *(src++);
+	return (res);
 }

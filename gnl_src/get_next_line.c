@@ -46,6 +46,7 @@ int		ft_result(t_list **element, int result)
 {
 	t_list	*temp;
 
+	temp = NULL;
 	if (*element)
 	{
 		temp = (*element);
@@ -55,7 +56,7 @@ int		ft_result(t_list **element, int result)
 	}
 	if (result == -1)
 		return (-1);
-	else if (result == 0 && *element == NULL)
+	else if (result == 0 && temp == NULL)
 		return (0);
 	return (1);
 }
