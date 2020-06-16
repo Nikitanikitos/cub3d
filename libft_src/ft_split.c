@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include <stdlib.h>
 
 static void		ft_split_free(char **dest)
 {
@@ -35,7 +35,7 @@ static size_t	ft_count_chr(const char *s, char c)
 static size_t	ft_count_word(char const *s, char c)
 {
 	size_t	count;
-	int		flag;
+	char	flag;
 
 	count = 0;
 	flag = 1;
@@ -54,7 +54,7 @@ static size_t	ft_count_word(char const *s, char c)
 }
 
 static char		**ft_write_words(const char *s, char **dest,
-	char c, size_t count_word)
+								char c, size_t count_word)
 {
 	size_t	j;
 	size_t	k;

@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "libft.h"
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t byte_sizes)
 {
-	size_t const	result = ft_strlen(src);
-	size_t const	byte_sizes_copy = byte_sizes;
+	const size_t	result = ft_strlen(src);
+	const size_t	byte_sizes_copy = byte_sizes;
 
 	if (byte_sizes > 0)
 		byte_sizes = byte_sizes - 1;

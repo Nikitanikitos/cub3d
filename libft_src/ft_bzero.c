@@ -18,5 +18,5 @@ void	ft_bzero(void *dest, size_t byte_sizes)
 
 	temp_dest = (char*)dest;
 	while (byte_sizes--)
-		*temp_dest++ = 0;
+		*(temp_dest++) = 0;
 }

@@ -10,18 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include <stddef.h>
 
 void	*ft_memchr(const void *arr, int c, size_t byte_sizes)
 {
 	unsigned char	*temp_arr;
-	unsigned char	temp_c;
 
 	temp_arr = (unsigned char*)arr;
-	temp_c = (unsigned char)c;
 	while (byte_sizes--)
 	{
-		if (temp_c == *temp_arr)
+		if (c == *temp_arr)
 			return (temp_arr);
 		temp_arr++;
 	}

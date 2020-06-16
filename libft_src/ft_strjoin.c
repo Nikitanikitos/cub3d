@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "libft.h"
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	size_t const	len_new_string = ft_strlen(s1) + ft_strlen(s2);
+	const size_t	len_new_string = ft_strlen(s1) + ft_strlen(s2);
 	size_t			i;
 	char			*result_s;
 

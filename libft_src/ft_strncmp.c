@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "libft.h"
 
 int	ft_strncmp(const char *arr1, const char *arr2, size_t byte_sizes)
 {

@@ -10,20 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include <stddef.h>
 
 void	*ft_memccpy(void *dest, const void *src, int c, size_t byte_sizes)
 {
-	unsigned char	*temp_src;
-	unsigned char	*temp_dest;
+	const unsigned char	*temp_src = (unsigned char*)src;
+	unsigned char		*temp_dest;
 
-	temp_src = (unsigned char*)src;
 	temp_dest = (unsigned char*)dest;
 	if (temp_src == temp_dest)
 		return (dest);
 	while (byte_sizes--)
 	{
-		if (*temp_src == (unsigned char)c)
+		if (*temp_src == c)
 		{
 			*(temp_dest++) = *temp_src;
 			return (temp_dest);

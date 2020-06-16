@@ -10,14 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "libft.h"
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
 	t_list	*result;
 	t_list	*element;
 
-	else if (!(element = ft_lstnew(f(lst->content))))
+	if (!(element = ft_lstnew(f(lst->content))))
 	{
 		ft_lstclear(&element, del);
 		return (NULL);

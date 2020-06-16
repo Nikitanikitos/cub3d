@@ -10,15 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include <stddef.h>
 
 void	*ft_memmove(void *dest, const void *src, size_t byte_sizes)
 {
-	char	*temp_dest;
-	char	*temp_src;
+	const char	*temp_src = (char*)src;
+	char		*temp_dest;
 
 	temp_dest = (char*)dest;
-	temp_src = (char*)src;
 	if (temp_dest == temp_src)
 		return (dest);
 	else if (temp_dest > temp_src)

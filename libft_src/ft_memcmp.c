@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include <stddef.h>
 
 int		ft_memcmp(const void *arr1, const void *arr2, size_t byte_sizes)
 {
-    unsigned char const	*temp_arr1 = (unsigned char*)arr1;
-    unsigned char const	*temp_arr2 = (unsigned char*)arr2;
+	const unsigned char	*temp_arr1 = (unsigned char*)arr1;
+	const unsigned char	*temp_arr2 = (unsigned char*)arr2;
 
 	if (temp_arr1 == temp_arr2 || !byte_sizes)
 		return (0);

@@ -10,52 +10,47 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "libft.h"
 
 static int	ft_len(int n)
 {
-	size_t		i;
-	long int	temp_n;
+	unsigned char		i;
 
 	i = 0;
-	temp_n = n;
 	if (n == 0)
 		return (1);
-	if (temp_n < 0)
-	{
-		temp_n = -temp_n;
+	else if (n < 0)
 		i++;
-	}
-	while (temp_n)
+	while (n)
 	{
 		i++;
-		temp_n /= 10;
+		n /= 10;
 	}
 	return (i);
 }
 
 char		*ft_itoa(int n)
 {
-	char		*result;
-	size_t		i;
-	long int	temp_n;
+	unsigned char		i;
+	char				*result;
+	char				pos_or_neg;
 
 	i = ft_len(n);
-	temp_n = n;
+	pos_or_neg = 1;
 	if (!(result = (char*)malloc(sizeof(char) * (i + 1))))
 		return (NULL);
 	result[i--] = '\0';
-	if (temp_n == 0)
+	if (n == 0)
 		result[i--] = '0';
-	else if (temp_n < 0)
+	else if (n < 0)
 	{
 		result[0] = '-';
-		temp_n = -temp_n;
+		pos_or_neg = -1;
 	}
-	while (temp_n)
+	while (n)
 	{
-		result[i--] = (temp_n % 10) + 48;
-		temp_n /= 10;
+		result[i--] = ((n % 10) * pos_or_neg) + 48;
+		n /= 10;
 	}
 	return (result);
 }

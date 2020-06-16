@@ -10,18 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-static int		ft_isspace(char c)
+static char		ft_isspace(char c)
 {
-	if (c == '\n' || c == '\t' || c == '\r'
-		|| c == '\v' || c == '\f' || c == ' ')
-		return (1);
-	return (0);
+	return ((c == '\n' || c == '\t' || c == '\r' ||
+			c == '\v' || c == '\f' || c == ' '));
 }
 
 int				ft_atoi(const char *nptr)
 {
 	int		result;
-	int		pos_or_neg;
+	char	pos_or_neg;
 
 	result = 0;
 	pos_or_neg = 1;

@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "libft.h"
 
 void	ft_putendl_fd(char *s, int fd)
 {
-	int const	buff = ft_strlen(s);
+	const int	buff = ft_strlen(s);
 
 	if (buff)
 		write(fd, &(*s), buff);

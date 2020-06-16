@@ -10,14 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include <stddef.h>
 
 void	*ft_memcpy(void *dest, const void *src, size_t byte_sizes)
 {
-	char	*temp_src;
-	char	*temp_dest;
+	const char	*temp_src = (char*)src;
+	char		*temp_dest;
 
-	temp_src = (char*)src;
 	temp_dest = (char*)dest;
 	if (temp_dest == temp_src || byte_sizes == 0)
 		return (dest);

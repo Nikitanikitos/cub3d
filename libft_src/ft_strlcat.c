@@ -10,15 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "libft.h"
 
 size_t	ft_strlcat(char *dst, const char *src, size_t byte_sizes)
 {
-	size_t			result;
-	size_t const	len_dst = ft_strlen(dst);
-	size_t const	len_src = ft_strlen(src);
+	const size_t	len_dst = ft_strlen(dst);
+	const size_t	len_src = ft_strlen(src);
 
-	result = len_src + len_dst;
 	if (byte_sizes <= len_dst)
 		return (len_src + byte_sizes);
 	while (*dst)
@@ -27,5 +25,5 @@ size_t	ft_strlcat(char *dst, const char *src, size_t byte_sizes)
 	while (byte_sizes-- && *src)
 		*(dst++) = *(src++);
 	*dst = '\0';
-	return (result);
+	return (len_src + len_dst);
 }

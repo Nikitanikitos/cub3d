@@ -10,13 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
-
-char	*ft_strrchr(const char *str, int ch)
+char	*ft_strrchr(const char *str, char ch)
 {
 	char	*temp_str;
 
-	temp_str = NULL;
+	temp_str = (void*)0;
 	while (*str)
 	{
 		if (*str == ch)
