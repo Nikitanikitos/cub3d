@@ -31,8 +31,8 @@ typedef struct			s_desc
 
 typedef struct 			s_player
 {
-	int 				direction_x;
-	int 				direction_y;
+	float 				direction_x;
+	float 				direction_y;
 	int 				position_x;
 	int 				position_y;
 }						s_player;

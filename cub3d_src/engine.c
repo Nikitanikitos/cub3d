@@ -14,8 +14,7 @@
 #include <stdio.h>
 
 void 	print_player(void *mlx, void * win, s_player *player);
-int	key_win1(int key,s_player *p);
-
+int		key_win1(int key,s_player *p);
 
 void print_wall(void *win, void *mlx, int pos_x, int pos_y)
 {
@@ -27,10 +26,7 @@ void print_wall(void *win, void *mlx, int pos_x, int pos_y)
 	while (x <= 32)
 	{
 		while (y <= 32)
-		{
-			mlx_pixel_put(mlx,win, pos_x + x, pos_y + y,02550);
-			y++;
-		}
+			mlx_pixel_put(mlx,win, pos_x + x, pos_y + y++,02550);
 		x++;
 		y = 0;
 	}
@@ -47,42 +43,45 @@ s_player *player_init(int pos_x, int pos_y, char direction)
 	if (direction == 'N' || direction == 'S')
 		player->direction_x = 0;
 	else if (direction == 'W' || direction == 'E')
-		player->direction_x = 0;
+		player->direction_y = 0;
 	if (direction == 'N')
-		player->direction_y = 90;
+		player->direction_y = -1.0f;
 	else if (direction == 'E')
-		player->direction_x = 90;
+		player->direction_x = 1.0f;
 	else if (direction == 'S')
-		player->direction_y = 180;
+		player->direction_y = 1.0f;
 	else
-		player->direction_x = 180;
+		player->direction_x = -1.0f;
 	return (player);
 }
 
 int 	player_rotate(int key, s_player *player)
 {
 	if (key == 100)
-		player->direction_y -= 5;
+		player->direction_y -= 0.1f;
 	else if (key == 97)
-		player->direction_y += 5;
+		player->direction_y += 0.1f;
+
 }
 
 void 	print_player(void *mlx, void * win, s_player *player)
 {
 	int 	x;
-	int	y;
+	int		y;
+	int 	q;
 
 	x = 0;
 	y = 0;
-	while (y <= 32)
+	q = 0;
+	while (q++ <= 32)
 	{
-//		y *= player->direction_y;
-		mlx_pixel_put(mlx,win, player->position_x + x, player->position_y + y - 180,00234);
-		y++;
+		mlx_pixel_put(mlx,win, player->position_x + x, player->position_y + y,123123);
+		y += player->direction_y;
+		x += player->direction_x;
 	}
 }
 
-void	print_map(void *win, void *mlx, char *map )
+s_player 	*print_map(void *win, void *mlx, char *map)
 {
 	s_player	*player;
 	int			pos_x;
@@ -90,6 +89,7 @@ void	print_map(void *win, void *mlx, char *map )
 
 	pos_y = 0;
 	pos_x = 0;
+	player = NULL;
 	while (*map)
 	{
 		if (*map == '1')
@@ -99,18 +99,17 @@ void	print_map(void *win, void *mlx, char *map )
 			player = player_init(pos_x, pos_y, *map);
 			print_player(mlx, win, player);
 		}
-		if (*map == '\n')
+		if (*map++ == '\n')
 		{
 			pos_y += 32;
 			pos_x = 0;
 		}
 		else
 			pos_x += 32;
-		map++;
 	}
 	mlx_key_hook(win,key_win1,player);
 	mlx_loop(mlx);
-	printf("%d\n",player->direction_y);
+	return (player);
 }
 
 int	key_win1(int key,s_player *p)
@@ -122,11 +121,12 @@ int	key_win1(int key,s_player *p)
 
 int 	engine(t_descr *scene_descr)
 {
+	s_player	*player;
 	void		*mlx;
 	void 		*win;
 
 	mlx = mlx_init();
 	win = mlx_new_window(mlx, scene_descr->resolution[0], scene_descr->resolution[1], "Cub3D");
-	print_map(win, mlx,scene_descr->map);
+	player = print_map(win, mlx,scene_descr->map);
 	return (0);
 }
