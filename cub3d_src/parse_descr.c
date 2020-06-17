@@ -13,7 +13,7 @@
 #include "cub3d.h"
 
 
-void	get_resolution(char *line, short int *resolution)
+void	get_resolution(char *line, short *resolution)
 {
 	line += 2;
 	if ((resolution[0] = (short)ft_atoi(line)) <= 0)
@@ -24,7 +24,7 @@ void	get_resolution(char *line, short int *resolution)
 		resolution[0] = -1;
 }
 
-void	get_color(char *line, short int *color)
+void	get_color(char *line, short *color)
 {
 	int 	i;
 	int 	color_value;
@@ -48,9 +48,9 @@ void	get_color(char *line, short int *color)
 	}
 }
 
-int 	get_desrc(char *line, t_descr **scene_descr)
+char 	get_desrc(char *line, t_descr **scene_descr)
 {
-	int 	result;
+	char	result;
 
 	result = 1;
 	if (line[0] == 'N' && line[1] == 'O')
@@ -75,18 +75,19 @@ int 	get_desrc(char *line, t_descr **scene_descr)
 	return (result);
 }
 
-char	*get_map(int fd, char **line)
+char 	*read_map(int fd, char **line)
 {
-	char	*map;
-	char 	*temp_line;
-	int 	i;
+
+	char			*map;
+	char 			*temp_line;
+	unsigned short	i;
 
 	i = 0;
 	map = NULL;
 	while (get_next_line(fd, line) > 0)
 	{
 		if (**line)
-			map = ft_realloc(map, ft_strlen(*line) + 1);
+			map = ft_realloc(map, (int)ft_strlen(*line) + 1);
 		temp_line = *line;
 		while (*temp_line)
 		{
@@ -104,4 +105,58 @@ char	*get_map(int fd, char **line)
 	}
 	free(*line);
 	return (map);
+}
+
+unsigned short	count_data(char *map_temp, unsigned short *lengh_line)
+{
+	unsigned short 	i;
+	unsigned short	q;
+	unsigned short	count_line;
+
+	i = 0;
+	*lengh_line = 0;
+	count_line = 0;
+	while (map_temp[i])
+	{
+		if ((q = (short)ft_strchr(map_temp + i, '\n')) > *lengh_line)
+			*lengh_line = q - 1;
+		count_line++;
+		if (q == 0)
+			return (--count_line);
+		i += q;
+	}
+	return (--count_line);
+}
+
+unsigned short	write_map(int fd, char **line, char **map)
+{
+	char	*map_temp;
+	unsigned short	i;
+	unsigned short	q;
+	unsigned short	count_line;
+	unsigned short	lengh_line;
+
+	if ((map_temp = read_map(fd, line)) == NULL)
+		return (0);
+	lengh_line = 0;
+	i = 0;
+	q = 0;
+	count_line = count_data(map_temp, &lengh_line);
+	*map = ft_calloc(sizeof(char), lengh_line * count_line--);
+	count_line = 0;
+	while (map_temp[i])
+	{
+		if (map_temp[i] == '\n')
+		{
+			while (count_line++ < lengh_line)
+				(*map)[q++] = ' ';
+			i++;
+			count_line = 0;
+		}
+		(*map)[q++] = map_temp[i++];
+		count_line++;
+	}
+	(*map)[q] = 0;
+	free(map_temp);
+	return (lengh_line);
 }

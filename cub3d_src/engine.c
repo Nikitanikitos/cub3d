@@ -12,14 +12,16 @@
 
 #include "cub3d.h"
 #include <stdio.h>
+#define FOV 60
+#define POV 277
 
 void 	print_player(void *mlx, void * win, s_player *player);
 int		key_win1(int key,s_player *p);
 
-void print_wall(void *win, void *mlx, int pos_x, int pos_y)
+void print_wall(void *win, t_xvar *mlx, unsigned short pos_x, unsigned short pos_y)
 {
-	int x;
-	int y;
+	unsigned short  x;
+	unsigned short  y;
 
 	x = 0;
 	y = 0;
@@ -45,23 +47,14 @@ s_player *player_init(int pos_x, int pos_y, char direction)
 	else if (direction == 'W' || direction == 'E')
 		player->direction_y = 0;
 	if (direction == 'N')
-		player->direction_y = -1.0f;
+		player->direction_y = -1;
 	else if (direction == 'E')
-		player->direction_x = 1.0f;
+		player->direction_x = 1;
 	else if (direction == 'S')
-		player->direction_y = 1.0f;
+		player->direction_y = 1;
 	else
-		player->direction_x = -1.0f;
+		player->direction_x = -1;
 	return (player);
-}
-
-int 	player_rotate(int key, s_player *player)
-{
-	if (key == 100)
-		player->direction_y -= 0.1f;
-	else if (key == 97)
-		player->direction_y += 0.1f;
-
 }
 
 void 	print_player(void *mlx, void * win, s_player *player)
@@ -81,33 +74,35 @@ void 	print_player(void *mlx, void * win, s_player *player)
 	}
 }
 
-s_player 	*print_map(void *win, void *mlx, char *map)
+//48 * x
+s_player 	*print_map(void *win, t_xvar *mlx, char *map, unsigned short lengh_line)
 {
-	s_player	*player;
-	int			pos_x;
-	int			pos_y;
+	char 			count_line;
+	s_player		*player;
+	unsigned short	x;
+	unsigned short	y;
 
-	pos_y = 0;
-	pos_x = 0;
+	y = 0;
+	x = 0;
+	count_line = 0;
 	player = NULL;
 	while (*map)
 	{
 		if (*map == '1')
-			print_wall(win, mlx, pos_x, pos_y);
+			print_wall(win, mlx, x, y);
 		else if (ft_strchr("NWSE", *map))
+			player = player_init(x, y, *map);
+		if (++count_line == lengh_line)
 		{
-			player = player_init(pos_x, pos_y, *map);
-			print_player(mlx, win, player);
-		}
-		if (*map++ == '\n')
-		{
-			pos_y += 32;
-			pos_x = 0;
+			y += 32;
+			x = 0;
+			count_line = 0;
 		}
 		else
-			pos_x += 32;
+			x += 32;
+		map++;
 	}
-	mlx_key_hook(win,key_win1,player);
+	print_player(mlx, win, player);
 	mlx_loop(mlx);
 	return (player);
 }
@@ -127,6 +122,6 @@ int 	engine(t_descr *scene_descr)
 
 	mlx = mlx_init();
 	win = mlx_new_window(mlx, scene_descr->resolution[0], scene_descr->resolution[1], "Cub3D");
-	player = print_map(win, mlx,scene_descr->map);
+	player = print_map(win, mlx,scene_descr->map, scene_descr->lengh_line);
 	return (0);
 }

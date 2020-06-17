@@ -14,10 +14,10 @@
 
 int 	main(int ac, char **av)
 {
-	char		*line;
-	t_descr		*scene_descr;
-	int			count_arg;
-	const int	fd = open(av[1], O_RDONLY);
+	char			*line;
+	char			count_arg;
+	t_descr			*scene_descr;
+	const short		fd = (short)open(av[1], O_RDONLY);
 
 	if (ac == 1)
 		return((int)write(1, "Error!\n", 6) - 6);
@@ -28,7 +28,7 @@ int 	main(int ac, char **av)
 			break;
 	if (count_arg != 8)
 		exit_failure("Not enough tools!", scene_descr);
-	else if ((scene_descr->map = get_map(fd, &line)) == NULL)
+	else if ((scene_descr->lengh_line = write_map(fd, &line, &scene_descr->map)) == 0)
 		exit_failure("Not valid map!", scene_descr);
 	engine(scene_descr);
 	free_scene_descr(scene_descr);
