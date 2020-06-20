@@ -37,7 +37,6 @@ void	cast_ray(void *mlx, void *win, t_player *player, int color)
 {
 	int 	ray_x;
 	int		ray_y;
-	int 	index;
 	int 	x;
 	int 	y;
 	int		mod_x;
@@ -48,8 +47,8 @@ void	cast_ray(void *mlx, void *win, t_player *player, int color)
 	mod_x = ray_x % 32;
 	mod_y = ray_y % 32;
 	y = x = 0;
-	index = (ray_x / 32 + player->direction_x) + (ray_y / 32 + player->direction_y)  * player->length_line;
-	while (player->map[index] != '1')
+	while (player->map[(ray_x / 32 + player->direction_x) +
+				(ray_y / 32 + player->direction_y) * player->length_line] != '1')
 	{
 		while (-32 <= y && y <= 32 && -32 <= x && x <= 32)
 		{
@@ -59,7 +58,6 @@ void	cast_ray(void *mlx, void *win, t_player *player, int color)
 		}
 		ray_x += 32 * player->direction_x;
 		ray_y += 32 * player->direction_y;
-		index = (ray_x / 32 + player->direction_x) + (ray_y / 32 + player->direction_y)  * player->length_line;
 		y = x = 0;
 	}
 	while (-mod_y < y && y < (32 - mod_y) && -mod_x < x && x < (32 - mod_x))
@@ -73,22 +71,18 @@ void	cast_ray(void *mlx, void *win, t_player *player, int color)
 int 	print_player(int key, t_player *player)
 {
 	cast_ray(player->mlx, player->win, player, 0);
-	if (key == 119)
+	if (key == KEY_W)
 		player->position_y -= 4;
-	else if (key == 115)
+	else if (key == KEY_S)
 		player->position_y += 4;
-	else if (key == 97)
-		player->position_x -= 4;
-	else if (key == 100)
+	else if (key == KEY_D)
 		player->position_x += 4;
+	else if (key == KEY_A)
+		player->position_x -= 4;
 	cast_ray(player->mlx, player->win, player, 225225225);
 	return (0);
 }
-//w = 119
-//s = 115
-//a = 97
-//d = 100
-//48 * x
+
 void 	print_map(void *win, t_xvar *mlx, char *map, t_player *player)
 {
 	char 			count_line;
@@ -102,7 +96,7 @@ void 	print_map(void *win, t_xvar *mlx, char *map, t_player *player)
 	{
 		if (*map == '1')
 			print_wall(win, mlx, x, y);
-		else if (ft_strchr("NWSE", *map))
+		else if (ft_strchr(PLAYER_POS, *map))
 			player_coor_init(player, x, y, *map);
 		if (++count_line == player->length_line)
 		{

@@ -12,21 +12,27 @@
 
 #include "cub3d.h"
 
-void			*copy_read_map(char **map, char *line, unsigned short *i)
+char			*copy_read_map(char *map, char *line, unsigned short *i)
 {
+	char	flag;
+
+	flag = 0;
 	while (*line)
 	{
-		if (ft_strchr(MAP_CHAR, *line))
-			(*map)[(*i)++] = *line++;
-		else
+		if (ft_strchr(PLAYER_POS, *line) && flag || !ft_strchr(MAP_CHAR, *line))
 		{
 			free(map);
 			return (NULL);
 		}
+		else
+		{
+			flag = ft_strchr(PLAYER_POS, *line);
+			map[(*i)++] = *line++;
+		}
 	}
-	(*map)[(*i)++] = '\n';
-	(*map)[*i] = 0;
-	return ((void*)1);
+	map[(*i)++] = '\n';
+	map[*i] = 0;
+	return (map);
 }
 
 char			*read_map(int fd, char **line)
@@ -42,8 +48,7 @@ char			*read_map(int fd, char **line)
 		if (**line)
 		{
 			map = ft_realloc(map, (int)ft_strlen(*line) + 2);
-			if (copy_read_map(&map, *line, &i) == NULL)
-				return (NULL);
+			map = copy_read_map(map, *line, &i);
 		}
 		free(*line);
 	}
