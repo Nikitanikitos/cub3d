@@ -13,18 +13,19 @@
 #include "cub3d.h"
 
 
-void	get_resolution(char *line, short *resolution)
+char	get_resolution(char *line, short *resolution)
 {
 	line += 2;
 	if ((resolution[0] = (short)ft_atoi(line)) <= 0)
-		resolution[0] = -1;
+		return (-2);
 	while ('0' <= *line && *line <= '9')
 		line++;
 	if ((resolution[1] = (short)ft_atoi(line)) <= 0)
-		resolution[0] = -1;
+		return (-2);
+	return (1);
 }
 
-void	get_color(char *line, short *color)
+char	get_color(char *line, unsigned char *color)
 {
 	int 	i;
 	int 	color_value;
@@ -38,14 +39,15 @@ void	get_color(char *line, short *color)
 			color_value = ft_atoi(line);
 			flag = 0;
 			if (0 <= color_value && color_value <= 255)
-				color[i++] = (short)color_value;
+				color[i++] = color_value;
 			else
-				color[i++] = -1;
+				return (-1);
 		}
 		else if (!(('0' <= *line && *line <= '9') || *line == '-'))
 			flag = 1;
 		line++;
 	}
+	return (1);
 }
 
 char 	get_desrc(char *line, t_descr **scene_descr)
@@ -64,11 +66,11 @@ char 	get_desrc(char *line, t_descr **scene_descr)
 	else if (*line == 'S')
 		(*scene_descr)->sprite_texture = ft_strdup(line + 2);
 	else if (*line == 'R')
-		get_resolution(line, (*scene_descr)->resolution);
+		result = get_resolution(line, (*scene_descr)->resolution);
 	else if (*line == 'F')
-		get_color(line, (*scene_descr)->floor_color);
+		result = get_color(line, (*scene_descr)->floor_color);
 	else if (*line == 'C')
-		get_color(line, (*scene_descr)->celling_color);
+		result = get_color(line, (*scene_descr)->celling_color);
 	else
 		result = 0;
 	free(line);
@@ -137,7 +139,10 @@ unsigned short	write_map(int fd, char **line, char **map)
 	unsigned short	lengh_line;
 
 	if ((map_temp = read_map(fd, line)) == NULL)
+	{
+		free(map_temp);
 		return (0);
+	}
 	lengh_line = 0;
 	i = 0;
 	q = 0;
