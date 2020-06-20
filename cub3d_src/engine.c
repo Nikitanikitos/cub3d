@@ -15,8 +15,7 @@
 #define FOV 60
 #define POV 277
 
-void 	print_player(void *mlx, void * win, s_player *player);
-int		key_win1(int key,s_player *p);
+int 	print_player(int key, t_player *player);
 
 void print_wall(void *win, t_xvar *mlx, unsigned short pos_x, unsigned short pos_y)
 {
@@ -34,65 +33,78 @@ void print_wall(void *win, t_xvar *mlx, unsigned short pos_x, unsigned short pos
 	}
 }
 
-s_player *player_init(int pos_x, int pos_y, char direction)
+void	cast_ray(void *mlx, void *win, t_player *player, int color)
 {
-	s_player	*player;
-
-	if (!(player = (s_player*)malloc(sizeof(s_player))))
-		return (NULL);
-	player->position_x = pos_x + 16;
-	player->position_y = pos_y + 16;
-	if (direction == 'N' || direction == 'S')
-		player->direction_x = 0;
-	else if (direction == 'W' || direction == 'E')
-		player->direction_y = 0;
-	if (direction == 'N')
-		player->direction_y = -1;
-	else if (direction == 'E')
-		player->direction_x = 1;
-	else if (direction == 'S')
-		player->direction_y = 1;
-	else
-		player->direction_x = -1;
-	return (player);
-}
-
-void 	print_player(void *mlx, void * win, s_player *player)
-{
+	int 	ray_x;
+	int		ray_y;
+	int 	index;
 	int 	x;
-	int		y;
-	int 	q;
+	int 	y;
+	int		mod_x;
+	int		mod_y;
 
-	x = 0;
-	y = 0;
-	q = 0;
-	while (q++ <= 32)
+	ray_x = player->position_x;
+	ray_y = player->position_y;
+	mod_x = ray_x % 32;
+	mod_y = ray_y % 32;
+	y = x = 0;
+	index = (ray_x / 32 + player->direction_x) + (ray_y / 32 + player->direction_y)  * player->length_line;
+	while (player->map[index] != '1')
 	{
-		mlx_pixel_put(mlx,win, player->position_x + x, player->position_y + y,123123);
+		while (-32 <= y && y <= 32 && -32 <= x && x <= 32)
+		{
+			mlx_pixel_put(mlx, win, ray_x + x, ray_y + y,color);
+			y += player->direction_y;
+			x += player->direction_x;
+		}
+		ray_x += 32 * player->direction_x;
+		ray_y += 32 * player->direction_y;
+		index = (ray_x / 32 + player->direction_x) + (ray_y / 32 + player->direction_y)  * player->length_line;
+		y = x = 0;
+	}
+	while (-mod_y < y && y < mod_y && -mod_x < x && x < mod_x)
+	{
+		mlx_pixel_put(mlx, win, ray_x + x, ray_y + y,color);
 		y += player->direction_y;
 		x += player->direction_x;
 	}
 }
 
+int 	print_player(int key, t_player *player)
+{
+	cast_ray(player->mlx, player->win, player, 0);
+	if (key == 119)
+		player->position_y -= 4;
+	else if (key == 115)
+		player->position_y += 4;
+	else if (key == 97)
+		player->position_x -= 4;
+	else if (key == 100)
+		player->position_x += 4;
+	cast_ray(player->mlx, player->win, player, 225225225);
+	return (0);
+}
+//w = 119
+//s = 115
+//a = 97
+//d = 100
 //48 * x
-s_player 	*print_map(void *win, t_xvar *mlx, char *map, unsigned short lengh_line)
+t_player 	*print_map(void *win, t_xvar *mlx, char *map, t_player *player)
 {
 	char 			count_line;
-	s_player		*player;
 	unsigned short	x;
 	unsigned short	y;
 
 	y = 0;
 	x = 0;
 	count_line = 0;
-	player = NULL;
 	while (*map)
 	{
 		if (*map == '1')
 			print_wall(win, mlx, x, y);
 		else if (ft_strchr("NWSE", *map))
-			player = player_init(x, y, *map);
-		if (++count_line == lengh_line)
+			player_coor_init(player, x, y, *map);
+		if (++count_line == player->length_line)
 		{
 			y += 32;
 			x = 0;
@@ -102,26 +114,22 @@ s_player 	*print_map(void *win, t_xvar *mlx, char *map, unsigned short lengh_lin
 			x += 32;
 		map++;
 	}
-	print_player(mlx, win, player);
-	mlx_loop(mlx);
 	return (player);
-}
-
-int	key_win1(int key,s_player *p)
-{
-	printf("Key in Win1 : %d\n",key);
-	if (key==0xFF1B)
-		exit(0);
 }
 
 int 	engine(t_descr *scene_descr)
 {
-	s_player	*player;
+	t_player	*player;
 	void		*mlx;
 	void 		*win;
 
 	mlx = mlx_init();
 	win = mlx_new_window(mlx, scene_descr->resolution[0], scene_descr->resolution[1], "Cub3D");
-	player = print_map(win, mlx,scene_descr->map, scene_descr->lengh_line);
+	player = player_init(mlx, win, scene_descr);
+	print_map(win, mlx, scene_descr->map, player);
+	print_player(0, player);
+//	mlx_key_hook(win, print_player, player);
+	mlx_loop(mlx);
+	free_player(player);
 	return (0);
 }
