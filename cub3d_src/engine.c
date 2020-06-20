@@ -62,7 +62,7 @@ void	cast_ray(void *mlx, void *win, t_player *player, int color)
 		index = (ray_x / 32 + player->direction_x) + (ray_y / 32 + player->direction_y)  * player->length_line;
 		y = x = 0;
 	}
-	while (-mod_y < y && y < mod_y && -mod_x < x && x < mod_x)
+	while (-mod_y < y && y < (32 - mod_y) && -mod_x < x && x < (32 - mod_x))
 	{
 		mlx_pixel_put(mlx, win, ray_x + x, ray_y + y,color);
 		y += player->direction_y;
@@ -89,7 +89,7 @@ int 	print_player(int key, t_player *player)
 //a = 97
 //d = 100
 //48 * x
-t_player 	*print_map(void *win, t_xvar *mlx, char *map, t_player *player)
+void 	print_map(void *win, t_xvar *mlx, char *map, t_player *player)
 {
 	char 			count_line;
 	unsigned short	x;
@@ -114,21 +114,20 @@ t_player 	*print_map(void *win, t_xvar *mlx, char *map, t_player *player)
 			x += 32;
 		map++;
 	}
-	return (player);
 }
 
-int 	engine(t_descr *scene_descr)
+int 	engine(t_map_data *map_data)
 {
 	t_player	*player;
 	void		*mlx;
 	void 		*win;
 
 	mlx = mlx_init();
-	win = mlx_new_window(mlx, scene_descr->resolution[0], scene_descr->resolution[1], "Cub3D");
-	player = player_init(mlx, win, scene_descr);
-	print_map(win, mlx, scene_descr->map, player);
+	win = mlx_new_window(mlx, map_data->resolution[0], map_data->resolution[1], "Cub3D");
+	player = player_init(mlx, win, map_data);
+	print_map(win, mlx, map_data->map, player);
 	print_player(0, player);
-//	mlx_key_hook(win, print_player, player);
+	mlx_key_hook(win, print_player, player);
 	mlx_loop(mlx);
 	free_player(player);
 	return (0);

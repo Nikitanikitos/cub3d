@@ -13,6 +13,16 @@
 #include "cub3d.h"
 
 
+char 	get_texture(char *line, char **texture)
+{
+	while (*line == ' ')
+		line++;
+	*texture = ft_strdup(line);
+//	if (open(texture, O_RDONLY) == -1)
+//		return (-3);
+	return (1);
+}
+
 char	get_resolution(char *line, short *resolution)
 {
 	line += 2;
@@ -50,29 +60,27 @@ char	get_color(char *line, unsigned char *color)
 	return (1);
 }
 
-char 	get_desrc(char *line, t_descr **scene_descr)
+char 	get_desrc(char *line, t_map_data **map_data)
 {
 	char	result;
 
-	result = 1;
+	result = 0;
 	if (line[0] == 'N' && line[1] == 'O')
-		(*scene_descr)->textures[0] = ft_strdup(line + 3);
+		result = get_texture(line + 2, &(*map_data)->textures[0]);
 	else if (line[0] == 'S' && line[1] == 'O')
-		(*scene_descr)->textures[1] = ft_strdup(line + 3);
+		result = get_texture(line + 2, &(*map_data)->textures[1]);
 	else if (line[0] == 'W' && line[1] == 'E')
-		(*scene_descr)->textures[2] = ft_strdup(line + 3);
+		result = get_texture(line + 2, &(*map_data)->textures[2]);
 	else if (line[0] == 'E' && line[1] == 'A')
-		(*scene_descr)->textures[3] = ft_strdup(line + 3);
+		result = get_texture(line + 2, &(*map_data)->textures[3]);
 	else if (*line == 'S')
-		(*scene_descr)->sprite_texture = ft_strdup(line + 2);
+		result = get_texture(line + 2, &(*map_data)->sprite_texture);
 	else if (*line == 'R')
-		result = get_resolution(line, (*scene_descr)->resolution);
+		result = get_resolution(line, (*map_data)->resolution);
 	else if (*line == 'F')
-		result = get_color(line, (*scene_descr)->floor_color);
+		result = get_color(line, (*map_data)->floor_color);
 	else if (*line == 'C')
-		result = get_color(line, (*scene_descr)->celling_color);
-	else
-		result = 0;
+		result = get_color(line, (*map_data)->celling_color);
 	free(line);
 	return (result);
 }
@@ -85,6 +93,7 @@ char 	*read_map(int fd, char **line)
 
 	i = 0;
 	map = NULL;
+	free(*line);
 	while (get_next_line(fd, line) > 0)
 	{
 		if (**line)
@@ -131,30 +140,25 @@ unsigned short	count_data(char *map_temp, unsigned short *lengh_line)
 	return (count_line);
 }
 
-unsigned short	write_map(int fd, char **line, char **map)
+char	write_map(int fd, char **line, char **map, unsigned short *length_line)
 {
-	char	*map_temp;
+	char			*map_temp;
 	unsigned short	i;
 	unsigned short	q;
 	unsigned short	count_line;
-	unsigned short	lengh_line;
 
 	if ((map_temp = read_map(fd, line)) == NULL)
-	{
-		free(map_temp);
 		return (0);
-	}
-	lengh_line = 0;
 	i = 0;
 	q = 0;
-	count_line = count_data(map_temp, &lengh_line);
-	*map = ft_calloc(sizeof(char), (lengh_line * count_line) + 1);
+	count_line = count_data(map_temp, length_line);
+	*map = ft_calloc(sizeof(char), (*length_line * count_line) + 1);
 	count_line = 0;
 	while (map_temp[i])
 	{
 		if (map_temp[i] == '\n')
 		{
-			while (count_line++ < lengh_line)
+			while (count_line++ < *length_line)
 				(*map)[q++] = ' ';
 			i++;
 			count_line = 0;
@@ -162,7 +166,7 @@ unsigned short	write_map(int fd, char **line, char **map)
 		(*map)[q++] = map_temp[i++];
 		count_line++;
 	}
-	(*map)[q] = 0;
+	(*map)[--q] = 0;
 	free(map_temp);
-	return (lengh_line);
+	return (1);
 }
