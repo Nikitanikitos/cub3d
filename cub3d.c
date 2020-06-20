@@ -24,13 +24,20 @@ int 	main(int ac, char **av)
 	count_arg = 0;
 	scene_descr = create_struct();
 	while (get_next_line(fd, &line) > 0)
-		if ((count_arg += get_desrc(line, &scene_descr)) == 8)
+	{
+		ac = get_desrc(line, &scene_descr);
+		if ((count_arg += ac) == 8)
 			break;
+		else if (ac == -1)
+			exit_failure("Error color", scene_descr);
+		else if (ac == -2)
+			exit_failure("Error resolution", scene_descr);
+	}
 	if (count_arg != 8)
 		exit_failure("Not enough tools!", scene_descr);
 	else if ((scene_descr->lengh_line = write_map(fd, &line, &scene_descr->map)) == 0)
 		exit_failure("Not valid map!", scene_descr);
-	engine(scene_descr);
+//	engine(scene_descr);
 	free_scene_descr(scene_descr);
 	return (0);
 }

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*ft_strchr(const char *str, int ch)
+char	*ft_strchr(const char *str, char ch)
 {
 	while (*str)
 	{
