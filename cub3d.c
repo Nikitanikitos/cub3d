@@ -16,28 +16,30 @@ int 	main(int ac, char **av)
 {
 	char			*line;
 	char			count_arg;
-	t_descr			*scene_descr;
-	const short		fd = (short)open(av[1], O_RDONLY);
+	t_map_data		*map_data;
+	const char		fd = (char)open(av[1], O_RDONLY);
 
 	if (ac == 1)
 		return((int)write(1, "Error!\n", 6) - 6);
 	count_arg = 0;
-	scene_descr = create_struct();
-	while (get_next_line(fd, &line) > 0)
+	map_data = map_data_init();
+	while (get_next_line(fd, &line) > 0 && count_arg < 8)
 	{
-		ac = get_desrc(line, &scene_descr);
-		if ((count_arg += ac) == 8)
-			break;
+		ac = get_desrc(line, &map_data);
+		if (ac == 1)
+			count_arg += ac;
 		else if (ac == -1)
-			exit_failure("Error color", scene_descr);
+			exit_failure("Error color", map_data);
 		else if (ac == -2)
-			exit_failure("Error resolution", scene_descr);
+			exit_failure("Error resolution", map_data);
+		else if (ac == -3)
+			exit_failure("Error texture path", map_data);
 	}
 	if (count_arg != 8)
-		exit_failure("Not enough tools!", scene_descr);
-	else if ((scene_descr->lengh_line = write_map(fd, &line, &scene_descr->map)) == 0)
-		exit_failure("Not valid map!", scene_descr);
-//	engine(scene_descr);
-	free_scene_descr(scene_descr);
+		exit_failure("Not enough tools!", map_data);
+	else if (write_map(fd, &line, &map_data->map, &map_data->length_line) == 0)
+		exit_failure("Not valid map!", map_data);
+	engine(map_data);
+	free_scene_descr(map_data);
 	return (0);
 }

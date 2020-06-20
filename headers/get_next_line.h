@@ -24,12 +24,12 @@ typedef struct		s_list
 }					t_list;
 
 int					get_next_line(int fd, char **line);
-int					ft_strchr(const char *src, char c);
+//int					ft_strchr(const char *src, char c);
 
 char				*ft_strndup(const char *src, int n);
 char				*ft_strjoin(const char *string1, const char *string2);
 
 void				add_list(register t_list **lst, char *buffer);
-t_list				*ft_lstnew(char *content);
+t_list				*ft_lstnew(void *content);
 
 #endif

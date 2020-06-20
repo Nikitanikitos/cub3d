@@ -10,15 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*ft_strchr(const char *str, char ch)
+int		ft_strchr(const char *src, char c)
 {
-	while (*str)
-	{
-		if (*str == ch)
-			return ((char*)str);
-		str++;
-	}
-	if (ch == '\0')
-		return ((char*)str);
-	return ((void*)0);
+	const char *src_copy = src;
+
+	while (*src_copy)
+		if (*src_copy++ == c)
+			return ((int)(src_copy - src));
+	if (c == '\0')
+		return ((int)(src_copy - src));
+	return (0);
 }
