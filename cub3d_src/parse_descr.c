@@ -85,10 +85,26 @@ char 	get_desrc(char *line, t_map_data **map_data)
 	return (result);
 }
 
+void	*copy_read_map(char **map, char *line, unsigned short *i)
+{
+	while (*line)
+	{
+		if (ft_strchr(MAP_CHAR, *line))
+			(*map)[(*i)++] = *line++;
+		else
+		{
+			free(map);
+			return (NULL);
+		}
+	}
+	(*map)[(*i)++] = '\n';
+	(*map)[*i] = 0;
+	return ((void*)1);
+}
+
 char 	*read_map(int fd, char **line)
 {
 	char			*map;
-	char 			*temp_line;
 	unsigned short	i;
 
 	i = 0;
@@ -99,19 +115,8 @@ char 	*read_map(int fd, char **line)
 		if (**line)
 		{
 			map = ft_realloc(map, (int)ft_strlen(*line) + 2);
-			temp_line = *line;
-			while (*temp_line)
-			{
-				if (ft_strchr(MAP_CHAR, *temp_line))
-					map[i++] = *temp_line++;
-				else
-				{
-					free(map);
-					return (NULL);
-				}
-			}
-			map[i++] = '\n';
-			map[i] = 0;
+			if (copy_read_map(&map, *line, &i) == NULL)
+				return (NULL);
 		}
 		free(*line);
 	}
