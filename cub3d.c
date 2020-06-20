@@ -25,7 +25,7 @@ int 	main(int ac, char **av)
 	map_data = map_data_init();
 	while (get_next_line(fd, &line) > 0 && count_arg < 8)
 	{
-		ac = get_desrc(line, &map_data);
+		ac = get_map_data(line, &map_data);
 		if (ac == 1)
 			count_arg += ac;
 		else if (ac == -1)
@@ -39,7 +39,7 @@ int 	main(int ac, char **av)
 		exit_failure("Not enough tools!", map_data);
 	else if (write_map(fd, &line, &map_data->map, &map_data->length_line) == 0)
 		exit_failure("Not valid map!", map_data);
-	engine(map_data);
+//	engine(map_data);
 	free_scene_descr(map_data);
 	return (0);
 }

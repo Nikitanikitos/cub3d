@@ -13,7 +13,12 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# define MAP_CHAR " 012NSEW"
+# define MAP_CHAR	" 012NSEW"
+# define PLAYER_POS	"NSEW"
+# define KEY_W		119
+# define KEY_S		115
+# define KEY_D		100
+# define KEY_A		97
 
 # include <fcntl.h>
 # include "get_next_line.h"
@@ -32,7 +37,7 @@ typedef struct			s_map_data
 	char				*map;
 }						t_map_data;
 
-typedef struct 			s_player
+typedef struct			s_player
 {
 	int 				direction_x;
 	int 				direction_y;
@@ -53,7 +58,7 @@ typedef struct			s_data
 	int					endian;
 }						t_data;
 
-char					get_desrc(char *line, t_map_data **map_data);
+char					get_map_data(char *line, t_map_data **map_data);
 int 					engine(t_map_data *map_data);
 
 char					write_map(int fd, char **line, char **map, unsigned short *length_line);
