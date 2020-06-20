@@ -79,7 +79,6 @@ char 	get_desrc(char *line, t_descr **scene_descr)
 
 char 	*read_map(int fd, char **line)
 {
-
 	char			*map;
 	char 			*temp_line;
 	unsigned short	i;
@@ -89,20 +88,22 @@ char 	*read_map(int fd, char **line)
 	while (get_next_line(fd, line) > 0)
 	{
 		if (**line)
-			map = ft_realloc(map, (int)ft_strlen(*line) + 1);
-		temp_line = *line;
-		while (*temp_line)
 		{
-			if (ft_strchr(MAP_CHAR, *temp_line))
-				map[i++] = *temp_line++;
-			else
+			map = ft_realloc(map, (int)ft_strlen(*line) + 2);
+			temp_line = *line;
+			while (*temp_line)
 			{
-				free(map);
-				return (NULL);
+				if (ft_strchr(MAP_CHAR, *temp_line))
+					map[i++] = *temp_line++;
+				else
+				{
+					free(map);
+					return (NULL);
+				}
 			}
-		}
-		if (**line)
 			map[i++] = '\n';
+			map[i] = 0;
+		}
 		free(*line);
 	}
 	free(*line);
@@ -127,7 +128,7 @@ unsigned short	count_data(char *map_temp, unsigned short *lengh_line)
 			return (--count_line);
 		i += q;
 	}
-	return (--count_line);
+	return (count_line);
 }
 
 unsigned short	write_map(int fd, char **line, char **map)
@@ -147,7 +148,7 @@ unsigned short	write_map(int fd, char **line, char **map)
 	i = 0;
 	q = 0;
 	count_line = count_data(map_temp, &lengh_line);
-	*map = ft_calloc(sizeof(char), lengh_line * count_line--);
+	*map = ft_calloc(sizeof(char), (lengh_line * count_line) + 1);
 	count_line = 0;
 	while (map_temp[i])
 	{
