@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-char			*copy_read_map(char *map, char *line, unsigned short *i)
+unsigned short	copy_read_map(char *map, char *line, unsigned short i)
 {
 	char	flag;
 
@@ -22,59 +22,34 @@ char			*copy_read_map(char *map, char *line, unsigned short *i)
 		if (ft_strchr(PLAYER_POS, *line) && flag || !ft_strchr(MAP_CHAR, *line))
 		{
 			free(map);
-			return (NULL);
+			return (0);
 		}
 		else
 		{
-			flag = ft_strchr(PLAYER_POS, *line);
-			map[(*i)++] = *line++;
+			if (ft_strchr(PLAYER_POS, *line))
+				flag = 1;
+			map[i++] = *line++;
 		}
 	}
-	map[(*i)++] = '\n';
-	map[*i] = 0;
-	return (map);
+	map[i++] = '\n';
+	map[i] = 0;
+	return (i);
 }
 
-char			*read_map(int fd, char **line)
+char			*read_map(char *line, char *map_temp, t_map_data *map_data)
 {
-	char			*map;
-	unsigned short	i;
+	static unsigned short	i;
+	unsigned short			temp_length;
 
-	i = 0;
-	map = NULL;
-	free(*line);
-	while (get_next_line(fd, line) > 0)
+	if (*line)
 	{
-		if (**line)
-		{
-			map = ft_realloc(map, (int)ft_strlen(*line) + 2);
-			map = copy_read_map(map, *line, &i);
-		}
-		free(*line);
+		temp_length = ft_strlen(line);
+		if (temp_length > map_data->length_line)
+			map_data->length_line = temp_length;
+		map_temp = ft_realloc(map_temp, (int)temp_length + 2);
+		i = copy_read_map(map_temp, line, i);
 	}
-	free(*line);
-	return (map);
-}
-
-unsigned short	count_data(char *map_temp, unsigned short *lengh_line)
-{
-	unsigned short 	i;
-	unsigned short	q;
-	unsigned short	count_line;
-
-	i = 0;
-	*lengh_line = 0;
-	count_line = 0;
-	while (map_temp[i])
-	{
-		if ((q = (short)ft_strchr(map_temp + i, '\n')) > *lengh_line)
-			*lengh_line = q - 1;
-		count_line++;
-		if (q == 0)
-			return (--count_line);
-		i += q;
-	}
-	return (count_line);
+	return (map_temp);
 }
 
 char			*copy_write_map(char *map, char *map_temp, unsigned short length_line)
@@ -102,16 +77,22 @@ char			*copy_write_map(char *map, char *map_temp, unsigned short length_line)
 	return (map);
 }
 
-char		write_map(int fd, char **line, char **map, unsigned short *length_line)
+char			write_map(char fd, char *line, t_map_data *map_data)
 {
 	char			*map_temp;
 	unsigned short	count_line;
 
-	if ((map_temp = read_map(fd, line)) == NULL)
-		return (0);
-	count_line = count_data(map_temp, length_line);
-	*map = ft_calloc(sizeof(char), (*length_line * count_line) + 1);
-	*map = copy_write_map(*map, map_temp, *length_line);
+	count_line = 0;
+	map_temp = NULL;
+	free(line);
+	while (get_next_line(fd, &line) > 0)
+	{
+		map_temp = read_map(line, map_temp, map_data);
+		count_line++;
+		free(line);
+	}
+	map_data->map = ft_calloc(sizeof(char), (map_data->length_line * count_line) + 1);
+	map_data->map = copy_write_map(map_data->map, map_temp, map_data->length_line);
 	free(map_temp);
 	return (1);
 }
