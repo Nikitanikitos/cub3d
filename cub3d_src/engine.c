@@ -13,8 +13,6 @@
 #include "cub3d.h"
 #include <stdio.h>
 
-int 	print_player(int key, t_player *player);
-
 void print_wall(void *win, t_xvar *mlx, unsigned short pos_x, unsigned short pos_y)
 {
 	unsigned short  x;
@@ -78,19 +76,13 @@ void	change_position(int key, t_player *player)
 	}
 	else if (key == KEY_D)
 	{
-		if (coss > 0)
-			player->position_x += coss * 4;
-		else
-			player->position_x -= coss * 4;
-		player->position_y -= sinn * 4;
+		player->position_y += coss * 4;
+		player->position_x -= sinn * 4;
 	}
 	else if (key == KEY_A)
 	{
-		if (coss > 0)
-			player->position_x -= coss * 4;
-		else
-			player->position_x += coss * 4;
-		player->position_y += sinn * 4;
+		player->position_y -= coss * 4;
+		player->position_x += sinn * 4;
 	}
 }
 
