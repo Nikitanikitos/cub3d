@@ -13,15 +13,17 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# define PI			3.14159265359
-# define FOV		60
+# define PI					3.14159265359
+# define FOV				60
+# define PROJECION_PLANE_W	320
+# define PROJECION_PLANE_H	200
 
-# define MAP_CHAR	" 012NSEW"
-# define PLAYER_POS	"NSEW"
-# define KEY_W		119
-# define KEY_S		115
-# define KEY_D		100
-# define KEY_A		97
+# define MAP_CHAR			" 012NSEW"
+# define PLAYER_POS			"NSEW"
+# define KEY_W				119
+# define KEY_S				115
+# define KEY_D				100
+# define KEY_A				97
 
 # include <fcntl.h>
 # include "get_next_line.h"

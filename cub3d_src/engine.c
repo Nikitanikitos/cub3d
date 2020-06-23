@@ -31,25 +31,33 @@ void print_wall(void *win, t_xvar *mlx, unsigned short pos_x, unsigned short pos
 	}
 }
 
-# define PROJECION_PLANE_W	64
-# define PROJECION_PLANE_H	48
-
-void	cast_ray(void *mlx, void *win, t_player *player, int color)
+void	cast_ray(t_player *player, double corner, int color)
 {
-	double	ray_x;
-	double	ray_y;
-	const double 	coss = cos(player->pov * PI / 180);
-	const double 	sinn = -sin(player->pov * PI / 180);
+	const double 	coss = cos(corner * PI / 180);
+	const double 	sinn = -sin(corner * PI / 180);
+	double			ray_x;
+	double			ray_y;
 
 	ray_x = player->position_x;
 	ray_y = player->position_y;
-	while (True)
+	while (player->map[(int)ray_x / 32 + (int)ray_y / 32 * player->length_line] != '1')
 	{
-		mlx_pixel_put(mlx, win, (int)ray_x, (int)ray_y, color);
+		mlx_pixel_put(player->mlx, player->win, (int)ray_x, (int)ray_y, color);
 		ray_x += coss;
 		ray_y += sinn;
-		if (player->map[(int)ray_x / 32 + (int)ray_y / 32 * player->length_line] == '1')
-			break ;
+	}
+}
+
+void	field_of_view(t_player *player, int color)
+{
+	double			corner;
+	const double	last_corner = player->pov + ((double)FOV / 2);
+
+	corner = player->pov - ((double)FOV / 2);
+	while (corner != last_corner)
+	{
+		cast_ray(player, corner, color);
+		corner += (double)FOV / PROJECION_PLANE_W;
 	}
 }
 
@@ -98,10 +106,10 @@ void	change_pov(int key, t_player *player)
 
 int 	print_player(int key, t_player *player)
 {
-	cast_ray(player->mlx, player->win, player, 0);
+	field_of_view(player, 0);
 	change_position(key, player);
 	change_pov(key, player);
-	cast_ray(player->mlx, player->win, player, 225225225);
+	field_of_view(player, 225225225);
 	return (0);
 }
 
@@ -142,7 +150,7 @@ int 	engine(t_map_data *map_data)
 	win = mlx_new_window(mlx, map_data->resolution[0], map_data->resolution[1], "Cub3D");
 	player = player_init(mlx, win, map_data);
 	print_map(win, mlx, map_data->map, player);
-//	print_player(0, player);
+	print_player(0, player);
 	mlx_key_hook(win, print_player, player);
 	mlx_loop(mlx);
 	free_player(player);
