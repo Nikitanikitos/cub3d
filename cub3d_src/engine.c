@@ -12,8 +12,6 @@
 
 #include "cub3d.h"
 #include <stdio.h>
-#define FOV 60
-#define POV 277
 
 int 	print_player(int key, t_player *player);
 
@@ -33,38 +31,45 @@ void print_wall(void *win, t_xvar *mlx, unsigned short pos_x, unsigned short pos
 	}
 }
 
+# define FOV				60
+# define PROJECION_PLANE_W	64
+# define PROJECION_PLANE_H	48
+#define PI 3.14159265359
+
 void	cast_ray(void *mlx, void *win, t_player *player, int color)
 {
+	double 	x;
+	double 	y;
+	int 	mod_x;
+	int 	mod_y;
 	int 	ray_x;
 	int		ray_y;
-	int 	x;
-	int 	y;
-	int		mod_x;
-	int		mod_y;
+	double 	coss = cos(player->pov * PI / 180);
+	double 	sinn = -sin(player->pov * PI / 180);
 
 	ray_x = player->position_x;
 	ray_y = player->position_y;
 	mod_x = ray_x % 32;
 	mod_y = ray_y % 32;
 	y = x = 0;
-	while (player->map[(ray_x / 32 + player->direction_x) +
-				(ray_y / 32 + player->direction_y) * player->length_line] != '1')
+	while (player->map[(ray_x / 32 + (int)coss) +
+				(ray_y / 32  + (int)sinn) * player->length_line] != 	'1')
 	{
 		while (-32 <= y && y <= 32 && -32 <= x && x <= 32)
 		{
 			mlx_pixel_put(mlx, win, ray_x + x, ray_y + y,color);
-			y += player->direction_y;
-			x += player->direction_x;
+			y += sinn;
+			x += coss;
 		}
-		ray_x += 32 * player->direction_x;
-		ray_y += 32 * player->direction_y;
+		ray_x += 32 * coss;
+		ray_y += 32 * sinn;
 		y = x = 0;
 	}
 	while (-mod_y < y && y < (32 - mod_y) && -mod_x < x && x < (32 - mod_x))
 	{
 		mlx_pixel_put(mlx, win, ray_x + x, ray_y + y,color);
-		y += player->direction_y;
-		x += player->direction_x;
+		y += sinn;
+		x += coss;
 	}
 }
 
@@ -79,6 +84,12 @@ int 	print_player(int key, t_player *player)
 		player->position_x += 4;
 	else if (key == KEY_A)
 		player->position_x -= 4;
+	else if (key == 113)
+		player->pov += 5;
+	else if (key == 101)
+		player->pov -= 5;
+	if (player->pov >= 360)
+		player->pov = 0;
 	cast_ray(player->mlx, player->win, player, 225225225);
 	return (0);
 }
