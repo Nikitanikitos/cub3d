@@ -31,7 +31,6 @@ void print_wall(void *win, t_xvar *mlx, unsigned short pos_x, unsigned short pos
 	}
 }
 
-# define FOV				60
 # define PROJECION_PLANE_W	64
 # define PROJECION_PLANE_H	48
 
@@ -54,23 +53,54 @@ void	cast_ray(void *mlx, void *win, t_player *player, int color)
 	}
 }
 
-int 	print_player(int key, t_player *player)
+void	change_position(int key, t_player *player)
 {
-	cast_ray(player->mlx, player->win, player, 0);
+	const double 	coss = cos(player->pov * PI / 180);
+	const double 	sinn = -sin(player->pov * PI / 180);
+
 	if (key == KEY_W)
-		player->position_y -= 4;
+	{
+		player->position_y += sinn * 4;
+		player->position_x += coss * 4;
+	}
 	else if (key == KEY_S)
-		player->position_y += 4;
+	{
+		player->position_x -= coss * 4;
+		player->position_y -= sinn * 4;
+	}
 	else if (key == KEY_D)
-		player->position_x += 4;
+	{
+		if (coss > 0)
+			player->position_x += coss * 4;
+		else
+			player->position_x -= coss * 4;
+		player->position_y -= sinn * 4;
+	}
 	else if (key == KEY_A)
-		player->position_x -= 4;
-	else if (key == 113)
+	{
+		if (coss > 0)
+			player->position_x -= coss * 4;
+		else
+			player->position_x += coss * 4;
+		player->position_y += sinn * 4;
+	}
+}
+
+void	change_pov(int key, t_player *player)
+{
+	if (key == 113)
 		player->pov += 5;
 	else if (key == 101)
 		player->pov -= 5;
 	if (player->pov >= 360)
 		player->pov = 0;
+}
+
+int 	print_player(int key, t_player *player)
+{
+	cast_ray(player->mlx, player->win, player, 0);
+	change_position(key, player);
+	change_pov(key, player);
 	cast_ray(player->mlx, player->win, player, 225225225);
 	return (0);
 }
@@ -112,7 +142,7 @@ int 	engine(t_map_data *map_data)
 	win = mlx_new_window(mlx, map_data->resolution[0], map_data->resolution[1], "Cub3D");
 	player = player_init(mlx, win, map_data);
 	print_map(win, mlx, map_data->map, player);
-	print_player(0, player);
+//	print_player(0, player);
 	mlx_key_hook(win, print_player, player);
 	mlx_loop(mlx);
 	free_player(player);

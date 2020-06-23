@@ -52,7 +52,7 @@ char				*ft_itoa(int n);
 char				*ft_strdup(const char *src);
 char				*ft_strcpy(char *dest, const char *src);
 char				**ft_split(char const *s, char c);
-int 				*ft_strchr(const char *str, char ch);
+int 				ft_strchr(const char *str, char ch);
 //char				*ft_strrchr(const char *str, char ch);
 char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_strtrim(const char *s1, const char *s2);

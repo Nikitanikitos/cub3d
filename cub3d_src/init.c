@@ -48,16 +48,12 @@ void	player_coor_init(t_player	*player, int pos_x, int pos_y, char direction)
 {
 	player->position_x = pos_x + 16;
 	player->position_y = pos_y + 16;
-	if (direction == 'N' || direction == 'S')
-		player->direction_x = 0;
-	else if (direction == 'W' || direction == 'E')
-		player->direction_y = 0;
-	if (direction == 'N')
-		player->direction_y = -1;
-	else if (direction == 'E')
-		player->direction_x = 1;
+	if (direction == 'E')
+		player->pov = 0;
+	else if (direction == 'N')
+		player->pov = 90;
+	else if (direction == 'W')
+		player->pov = 180;
 	else if (direction == 'S')
-		player->direction_y = 1;
-	else
-		player->direction_x = -1;
+		player->pov = 270;
 }

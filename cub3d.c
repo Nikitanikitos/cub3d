@@ -37,9 +37,9 @@ int 	main(int ac, char **av)
 	}
 	if (count_arg != 8)
 		exit_failure("Not enough tools!", map_data);
-	else if (write_map(fd, &line, &map_data->map, &map_data->length_line) == 0)
+	else if (write_map(fd, line, map_data) == 0)
 		exit_failure("Not valid map!", map_data);
-//	engine(map_data);
+	engine(map_data);
 	free_scene_descr(map_data);
 	return (0);
 }

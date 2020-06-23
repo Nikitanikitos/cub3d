@@ -14,12 +14,11 @@
 
 unsigned short	copy_read_map(char *map, char *line, unsigned short i)
 {
-	char	flag;
+	static char	flag;
 
-	flag = 0;
 	while (*line)
 	{
-		if (ft_strchr(PLAYER_POS, *line) && flag || !ft_strchr(MAP_CHAR, *line))
+		if ((ft_strchr(PLAYER_POS, *line) && flag) || !ft_strchr(MAP_CHAR, *line))
 		{
 			free(map);
 			return (0);
@@ -73,7 +72,8 @@ char			*copy_write_map(char *map, char *map_temp, unsigned short length_line)
 		map[q++] = map_temp[i++];
 		k++;
 	}
-	map[--q] = 0;
+	--q;
+	map[q] = 0;
 	return (map);
 }
 
@@ -91,6 +91,7 @@ char			write_map(char fd, char *line, t_map_data *map_data)
 		count_line++;
 		free(line);
 	}
+	free(line);
 	map_data->map = ft_calloc(sizeof(char), (map_data->length_line * count_line) + 1);
 	map_data->map = copy_write_map(map_data->map, map_temp, map_data->length_line);
 	free(map_temp);

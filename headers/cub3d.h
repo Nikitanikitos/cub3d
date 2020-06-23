@@ -13,6 +13,9 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
+# define PI			3.14159265359
+# define FOV		60
+
 # define MAP_CHAR	" 012NSEW"
 # define PLAYER_POS	"NSEW"
 # define KEY_W		119
@@ -25,6 +28,7 @@
 # include "libft.h"
 # include "mlx.h"
 # include "mlx_int.h"
+# include <math.h>
 
 typedef struct			s_map_data
 {
@@ -39,10 +43,9 @@ typedef struct			s_map_data
 
 typedef struct			s_player
 {
-	int 				direction_x;
-	int 				direction_y;
-	int 				position_x;
-	int 				position_y;
+	double 				position_x;
+	double 				position_y;
+	short				pov;
 	void				*mlx;
 	void 				*win;
 	char 				*map;
@@ -61,7 +64,7 @@ typedef struct			s_data
 char					get_map_data(char *line, t_map_data **map_data);
 int 					engine(t_map_data *map_data);
 
-char					write_map(int fd, char **line, char **map, unsigned short *length_line);
+char					write_map(char fd, char *line, t_map_data *map_data);
 
 void					exit_failure(char *error, t_map_data *map_data);
 void					free_scene_descr(t_map_data *map_data);
