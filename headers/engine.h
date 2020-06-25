@@ -13,5 +13,6 @@
 #include "cub3d.h"
 
 void 	counting_player_coordinate(char *map, t_player *player);
+void 	print_map(void *win, t_xvar *mlx, char *map, t_player *player);
 void	change_position(int key, t_player *player);
 void	change_pov(int key, t_player *player);

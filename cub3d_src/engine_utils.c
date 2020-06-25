@@ -51,7 +51,7 @@ void	change_pov(int key, t_player *player)
 
 void 	counting_player_coordinate(char *map, t_player *player)
 {
-	char 			count_line;
+	unsigned char 	count_line;
 	unsigned short	x;
 	unsigned short	y;
 
@@ -62,7 +62,7 @@ void 	counting_player_coordinate(char *map, t_player *player)
 	{
 		if (ft_strchr(PLAYER_POS, *map))
 			player_coor_init(player, x, y, *map);
-		if (++count_line == player->length_line)
+		if (++count_line == player->map_data->length_line)
 		{
 			y += 64;
 			x = 0;

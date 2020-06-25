@@ -20,9 +20,9 @@ void print_wall(void *win, t_xvar *mlx, unsigned short pos_x, unsigned short pos
 
 	x = 0;
 	y = 0;
-	while (x <= 32)
+	while (x <= 64)
 	{
-		while (y <= 32)
+		while (y <= 64)
 			mlx_pixel_put(mlx,win, pos_x + x, pos_y + y++,02550);
 		x++;
 		y = 0;
@@ -44,14 +44,14 @@ void 	print_map(void *win, t_xvar *mlx, char *map, t_player *player)
 			print_wall(win, mlx, x, y);
 		else if (ft_strchr(PLAYER_POS, *map))
 			player_coor_init(player, x, y, *map);
-		if (++count_line == player->length_line)
+		if (++count_line == player->map_data->length_line)
 		{
-			y += 32;
+			y += 64;
 			x = 0;
 			count_line = 0;
 		}
 		else
-			x += 32;
+			x += 64;
 		map++;
 	}
 }

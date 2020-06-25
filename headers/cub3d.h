@@ -15,7 +15,7 @@
 
 # define PI					3.14159265359
 # define FOV				60
-# define PROJECION_PLANE_W	320
+# define PROJECION_PLANE_W	512
 # define PROJECION_PLANE_H	200
 
 # define MAP_CHAR			" 012NSEW"
@@ -50,8 +50,7 @@ typedef struct			s_player
 	short				pov;
 	void				*mlx;
 	void 				*win;
-	char 				*map;
-	unsigned short		length_line;
+	t_map_data			*map_data;
 }						t_player;
 
 typedef struct			s_data

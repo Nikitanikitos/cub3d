@@ -39,15 +39,14 @@ t_player	*player_init(void *mlx, void *win, t_map_data *map_data)
 		return (NULL);
 	player->mlx = mlx;
 	player->win = win;
-	player->map = map_data->map;
-	player->length_line = map_data->length_line;
+	player->map_data = map_data;
 	return (player);
 }
 
 void	player_coor_init(t_player	*player, int pos_x, int pos_y, char direction)
 {
-	player->position_x = pos_x + 16;
-	player->position_y = pos_y + 16;
+	player->position_x = pos_x + 32;
+	player->position_y = pos_y + 32;
 	if (direction == 'E')
 		player->pov = 0;
 	else if (direction == 'N')
