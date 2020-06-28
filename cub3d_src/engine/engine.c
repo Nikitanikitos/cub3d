@@ -13,11 +13,11 @@
 #include "cub3d.h"
 #include "engine.h"
 
-double		distance_to_wall_y(t_player *player, double corner, double sinn)
+double	distance_to_wall_y(t_player *player, double corner, double sinn)
 {
 	const t_map_data	*map_data = player->map_data;
 	const double		step_y = (sinn < 0) ? -64 : 64;
-	const double 		step_x = 64 / tan((corner) * PI_DIVIDED_180);
+	const double		step_x = 64 / tan((corner) * PI_DIVIDED_180);
 	double				current_y;
 	double				current_x;
 
@@ -37,11 +37,11 @@ double		distance_to_wall_y(t_player *player, double corner, double sinn)
 	return (sqrt(current_x * current_x + current_y * current_y));
 }
 
-double		distance_to_wall_x(t_player *player, double corner, double coss)
+double	distance_to_wall_x(t_player *player, double corner, double coss)
 {
 	const t_map_data	*map_data = player->map_data;
 	const double		step_x = (coss < 0) ? -64 : 64;
-	const double 		step_y = 64 * tan((corner) * PI_DIVIDED_180);
+	const double		step_y = 64 * tan((corner) * PI_DIVIDED_180);
 	double				current_y;
 	double				current_x;
 
@@ -64,17 +64,18 @@ double		distance_to_wall_x(t_player *player, double corner, double coss)
 void	cast_ray_3d(t_player *player, double corner, double wall_x, int color)
 {
 	const t_map_data	*map_data = player->map_data;
-	double				distance_x;
-	double				distance_y;
 	double				distance_to_wall;
 	double				height;
+	double				distance_x;
+	double				distance_y;
 
-	distance_y = distance_to_wall_y(player, corner,
-								-sin(corner * PI_DIVIDED_180));
-	distance_x = distance_to_wall_x(player, corner,
-								cos(corner * PI_DIVIDED_180));
+	distance_x = distance_to_wall_x(
+			player, corner, cos(corner * PI_DIVIDED_180));
+	distance_y = distance_to_wall_y(
+			player, corner, -sin(corner * PI_DIVIDED_180));
 	distance_to_wall = (distance_y < distance_x) ? distance_y : distance_x;
-	height = 180 * 40 / distance_to_wall;
+	distance_to_wall *= cos((player->pov - corner) * PI_DIVIDED_180);
+	height = 128 * 64 / distance_to_wall;
 	distance_to_wall = map_data->resolution[1] - distance_to_wall;
 	while (height > 0)
 	{
@@ -102,7 +103,7 @@ void	field_of_view_3d(t_player *player, int color)
 	}
 }
 
-int 	game_play(int key, t_player *player)
+int		game_play(int key, t_player *player)
 {
 	field_of_view_3d(player, 0);
 	change_position(key, player);
@@ -111,14 +112,15 @@ int 	game_play(int key, t_player *player)
 	return (0);
 }
 
-int 	engine(t_map_data *map_data)
+int		engine(t_map_data *map_data)
 {
 	t_player	*player;
 	void		*mlx;
-	void 		*win;
+	void		*win;
 
 	mlx = mlx_init();
-	win = mlx_new_window(mlx, map_data->resolution[0], map_data->resolution[1], "Cub3D");
+	win = mlx_new_window(
+			mlx, map_data->resolution[0], map_data->resolution[1], "Cub3D");
 	player = player_init(mlx, win, map_data);
 	counting_player_coordinate(map_data->map, player);
 //	print_map(win, mlx, map_data->map, player);
@@ -128,101 +130,3 @@ int 	engine(t_map_data *map_data)
 	free_player(player);
 	return (0);
 }
-
-//t_ray	*raycaster(int fov, float pov, t_coord start, int **map, int w)
-//{
-//	const float circle = PI * 2;
-//	float dir_rads = to_rad(pov + (fov >> 1));
-//	float pov_rads = to_rad(pov);
-//	const int rows = vec_size(&map);
-//	const int cols = vec_size(&map[0]);
-//	t_ray *rays = malloc(sizeof(t_ray) * w);
-//	t_ray rayx = {0};
-//	t_ray rayy = {0};
-////	float	dir = pov + (fov >> 1);
-//	if (dir_rads >= circle) {
-//		dir_rads -= circle;
-//	}
-//	float	diff = to_rad(fov / (float)w);
-//	float	dx;
-//	float	dy;
-//	int		map_x;
-//	int		map_y;
-//
-//	for (int x = 0; x < w; ++x) {
-//		// horizontal
-//		if (dir_rads == 0 || dir_rads == PI) {
-//			rayx.lenght = INFINITY;
-//		} else {
-//			if (dir_rads > PI) {
-//				rayx.start.y = (((int)start.y >> CELL_POW2) << CELL_POW2) + CELL;
-//				dy = CELL;
-//			} else {
-//				rayx.start.y = (((int)start.y >> CELL_POW2) << CELL_POW2) - 0.001;
-//				dy = -CELL;
-//			}
-//			rayx.start.x = start.x + (start.y - rayx.start.y) / tan(dir_rads);
-//			dx = -dy / tan(dir_rads);
-//
-//			rayx.end.x = rayx.start.x;
-//			rayx.end.y = rayx.start.y;
-//
-//			map_x = (int)rayx.start.x >> CELL_POW2;
-//			map_y = (int)rayx.start.y >> CELL_POW2;
-//
-//			while (map_x >= 0 && map_y >= 0 && map_x < cols && map_y < rows && map[map_y][map_x] == 0) {
-//				rayx.end.x += dx;
-//				rayx.end.y += dy;
-//				map_x = (int)rayx.end.x >> CELL_POW2;
-//				map_y = (int)rayx.end.y >> CELL_POW2;
-//			}
-//			dx = rayx.end.x - start.x;
-//			dy = rayx.end.y - start.y;
-//			rayx.lenght = sqrt(dx * dx + dy * dy) * cos(pov_rads - dir_rads);
-//		}
-//
-//		// vertical
-//		if (dir_rads == PI / 2 || dir_rads == 1.5 * PI) {
-//			rayy.lenght = INFINITY;
-//		} else {
-//			if (dir_rads > 1.5 * PI || dir_rads < PI / 2) {
-//				rayy.start.x = (((int)start.x >> CELL_POW2) << CELL_POW2) + CELL;
-//				dx = CELL;
-//			} else {
-//				rayy.start.x = (((int)start.x >> CELL_POW2) << CELL_POW2) - 0.001;
-//				dx = -CELL;
-//			}
-//			rayy.start.y = start.y + (start.x - rayy.start.x) * tan(dir_rads);
-//			dy = -dx * tan(dir_rads);
-//
-//			rayy.end.x = rayy.start.x;
-//			rayy.end.y = rayy.start.y;
-//
-//			map_x = (int)rayy.start.x >> CELL_POW2;
-//			map_y = (int)rayy.start.y >> CELL_POW2;
-//
-//			while (map_x >= 0 && map_y >= 0 && map_x < cols && map_y < rows && map[map_y][map_x] == 0) {
-//				rayy.end.x += dx;
-//				rayy.end.y += dy;
-//				map_x = (int)rayy.end.x >> CELL_POW2;
-//				map_y = (int)rayy.end.y >> CELL_POW2;
-//			}
-//			dx = rayy.end.x - start.x;
-//			dy = rayy.end.y - start.y;
-//			rayy.lenght = sqrt(dx * dx + dy * dy) * cos(pov_rads - dir_rads);
-//		}
-//
-//		if (rayx.lenght < rayy.lenght) {
-//			rays[x] = rayx;
-//			rays[x].side = X_SIDE;
-//		} else {
-//			rays[x] = rayy;
-//			rays[x].side = Y_SIDE;
-//		}
-//		dir_rads -= diff;
-//		if (dir_rads < 0) {
-//			dir_rads += PI * 2;
-//		}
-//	}
-//	return (rays);
-//}
