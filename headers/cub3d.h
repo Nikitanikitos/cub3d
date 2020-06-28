@@ -13,14 +13,15 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# define MAP_CHAR			" 012NSEW"
-# define PLAYER_POS			"NSEW"
-
 # include <fcntl.h>
+
 # include "get_next_line.h"
 # include "libft.h"
 # include "mlx.h"
 # include "mlx_int.h"
+
+# define MAP_CHAR		" 012NSEW"
+# define PLAYER_POS		"NSEW"
 
 typedef struct			s_map_data
 {

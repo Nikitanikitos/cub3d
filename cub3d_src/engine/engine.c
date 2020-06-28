@@ -77,12 +77,12 @@ void	cast_ray_3d(t_player *player, double corner, double wall_x, int color)
 	distance_to_wall *= cos((player->pov - corner) * PI_DIVIDED_180);
 	height = 32 / distance_to_wall *
 			(map_data->resolution[0] / 2 / tan((FOV / 2) * PI_DIVIDED_180));
-	distance_to_wall = map_data->resolution[1] - distance_to_wall;
+	distance_to_wall = map_data->resolution[1] / 2 - height / 2;
 	while (height > 0)
 	{
 		mlx_pixel_put(player->mlx, player->win,
 						(int)wall_x, (int)distance_to_wall, color);
-		distance_to_wall -= 0.5;
+		distance_to_wall += 0.5;
 		height -= 0.5;
 	}
 }
