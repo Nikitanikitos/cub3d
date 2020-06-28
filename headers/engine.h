@@ -11,14 +11,18 @@
 /* ************************************************************************** */
 
 #include "cub3d.h"
+# include <math.h>
 
 # define PI_DIVIDED_180	PI / 180
-# define KEY_W	119
-# define KEY_S	115
-# define KEY_D	100
-# define KEY_A	97
-# define KEY_Q	113
-# define KEY_E	101
+# define PI			3.14159265359
+# define FOV		60
+
+# define KEY_W		119
+# define KEY_S		115
+# define KEY_D		100
+# define KEY_A		97
+# define KEY_Q		113
+# define KEY_E		101
 
 typedef struct		s_player
 {
@@ -33,7 +37,6 @@ typedef struct		s_player
 void				free_player(t_player *player);
 void				player_coor_init(t_player	*player, int pos_x, int pos_y, char direction);
 t_player			*player_init(void *mlx, void *win, t_map_data *map_data);
-
 
 void				counting_player_coordinate(char *map, t_player *player);
 void				print_map(void *win, t_xvar *mlx, char *map, t_player *player);
