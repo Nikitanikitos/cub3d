@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include "engine.h"
 
 t_map_data	*map_data_init(void)
 {

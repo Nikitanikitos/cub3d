@@ -47,6 +47,8 @@ char			*read_map(char *line, char *map_temp, t_map_data *map_data)
 			map_data->length_line = temp_length;
 		map_temp = ft_realloc(map_temp, (int)temp_length + 2);
 		i = copy_read_map(map_temp, line, i);
+		if (i == 0)
+			return (NULL);
 	}
 	return (map_temp);
 }
@@ -88,8 +90,10 @@ char			write_map(char fd, char *line, t_map_data *map_data)
 	while (get_next_line(fd, &line) > 0)
 	{
 		map_temp = read_map(line, map_temp, map_data);
-		count_line++;
 		free(line);
+		if (map_temp == NULL)
+			return (0);
+		count_line++;
 	}
 	free(line);
 	map_data->map = ft_calloc(sizeof(char), (map_data->length_line * count_line) + 1);

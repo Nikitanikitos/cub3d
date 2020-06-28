@@ -26,14 +26,13 @@ int 	main(int ac, char **av)
 	while (get_next_line(fd, &line) > 0 && count_arg < 8)
 	{
 		ac = get_map_data(line, &map_data);
-		if (ac == 1)
-			count_arg += ac;
-		else if (ac == -1)
-			exit_failure("Error color", map_data);
+		if (ac == -1)
+			exit_failure("Color should be from 0 to 255!", map_data);
 		else if (ac == -2)
-			exit_failure("Error resolution", map_data);
+			exit_failure("Resolution should be from 100", map_data);
 		else if (ac == -3)
 			exit_failure("Error texture path", map_data);
+		count_arg += ac;
 	}
 	if (count_arg != 8)
 		exit_failure("Not enough tools!", map_data);

@@ -76,7 +76,7 @@ void	cast_ray(t_player *player, double corner, int color)
 void	field_of_view(t_player *player, int color)
 {
 	double			corner;
-	const double	diff = (double)FOV / PROJECION_PLANE_W;
+	const double	diff = (double)FOV / player->map_data->resolution[0];
 	const double	last_corner = player->pov + ((double)FOV / 2);
 
 	corner = player->pov - ((double)FOV / 2);

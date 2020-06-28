@@ -10,7 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#ifndef ENGINE_H
+# define ENGINE_H
+
+# include "cub3d.h"
 # include <math.h>
 
 # define PI_DIVIDED_180	PI / 180
@@ -44,3 +47,4 @@ void				change_position(int key, t_player *player);
 void				change_pov(int key, t_player *player);
 void				field_of_view(t_player *player, int color);
 
+#endif

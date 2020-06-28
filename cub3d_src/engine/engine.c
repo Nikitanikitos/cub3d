@@ -75,7 +75,8 @@ void	cast_ray_3d(t_player *player, double corner, double wall_x, int color)
 			player, corner, -sin(corner * PI_DIVIDED_180));
 	distance_to_wall = (distance_y < distance_x) ? distance_y : distance_x;
 	distance_to_wall *= cos((player->pov - corner) * PI_DIVIDED_180);
-	height = 128 * 64 / distance_to_wall;
+	height = 32 / distance_to_wall *
+			(map_data->resolution[0] / 2 / tan((FOV / 2) * PI_DIVIDED_180));
 	distance_to_wall = map_data->resolution[1] - distance_to_wall;
 	while (height > 0)
 	{
@@ -90,7 +91,7 @@ void	field_of_view_3d(t_player *player, int color)
 {
 	double			corner;
 	double			wall_x;
-	const double	diff = (double)FOV / PROJECION_PLANE_W;
+	const double	diff = (double)FOV / player->map_data->resolution[0];
 	const double	last_corner = player->pov + ((double)FOV / 2);
 
 	corner = player->pov - ((double)FOV / 2);

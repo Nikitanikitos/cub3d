@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include "engine.h"
 
 void	free_scene_descr(t_map_data *map_data)
 {
