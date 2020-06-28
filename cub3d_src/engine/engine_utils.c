@@ -11,31 +11,44 @@
 /* ************************************************************************** */
 
 #include "engine.h"
+#include "stdio.h"
+
+char	check_wall(t_player *player, double step_x, double step_y)
+{
+	const t_map_data	*map_data = player->map_data;
+	const double		coor_x = player->position_x + step_x;
+	const double		coor_y = player->position_y + step_y;
+
+	if (map_data->map[(int)coor_x / 64 +
+						(int)coor_y / 64 * map_data->length_line] != '1')
+		return (1);
+	return (0);
+}
 
 void	change_position(int key, t_player *player)
 {
-	const double 	coss = cos(player->pov * PI / 180);
-	const double 	sinn = -sin(player->pov * PI / 180);
+	const double	coss = cos(player->pov * PI / 180);
+	const double	sinn = -sin(player->pov * PI / 180);
 
-	if (key == KEY_W)
+	if (key == KEY_W && check_wall(player, coss * 4, sinn * 4))
 	{
-		player->position_y += sinn * 4;
 		player->position_x += coss * 4;
+		player->position_y += sinn * 4;
 	}
-	else if (key == KEY_S)
+	else if (key == KEY_S && check_wall(player, -coss * 4, -sinn * 4))
 	{
 		player->position_x -= coss * 4;
 		player->position_y -= sinn * 4;
 	}
-	else if (key == KEY_D)
+	else if (key == KEY_D && check_wall(player, -sinn * 4, coss * 4))
 	{
-		player->position_y += coss * 4;
 		player->position_x -= sinn * 4;
+		player->position_y += coss * 4;
 	}
-	else if (key == KEY_A)
+	else if (key == KEY_A && check_wall(player, sinn * 4, -coss * 4))
 	{
-		player->position_y -= coss * 4;
 		player->position_x += sinn * 4;
+		player->position_y -= coss * 4;
 	}
 }
 
@@ -51,10 +64,10 @@ void	change_pov(int key, t_player *player)
 		player->pov = 360;
 }
 
-void 	counting_player_coordinate(char *map, t_player *player)
+void	counting_player_coordinate(char *map, t_player *player)
 {
-	unsigned char 	count_line;
-	unsigned char 	length_line;
+	unsigned char	count_line;
+	unsigned char	length_line;
 	unsigned short	x;
 	unsigned short	y;
 
