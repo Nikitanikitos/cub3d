@@ -41,28 +41,32 @@ void	change_position(int key, t_player *player)
 
 void	change_pov(int key, t_player *player)
 {
-	if (key == 113)
+	if (key == KEY_Q)
 		player->pov += 5;
-	else if (key == 101)
+	else if (key == KEY_E)
 		player->pov -= 5;
 	if (player->pov >= 360)
 		player->pov = 0;
+	else if (player->pov <= 0)
+		player->pov = 360;
 }
 
 void 	counting_player_coordinate(char *map, t_player *player)
 {
 	unsigned char 	count_line;
+	unsigned char 	length_line;
 	unsigned short	x;
 	unsigned short	y;
 
 	y = 0;
 	x = 0;
 	count_line = 0;
+	length_line = player->map_data->length_line;
 	while (*map)
 	{
 		if (ft_strchr(PLAYER_POS, *map))
 			player_coor_init(player, x, y, *map);
-		if (++count_line == player->map_data->length_line)
+		if (++count_line == length_line)
 		{
 			y += 64;
 			x = 0;

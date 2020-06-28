@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print.c                                            :+:      :+:    :+:   */
+/*   drawing_map.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: imicah <imicah@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/25 16:39:12 by imicah            #+#    #+#             */
-/*   Updated: 2020/06/25 16:39:13 by imicah           ###   ########.fr       */
+/*   Created: 2020/06/25 20:08:20 by imicah            #+#    #+#             */
+/*   Updated: 2020/06/25 20:08:21 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "engine.h"
-
 
 void print_wall(void *win, t_xvar *mlx, unsigned short pos_x, unsigned short pos_y)
 {
@@ -53,5 +52,37 @@ void 	print_map(void *win, t_xvar *mlx, char *map, t_player *player)
 		else
 			x += 64;
 		map++;
+	}
+}
+
+void	cast_ray(t_player *player, double corner, int color)
+{
+	const t_map_data	*map_data = player->map_data;
+	const double 		coss = cos(corner * PI / 180);
+	const double 		sinn = -sin(corner * PI / 180);
+	double				ray_x;
+	double				ray_y;
+
+	ray_x = player->position_x;
+	ray_y = player->position_y;
+	while (map_data->map[(int)ray_x / 64 + (int)ray_y / 64 * map_data->length_line] != '1')
+	{
+		mlx_pixel_put(player->mlx, player->win, (int)ray_x, (int)ray_y, color);
+		ray_x += coss;
+		ray_y += sinn;
+	}
+}
+
+void	field_of_view(t_player *player, int color)
+{
+	double			corner;
+	const double	diff = (double)FOV / PROJECION_PLANE_W;
+	const double	last_corner = player->pov + ((double)FOV / 2);
+
+	corner = player->pov - ((double)FOV / 2);
+	while (corner != last_corner)
+	{
+		cast_ray(player, corner, color);
+		corner += diff;
 	}
 }
