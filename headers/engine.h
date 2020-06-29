@@ -16,9 +16,10 @@
 # include "cub3d.h"
 # include <math.h>
 
-# define PI_DIVIDED_180	PI / 180
-# define PI			3.14159265359
-# define FOV		60.0f
+# define PI_DIVIDED_180	(float)(PI / 180)
+# define PI				3.14159265359
+# define FOV			60.f
+# define FOV_RAD		FOV * PI_DIVIDED_180
 
 # define KEY_W		119
 # define KEY_S		115

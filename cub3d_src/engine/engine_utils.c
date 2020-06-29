@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "engine.h"
-#include "stdio.h"
 
 char	check_wall(t_player *player, float step_x, float step_y)
 {
@@ -26,8 +25,8 @@ char	check_wall(t_player *player, float step_x, float step_y)
 
 void	change_position(int key, t_player *player)
 {
-	const float	coss = cosf((float)(player->pov * PI / 180));
-	const float	sinn = -sinf((float)(player->pov * PI / 180));
+	const float	coss = cosf(player->pov);
+	const float	sinn = -sinf(player->pov);
 
 	if (key == KEY_W && check_wall(player, coss * 4, sinn * 4))
 	{
@@ -54,9 +53,9 @@ void	change_position(int key, t_player *player)
 void	change_pov(int key, t_player *player)
 {
 	if (key == KEY_Q)
-		player->pov += 5;
+		player->pov += PI_DIVIDED_180 * 5;
 	else if (key == KEY_E)
-		player->pov -= 5;
+		player->pov -= PI_DIVIDED_180 * 5;
 	if (player->pov >= 359)
 		player->pov = 0;
 	else if (player->pov <= 0)
