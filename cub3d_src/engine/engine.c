@@ -24,11 +24,12 @@ float	distance_to_wall_y(t_player *player, float corner, float sinn)
 	current_y = (int)(player->position_y / 64) * 64;
 	current_y += (sinn > 0) ? -1 : 64;
 	current_x = player->position_x + (player->position_y - current_y) /
-			tanf(corner);
-	while ((int)current_x > 0 && (int)current_x < map_data->resolution[0] &&
-			map_data->map[(int)current_x / 64 +
-			(int)current_y / 64 * map_data->length_line] != '1')
+																	tanf(corner);
+	while ((int)current_x > 0 && (int)current_x < map_data->resolution[0])
 	{
+		if (map_data->map[(int)current_x / 64 + (int)current_y / 64 *
+												map_data->length_line] == '1')
+			break;
 		current_x += step_x;
 		current_y += step_y;
 	}
@@ -47,11 +48,13 @@ float	distance_to_wall_x(t_player *player, float corner, float coss)
 
 	current_x = (int)(player->position_x / 64) * 64;
 	current_x += (coss > 0) ? 64 : -1;
-	current_y = player->position_y + (player->position_x - current_x) * tanf(corner);
-	while ((int)current_y > 0 && (int)current_y < map_data->resolution[1] &&
-			map_data->map[(int)current_x / 64 +
-			(int)current_y / 64 * map_data->length_line] != '1')
+	current_y = player->position_y + (player->position_x - current_x) *
+																	tanf(corner);
+	while ((int)current_y > 0 && (int)current_y < map_data->resolution[1])
 	{
+		if (map_data->map[(int)current_x / 64 + (int)current_y / 64 *
+												map_data->length_line] == '1')
+			break;
 		current_x += step_x;
 		current_y += step_y;
 	}
