@@ -16,16 +16,16 @@
 float	distance_to_wall_y(t_player *player, float corner, float sinn)
 {
 	const t_map_data	*map_data = player->map_data;
-	const float			step_y = (sinn < 0) ? -64 : 64;
+	const float			step_y = (sinn > 0) ? -64 : 64;
 	const float			step_x = 64 / tanf((float)((corner) * PI_DIVIDED_180));
 	float				current_y;
 	float				current_x;
 
 	current_y = (int)(player->position_y / 64) * 64;
-	current_y += (sinn < 0) ? -1 : 64;
+	current_y += (sinn > 0) ? -1 : 64;
 	current_x = player->position_x + (player->position_y - current_y) /
 			tanf((float)((corner) * PI_DIVIDED_180));
-	while (current_x > 0 && (int)current_x < map_data->resolution[0] &&
+	while ((int)current_x > 0 && (int)current_x < map_data->resolution[0] &&
 			map_data->map[(int)current_x / 64 +
 			(int)current_y / 64 * map_data->length_line] != '1')
 	{
@@ -49,7 +49,7 @@ float	distance_to_wall_x(t_player *player, float corner, float coss)
 	current_x += (coss > 0) ? 64 : -1;
 	current_y = player->position_y + (player->position_x - current_x) *
 			tanf((float)((corner) * PI_DIVIDED_180));
-	while (current_y > 0 && (int)current_y < map_data->resolution[1] &&
+	while ((int)current_y > 0 && (int)current_y < map_data->resolution[1] &&
 			map_data->map[(int)current_x / 64 +
 			(int)current_y / 64 * map_data->length_line] != '1')
 	{
@@ -96,7 +96,7 @@ void	cast_ray_3d(t_player *player, float corner, short wall_x)
 	distance_x = distance_to_wall_x(
 			player, corner, cosf((float)(corner * PI_DIVIDED_180)));
 	distance_y = distance_to_wall_y(
-			player, corner, -sinf((float)(corner * PI_DIVIDED_180)));
+			player, corner, sinf((float)(corner * PI_DIVIDED_180)));
 	distance_to_wall = (distance_y < distance_x) ? distance_y : distance_x;
 	distance_to_wall *= cosf((float)((player->pov - corner) * PI_DIVIDED_180));
 	height = 64 / distance_to_wall *
@@ -118,17 +118,17 @@ void	cast_ray_3d(t_player *player, float corner, short wall_x)
 
 void	field_of_view_3d(t_player *player)
 {
-	const float		diff = FOV / (float)player->map_data->resolution[0];
-	const float		last_corner = player->pov - (FOV / 2);
+	const float		step = FOV / (float)player->map_data->resolution[0];
+	const float		last_corner = player->pov + (FOV / 2);
 	float			corner;
 	short			wall_x;
 
-	corner = player->pov + (FOV / 2);
+	corner = player->pov - (FOV / 2);
 	wall_x = player->map_data->resolution[0];
 	while (corner != last_corner)
 	{
 		cast_ray_3d(player, corner, wall_x);
-		corner -= diff;
+		corner += step;
 		wall_x--;
 	}
 }
