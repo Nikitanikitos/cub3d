@@ -24,12 +24,12 @@ float	distance_to_wall_y(t_player *player, float corner, float sinn)
 	current_y = (int)(player->position_y / 64) * 64;
 	current_y += (sinn > 0) ? -1 : 64;
 	current_x = player->position_x + (player->position_y - current_y) /
-																	tanf(corner);
+																tanf(corner);
 	while ((int)current_x > 0 && (int)current_x < map_data->resolution[0])
 	{
 		if (map_data->map[(int)current_x / 64 + (int)current_y / 64 *
 												map_data->length_line] == '1')
-			break;
+			break ;
 		current_x += step_x;
 		current_y += step_y;
 	}
@@ -49,42 +49,18 @@ float	distance_to_wall_x(t_player *player, float corner, float coss)
 	current_x = (int)(player->position_x / 64) * 64;
 	current_x += (coss > 0) ? 64 : -1;
 	current_y = player->position_y + (player->position_x - current_x) *
-																	tanf(corner);
+																tanf(corner);
 	while ((int)current_y > 0 && (int)current_y < map_data->resolution[1])
 	{
 		if (map_data->map[(int)current_x / 64 + (int)current_y / 64 *
 												map_data->length_line] == '1')
-			break;
+			break ;
 		current_x += step_x;
 		current_y += step_y;
 	}
 	current_x = player->position_x - current_x;
 	current_y = player->position_y - current_y;
 	return (sqrtf(current_x * current_x + current_y * current_y));
-}
-
-void	drawing_floor(t_player *player, short wall_x, short distance_to_wall)
-{
-	const int	color = player->map_data->floor_color;
-	short		wall_y;
-
-	wall_y = 0;
-	while (wall_y < distance_to_wall)
-	{
-		mlx_pixel_put(player->mlx, player->win, wall_x, wall_y, color);
-		wall_y++;
-	}
-}
-
-void	drawing_celling(t_player *player, short wall_x, short wall_y)
-{
-	const int	color = player->map_data->celling_color;
-
-	while (wall_y < player->map_data->resolution[1])
-	{
-		mlx_pixel_put(player->mlx, player->win, wall_x, wall_y, color);
-		wall_y++;
-	}
 }
 
 void	cast_ray_3d(t_player *player, float corner, short wall_x)
@@ -98,19 +74,13 @@ void	cast_ray_3d(t_player *player, float corner, short wall_x)
 	distance_x = distance_to_wall_x(player, corner, cosf(corner));
 	distance_y = distance_to_wall_y(player, corner, sinf(corner));
 	distance_to_wall = (distance_y < distance_x) ? distance_y : distance_x;
-	distance_to_wall *= cosf((player->pov - corner));
-	height = (short)(64 / distance_to_wall * ((float)map_data->resolution[0] / 2 /
-										tanf(FOV_RAD / 2)));
+	distance_to_wall *= cosf(player->pov - corner);
+	height = (short)(64 / distance_to_wall * ((float)map_data->resolution[0] /
+														2 / tanf(FOV_RAD / 2)));
 	distance_to_wall = (float)map_data->resolution[1] / 2 - (float)height / 2;
-	drawing_floor(player, wall_x, (short)distance_to_wall);
-	while (height > 0)
-	{
-		mlx_pixel_put(player->mlx, player->win,
-						wall_x, (int)distance_to_wall, 0x800080);
-		distance_to_wall++;
-		height--;
-	}
-	drawing_celling(player, wall_x, (short)distance_to_wall);
+	drawing_floor(player, wall_x, distance_to_wall);
+	distance_to_wall = drawing_wall(player, wall_x, distance_to_wall, height);
+	drawing_celling(player, wall_x, distance_to_wall);
 }
 
 // угол NW - норм
