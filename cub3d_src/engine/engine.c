@@ -17,14 +17,14 @@ float	distance_to_wall_y(t_player *player, float corner, float sinn)
 {
 	const t_map_data	*map_data = player->map_data;
 	const float			step_y = (sinn > 0) ? -64 : 64;
-	const float			step_x = 64 / tanf((float)((corner) * PI_DIVIDED_180));
+	const float			step_x = 64 / tanf(corner * PI_DIVIDED_180);
 	float				current_y;
 	float				current_x;
 
 	current_y = (int)(player->position_y / 64) * 64;
 	current_y += (sinn > 0) ? -1 : 64;
 	current_x = player->position_x + (player->position_y - current_y) /
-			tanf((float)((corner) * PI_DIVIDED_180));
+			tanf(corner * PI_DIVIDED_180);
 	while ((int)current_x > 0 && (int)current_x < map_data->resolution[0] &&
 			map_data->map[(int)current_x / 64 +
 			(int)current_y / 64 * map_data->length_line] != '1')
@@ -41,14 +41,14 @@ float	distance_to_wall_x(t_player *player, float corner, float coss)
 {
 	const t_map_data	*map_data = player->map_data;
 	const float			step_x = (coss < 0) ? -64 : 64;
-	const float			step_y = 64 * tanf((float)((corner) * PI_DIVIDED_180));
+	const float			step_y = 64 * tanf(corner * PI_DIVIDED_180);
 	float				current_y;
 	float				current_x;
 
 	current_x = (int)(player->position_x / 64) * 64;
 	current_x += (coss > 0) ? 64 : -1;
 	current_y = player->position_y + (player->position_x - current_x) *
-			tanf((float)((corner) * PI_DIVIDED_180));
+			tanf(corner * PI_DIVIDED_180);
 	while ((int)current_y > 0 && (int)current_y < map_data->resolution[1] &&
 			map_data->map[(int)current_x / 64 +
 			(int)current_y / 64 * map_data->length_line] != '1')
@@ -93,14 +93,14 @@ void	cast_ray_3d(t_player *player, float corner, short wall_x)
 	float				distance_x;
 	float				distance_y;
 
-	distance_x = distance_to_wall_x(
-			player, corner, cosf((float)(corner * PI_DIVIDED_180)));
-	distance_y = distance_to_wall_y(
-			player, corner, sinf((float)(corner * PI_DIVIDED_180)));
+	distance_x = distance_to_wall_x(player, corner,
+										cosf(corner * PI_DIVIDED_180));
+	distance_y = distance_to_wall_y(player, corner,
+										sinf(corner * PI_DIVIDED_180));
 	distance_to_wall = (distance_y < distance_x) ? distance_y : distance_x;
-	distance_to_wall *= cosf((float)((player->pov - corner) * PI_DIVIDED_180));
-	height = 64 / distance_to_wall *
-			((float)map_data->resolution[0] / 2 / tanf(FOV / 2 * PI_DIVIDED_180));
+	distance_to_wall *= cosf((player->pov - corner) * PI_DIVIDED_180);
+	height = (short)(64 / distance_to_wall * ((float)map_data->resolution[0] / 2 /
+										tanf(HALF_FOV_RAD)));
 	distance_to_wall = (float)map_data->resolution[1] / 2 - (float)height / 2;
 	drawing_floor(player, wall_x, (short)distance_to_wall);
 	while (height > 0)
