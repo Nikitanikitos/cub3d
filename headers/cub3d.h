@@ -28,8 +28,8 @@ typedef struct			s_map_data
 	char				*textures[4];
 	char				*sprite_texture;
 	short 				resolution[2];
-	unsigned char		floor_color[3];
-	unsigned char		celling_color[3];
+	int					floor_color;
+	int					celling_color;
 	unsigned short		length_line;
 	char				*map;
 }						t_map_data;

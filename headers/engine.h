@@ -18,7 +18,7 @@
 
 # define PI_DIVIDED_180	PI / 180
 # define PI			3.14159265359
-# define FOV		60
+# define FOV		60.0f
 
 # define KEY_W		119
 # define KEY_S		115
@@ -29,9 +29,9 @@
 
 typedef struct		s_player
 {
-	double			position_x;
-	double			position_y;
-	short			pov;
+	float			position_x;
+	float			position_y;
+	float			pov;
 	void			*mlx;
 	void 			*win;
 	t_map_data		*map_data;

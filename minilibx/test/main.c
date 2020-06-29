@@ -230,7 +230,7 @@ int	color_map_1(void *win,int w,int h)
       y = h;
       while (y--)
         {
-          color = (x*255)/w+((((w-x)*255)/w)<<16)+(((y*255)/h)<<8);
+          color = (x*255)/w + ((((w-x)*255)/w)<<16) + (((y*255)/h)<<8);
 	  mlx_pixel_put(mlx,win,x,y,color);
         }
     }

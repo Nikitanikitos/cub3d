@@ -25,30 +25,35 @@ char 	get_texture(char *line, char **texture)
 char	get_resolution(char *line, short *resolution)
 {
 	line += 2;
-	if ((resolution[0] = (short)ft_atoi(line)) <= 0)
+	if ((resolution[0] = (short)ft_atoi(line)) < 100)
 		return (-2);
 	while ('0' <= *line && *line <= '9')
 		line++;
-	if ((resolution[1] = (short)ft_atoi(line)) <= 0)
+	if ((resolution[1] = (short)ft_atoi(line)) <= 100)
 		return (-2);
 	return (1);
 }
 
-char	get_color(char *line, unsigned char *color)
+char	get_color(char *line, int *color)
 {
-	int 	i;
 	int 	color_value;
+	int 	pow;
 	int 	flag;
+	int 	result;
 
-	i = 0;
+	result = 0;
+	pow = 65536;
 	while (*line)
 	{
 		if ((('0' <= *line && *line <= '9') || *line == '-') && flag)
 		{
-			color_value = ft_atoi(line);
+			color_value = ft_atoi(line); // * 65536
 			flag = 0;
 			if (0 <= color_value && color_value <= 255)
-				color[i++] = color_value;
+			{
+				result += color_value * pow;
+				pow /= 256;
+			}
 			else
 				return (-1);
 		}
@@ -56,6 +61,7 @@ char	get_color(char *line, unsigned char *color)
 			flag = 1;
 		line++;
 	}
+	*color = result;
 	return (1);
 }
 
@@ -77,9 +83,9 @@ char 	get_map_data(char *line, t_map_data **map_data)
 	else if (*line == 'R')
 		result = get_resolution(line, (*map_data)->resolution);
 	else if (*line == 'F')
-		result = get_color(line, (*map_data)->floor_color);
+		result = get_color(line, &(*map_data)->floor_color);
 	else if (*line == 'C')
-		result = get_color(line, (*map_data)->celling_color);
+		result = get_color(line, &(*map_data)->celling_color);
 	free(line);
 	return (result);
 }

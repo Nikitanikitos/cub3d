@@ -19,8 +19,6 @@ t_map_data	*map_data_init(void)
 
 	if (!(map_data = (t_map_data*)malloc(sizeof(t_map_data))))
 		return (NULL);
-	ft_bzero(map_data->celling_color, 3);
-	ft_bzero(map_data->floor_color, 3);
 	ft_bzero(map_data->resolution, 2);
 	map_data->map = NULL;
 	map_data->textures[0] = NULL;
