@@ -13,19 +13,19 @@
 #include "cub3d.h"
 #include "engine.h"
 
-float	distance_to_wall_y(t_player *player, float corner, float sinn)
+float	distance_to_wall_y(t_player *player, float corner)
 {
 	const t_map_data	*map_data = player->map_data;
-	const float			step_y = (sinn > 0) ? -64 : 64;
+	const float			step_y = (corner < PI && corner > 0) ? -64 : 64;
 	const float			step_x = 64 / tanf(corner);
 	float				current_y;
 	float				current_x;
 
 	current_y = (int)(player->position_y / 64) * 64;
-	current_y += (sinn > 0) ? -1 : 64;
+	current_y += (corner < PI && corner > 0) ? -1 : 64;
 	current_x = player->position_x + (player->position_y - current_y) /
 																tanf(corner);
-	while ((int)current_x > 0 && (int)current_x < map_data->resolution[0])
+	while ((int)current_x >= 0 && (int)current_x <= map_data->resolution[0])
 	{
 		if (map_data->map[(int)current_x / 64 + (int)current_y / 64 *
 												map_data->length_line] == '1')
@@ -38,19 +38,19 @@ float	distance_to_wall_y(t_player *player, float corner, float sinn)
 	return (sqrtf(current_x * current_x + current_y * current_y));
 }
 
-float	distance_to_wall_x(t_player *player, float corner, float coss)
+float	distance_to_wall_x(t_player *player, float corner)
 {
 	const t_map_data	*map_data = player->map_data;
-	const float			step_x = (coss < 0) ? -64 : 64;
+	const float			step_x = (corner < (PI / 2) || corner > (3 * PI / 2)) ? 64 : -64;
 	const float			step_y = 64 * tanf(corner);
 	float				current_y;
 	float				current_x;
 
 	current_x = (int)(player->position_x / 64) * 64;
-	current_x += (coss > 0) ? 64 : -1;
+	current_x += (corner < (PI / 2) || corner > (3 * PI / 2)) ? 64 : -1;
 	current_y = player->position_y + (player->position_x - current_x) *
 																tanf(corner);
-	while ((int)current_y > 0 && (int)current_y < map_data->resolution[1])
+	while ((int)current_y >= 0 && (int)current_y <= map_data->resolution[1])
 	{
 		if (map_data->map[(int)current_x / 64 + (int)current_y / 64 *
 												map_data->length_line] == '1')
@@ -71,8 +71,12 @@ void	cast_ray_3d(t_player *player, float corner, short wall_x)
 	float				distance_x;
 	float				distance_y;
 
-	distance_x = distance_to_wall_x(player, corner, cosf(corner));
-	distance_y = distance_to_wall_y(player, corner, sinf(corner));
+	if (corner < 0)
+		corner += (float)(2.f * PI);
+	else if (corner > (2.f * PI))
+		corner -= (float)(2.f * PI);
+	distance_x = distance_to_wall_x(player, corner);
+	distance_y = distance_to_wall_y(player, corner);
 	distance_to_wall = (distance_y < distance_x) ? distance_y : distance_x;
 	distance_to_wall *= cosf(player->pov - corner);
 	height = (short)(64 / distance_to_wall * ((float)map_data->resolution[0] /
@@ -126,7 +130,6 @@ int		engine(t_map_data *map_data)
 	player = player_init(mlx, win, map_data);
 	counting_player_coordinate(map_data->map, player);
 	field_of_view_3d(player);
-//	mlx_expose_hook(win, game_play, player);
 	mlx_key_hook(win, game_play, player);
 	mlx_loop(mlx);
 	free_player(player);

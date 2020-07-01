@@ -56,10 +56,10 @@ void	change_pov(int key, t_player *player)
 		player->pov += PI_DIVIDED_180 * 5;
 	else if (key == KEY_E)
 		player->pov -= PI_DIVIDED_180 * 5;
-	if (player->pov >= 359)
-		player->pov = 0;
+	if (player->pov >= (2.f * PI))
+		player->pov -= (float)(2.f * PI);
 	else if (player->pov <= 0)
-		player->pov = 359;
+		player->pov += (float)(2.f * PI);
 }
 
 void	counting_player_coordinate(char *map, t_player *player)
