@@ -98,12 +98,11 @@ void	cast_ray_3d(t_player *player, float corner, short wall_x)
 		corner -= (float)(2 * PI);
 	distance_to_wall = count_distance_to_wall(player,corner) * cosf(player->pov - corner);
 	distance_to_wall = roundf(distance_to_wall - .5f);
-	printf("%f\n", distance_to_wall);
 	height = (short)(64 / distance_to_wall * ((float)map_data->resolution[0] /
 														2 / tanf(FOV_RAD / 2)));
 	distance_to_wall = (float)map_data->resolution[1] / 2 - (float)height / 2;
 	drawing_floor(player, wall_x, distance_to_wall);
-	distance_to_wall = drawing_wall(player, wall_x, distance_to_wall, height);
+	distance_to_wall = drawing_wall(player, wall_x, distance_to_wall, height, corner);
 	drawing_celling(player, wall_x, distance_to_wall);
 }
 
@@ -147,7 +146,8 @@ int		engine(t_map_data *map_data)
 	player = player_init(mlx, win, map_data);
 	counting_player_coordinate(map_data->map, player);
 	field_of_view_3d(player);
-	mlx_key_hook(win, game_play, player);
+	mlx_hook(win, 2, 1L << 0, game_play, player);
+//	mlx_key_hook(win, game_play, player);
 	mlx_loop(mlx);
 	free_player(player);
 	return (0);
