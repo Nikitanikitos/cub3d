@@ -39,7 +39,7 @@ typedef struct		s_player
 }					t_player;
 
 void				free_player(t_player *player);
-void				player_coor_init(t_player	*player, int pos_x, int pos_y, char direction);
+void				player_coor_init(t_player *player, int pos_x, int pos_y, char direction);
 t_player			*player_init(void *mlx, void *win, t_map_data *map_data);
 
 void				counting_player_coordinate(char *map, t_player *player);
@@ -47,5 +47,10 @@ void				print_map(void *win, t_xvar *mlx, char *map, t_player *player);
 void				change_position(int key, t_player *player);
 void				change_pov(int key, t_player *player);
 void				field_of_view(t_player *player, int color);
+
+void				drawing_floor(t_player *player, short wall_x, float distance_to_wall);
+void				drawing_celling(t_player *player, short wall_x, float wall_y);
+float				drawing_wall(t_player *player, short wall_x, float wall_y, short height);
+
 
 #endif
