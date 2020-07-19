@@ -13,6 +13,28 @@
 #include "cub3d.h"
 #include "engine.h"
 
+
+float count_distance_to_wall(t_player *player, float corner)
+{
+	const t_map_data	*map_data = player->map_data;
+	const float			step_x = cosf(corner);
+	const float			step_y = -sinf(corner);
+	float				current_y;
+	float				current_x;
+
+	current_x = player->position_x;
+	current_y = player->position_y;
+	while (map_data->map[(int)current_x / 64 + (int)current_y / 64 *
+											   map_data->length_line] != '1')
+	{
+		current_y += step_y;
+		current_x += step_x;
+	}
+	current_x = player->position_x - current_x;
+	current_y = player->position_y - current_y;
+	return (sqrtf(current_x * current_x + current_y * current_y));
+}
+
 float	distance_to_wall_y(t_player *player, float corner)
 {
 	const t_map_data	*map_data = player->map_data;
@@ -41,16 +63,17 @@ float	distance_to_wall_y(t_player *player, float corner)
 float	distance_to_wall_x(t_player *player, float corner)
 {
 	const t_map_data	*map_data = player->map_data;
-	const float			step_x = (corner < (PI / 2) || corner > (3 * PI / 2)) ? 64 : -64;
+	const float			step_x = (corner <= (PI / 2) || corner >= (3 * PI / 2)) ? 64 : -64;
 	const float			step_y = 64 * tanf(corner);
 	float				current_y;
 	float				current_x;
 
 	current_x = (int)(player->position_x / 64) * 64;
-	current_x += (corner < (PI / 2) || corner > (3 * PI / 2)) ? 64 : -1;
+	current_x += (corner <= (PI / 2) || corner >= (3 * PI / 2)) ? 64 : -1;
 	current_y = player->position_y + (player->position_x - current_x) *
 																tanf(corner);
-	while ((int)current_y >= 0 && (int)current_y <= map_data->resolution[1])
+	while ((int)current_x >= 0 && (int)current_y >= 0 &&
+			(int)current_y <= map_data->resolution[1] && (int)current_x <= map_data->resolution[0])
 	{
 		if (map_data->map[(int)current_x / 64 + (int)current_y / 64 *
 												map_data->length_line] == '1')
@@ -58,8 +81,8 @@ float	distance_to_wall_x(t_player *player, float corner)
 		current_x += step_x;
 		current_y += step_y;
 	}
-	current_x = player->position_x - current_x;
-	current_y = player->position_y - current_y;
+	current_x = (player->position_x - current_x);
+	current_y = (player->position_y - current_y);
 	return (sqrtf(current_x * current_x + current_y * current_y));
 }
 
@@ -68,17 +91,14 @@ void	cast_ray_3d(t_player *player, float corner, short wall_x)
 	const t_map_data	*map_data = player->map_data;
 	float				distance_to_wall;
 	short				height;
-	float				distance_x;
-	float				distance_y;
 
 	if (corner < 0)
-		corner += (float)(2.f * PI);
-	else if (corner > (2.f * PI))
-		corner -= (float)(2.f * PI);
-	distance_x = distance_to_wall_x(player, corner);
-	distance_y = distance_to_wall_y(player, corner);
-	distance_to_wall = (distance_y < distance_x) ? distance_y : distance_x;
-	distance_to_wall *= cosf(player->pov - corner);
+		corner += (float)(2 * PI);
+	else if (corner > (2 * PI))
+		corner -= (float)(2 * PI);
+	distance_to_wall = count_distance_to_wall(player,corner) * cosf(player->pov - corner);
+	distance_to_wall = roundf(distance_to_wall - .5f);
+	printf("%f\n", distance_to_wall);
 	height = (short)(64 / distance_to_wall * ((float)map_data->resolution[0] /
 														2 / tanf(FOV_RAD / 2)));
 	distance_to_wall = (float)map_data->resolution[1] / 2 - (float)height / 2;
@@ -86,9 +106,6 @@ void	cast_ray_3d(t_player *player, float corner, short wall_x)
 	distance_to_wall = drawing_wall(player, wall_x, distance_to_wall, height);
 	drawing_celling(player, wall_x, distance_to_wall);
 }
-
-// угол NW - норм
-// угол ES - кривит
 
 void	field_of_view_3d(t_player *player)
 {
