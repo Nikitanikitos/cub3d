@@ -30,6 +30,7 @@ typedef struct			s_map_data
 	short 				resolution[2];
 	int					floor_color;
 	int					celling_color;
+	int 				wall_color;
 	unsigned short		length_line;
 	char				*map;
 }						t_map_data;

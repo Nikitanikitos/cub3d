@@ -141,6 +141,24 @@ float	dist_to_wall_vertical(t_player *player, float ray_angle)
 	return (sqrtf(current_x * current_x + current_y * current_y));
 }
 
+int		get_wall_color(float ray_angle, float dist_to_wall_h, float dist_to_wall_v)
+{
+	if (dist_to_wall_h > dist_to_wall_v)
+	{
+		if (ray_angle < 2 / PI || ray_angle > 3 * PI / 2)
+			return (0x800080);
+		else
+			return (0x4169e1);
+	}
+	else if (dist_to_wall_h < dist_to_wall_v)
+	{
+		if (ray_angle < PI)
+			return (0x777777);
+		else
+			return (0xffff00);
+	}
+}
+
 void	cast_ray_3d(t_player *player, float ray_angle, short wall_x)
 {
 	const t_map_data	*map_data = player->map_data;
@@ -165,6 +183,8 @@ void	cast_ray_3d(t_player *player, float ray_angle, short wall_x)
 	height = (short)(64 / dist_to_wall * ((float)map_data->resolution[0] /
 														2 / tanf(FOV_RAD / 2)));
 	dist_to_wall = (float)map_data->resolution[1] / 2 - (float)height / 2;
+
+	player->map_data->wall_color = get_wall_color(ray_angle, dist_to_wall_h, dist_to_wall_v);
 	drawing_floor(player, wall_x, dist_to_wall);
 	dist_to_wall = drawing_wall(player, wall_x, dist_to_wall, height);
 	drawing_celling(player, wall_x, dist_to_wall);

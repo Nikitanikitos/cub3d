@@ -47,7 +47,7 @@ float	drawing_wall(t_player *player, short wall_x, float wall_y, short height)
 	y = (short)wall_y;
 	while (height > 0)
 	{
-		mlx_pixel_put(player->mlx, player->win, wall_x, y, 0x800080);
+		mlx_pixel_put(player->mlx, player->win, wall_x, y, player->map_data->wall_color);
 		y++;
 		height--;
 	}
