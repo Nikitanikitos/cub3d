@@ -30,23 +30,23 @@ void	change_position(int key, t_player *player)
 
 	if (key == KEY_W && check_wall(player, coss * 4, sinn * 4))
 	{
-		player->position_x += coss * 4;
-		player->position_y += sinn * 4;
-	}
-	else if (key == KEY_S && check_wall(player, -coss * 4, -sinn * 4))
-	{
 		player->position_x -= coss * 4;
 		player->position_y -= sinn * 4;
 	}
-	else if (key == KEY_D && check_wall(player, -sinn * 4, coss * 4))
+	else if (key == KEY_S && check_wall(player, -coss * 4, -sinn * 4))
 	{
-		player->position_x += sinn * 4;
-		player->position_y -= coss * 4;
+		player->position_x += coss * 4;
+		player->position_y += sinn * 4;
 	}
-	else if (key == KEY_A && check_wall(player, sinn * 4, -coss * 4))
+	else if (key == KEY_D && check_wall(player, -sinn * 4, coss * 4))
 	{
 		player->position_x -= sinn * 4;
 		player->position_y += coss * 4;
+	}
+	else if (key == KEY_A && check_wall(player, sinn * 4, -coss * 4))
+	{
+		player->position_x += sinn * 4;
+		player->position_y -= coss * 4;
 	}
 }
 
