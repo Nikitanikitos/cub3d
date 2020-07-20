@@ -28,34 +28,34 @@ void	change_position(int key, t_player *player)
 	const float	coss = cosf(player->pov);
 	const float	sinn = sinf(player->pov);
 
-	if (key == KEY_W && check_wall(player, coss * 4, sinn * 4))
+	if (key == KEY_W && check_wall(player, -coss * 8, -sinn * 8))
 	{
 		player->position_x -= coss * 4;
 		player->position_y -= sinn * 4;
 	}
-	else if (key == KEY_S && check_wall(player, -coss * 4, -sinn * 4))
+	else if (key == KEY_S && check_wall(player, coss * 8, sinn * 8))
 	{
 		player->position_x += coss * 4;
 		player->position_y += sinn * 4;
 	}
-	else if (key == KEY_D && check_wall(player, -sinn * 4, coss * 4))
-	{
-		player->position_x -= sinn * 4;
-		player->position_y += coss * 4;
-	}
-	else if (key == KEY_A && check_wall(player, sinn * 4, -coss * 4))
+	else if (key == KEY_D && check_wall(player, sinn * 8, -coss * 8))
 	{
 		player->position_x += sinn * 4;
 		player->position_y -= coss * 4;
+	}
+	else if (key == KEY_A && check_wall(player, -sinn * 8, coss * 8))
+	{
+		player->position_x -= sinn * 4;
+		player->position_y += coss * 4;
 	}
 }
 
 void	change_pov(int key, t_player *player)
 {
 	if (key == KEY_Q)
-		player->pov += PI_DIVIDED_180 * 5;
-	else if (key == KEY_E)
 		player->pov -= PI_DIVIDED_180 * 5;
+	else if (key == KEY_E)
+		player->pov += PI_DIVIDED_180 * 5;
 	if (player->pov >= (2.f * PI))
 		player->pov -= (float)(2.f * PI);
 	else if (player->pov <= 0)

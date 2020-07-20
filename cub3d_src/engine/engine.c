@@ -69,12 +69,12 @@ int		get_wall_color(float ray_angle, float dist_to_wall_h, float dist_to_wall_v)
 {
 	if (dist_to_wall_h > dist_to_wall_v)
 	{
-		if (ray_angle < 2 / PI || ray_angle > 3 * PI / 2)
+		if ((ray_angle < 2 / PI) || (ray_angle > 3 * PI / 2))
 			return (0x800080);
 		else
 			return (0x4169e1);
 	}
-	else if (dist_to_wall_h < dist_to_wall_v)
+	else
 	{
 		if (ray_angle > PI)
 			return (0x777777);
@@ -116,19 +116,19 @@ void	cast_ray_3d(t_player *player, float ray_angle, short wall_x)
 
 void	field_of_view_3d(t_player *player)
 {
-	const float		last_corner = player->pov + (FOV_RAD / 2);
+	const float		last_ray_angle = player->pov + (FOV_RAD / 2);
 	float			step;
 	float			ray_angle;
 	short			wall_x;
 
 	step = (FOV / (float)player->map_data->resolution[0]) * PI_DIVIDED_180;
 	ray_angle = player->pov - (FOV_RAD / 2);
-	wall_x = player->map_data->resolution[0];
-	while (ray_angle <= last_corner)
+	wall_x = 0;
+	while (ray_angle <= last_ray_angle)
 	{
 		cast_ray_3d(player, ray_angle, wall_x);
 		ray_angle += step;
-		wall_x--;
+		wall_x++;
 	}
 }
 
