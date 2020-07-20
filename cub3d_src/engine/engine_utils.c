@@ -26,7 +26,7 @@ char	check_wall(t_player *player, float step_x, float step_y)
 void	change_position(int key, t_player *player)
 {
 	const float	coss = cosf(player->pov);
-	const float	sinn = -sinf(player->pov);
+	const float	sinn = sinf(player->pov);
 
 	if (key == KEY_W && check_wall(player, coss * 4, sinn * 4))
 	{
@@ -40,13 +40,13 @@ void	change_position(int key, t_player *player)
 	}
 	else if (key == KEY_D && check_wall(player, -sinn * 4, coss * 4))
 	{
-		player->position_x -= sinn * 4;
-		player->position_y += coss * 4;
+		player->position_x += sinn * 4;
+		player->position_y -= coss * 4;
 	}
 	else if (key == KEY_A && check_wall(player, sinn * 4, -coss * 4))
 	{
-		player->position_x += sinn * 4;
-		player->position_y -= coss * 4;
+		player->position_x -= sinn * 4;
+		player->position_y += coss * 4;
 	}
 }
 
