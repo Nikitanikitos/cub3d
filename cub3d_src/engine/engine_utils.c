@@ -15,8 +15,8 @@
 char	check_wall(t_player *player, float step_x, float step_y)
 {
 	const t_map_data	*map_data = player->map_data;
-	const int			coor_x = (int)((player->position_x + step_x) / 64);
-	const int			coor_y = (int)((player->position_y + step_y) / 64);
+	const short			coor_x = (short)((player->position_x + step_x) / 64);
+	const short			coor_y = (short)((player->position_y + step_y) / 64);
 
 	if (map_data->map[coor_x + coor_y * map_data->length_line] != '1')
 		return (1);
