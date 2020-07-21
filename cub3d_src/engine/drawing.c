@@ -12,11 +12,9 @@
 
 #include "engine.h"
 
-void	drawing_floor(t_player *player, short wall_x, float distance_to_wall)
+void	drawing_floor(t_player *player, int wall_x, int draw_limit, int color)
 {
-	const int	color = player->map_data->floor_color;
-	const short	draw_limit = (short)distance_to_wall;
-	short		wall_y;
+	int		wall_y;
 
 	wall_y = 0;
 	while (wall_y < draw_limit)
@@ -26,16 +24,15 @@ void	drawing_floor(t_player *player, short wall_x, float distance_to_wall)
 	}
 }
 
-void	drawing_celling(t_player *player, short wall_x, float wall_y)
+void	drawing_celling(t_map_data *map_data, int wall_x, int wall_y, int color)
 {
-	const int	color = player->map_data->celling_color;
-	const int	draw_limit = player->map_data->resolution[1];
+	const int	draw_limit = map_data->resolution[1];
 	short 		y;
 
 	y = (short)wall_y;
 	while (y < draw_limit)
 	{
-		mlx_pixel_put(player->mlx, player->win, wall_x, y, color);
+		mlx_pixel_put(map_data->player->mlx, map_data->player->win, wall_x, y, color);
 		y++;
 	}
 }
@@ -110,12 +107,10 @@ int		get_colorr(char *line)
 	return (result);
 }
 
-float	drawing_wall(t_player *player, short wall_x, short wall_y, short height)
+float		drawing_wall(t_map_data *map_data, int wall_x, int wall_y, int height)
 {
-	const int 	pixel_ratio = height / 64;
-	t_texture_data		img;
-	int     	img_width;
-	int     	img_height;
+	const int				pixel_ratio = height / 64;
+	const t_texture_data	img = *map_data->texture;
 	int			color;
 	static int 	count_x;
 	static int 	coor_x;
@@ -123,8 +118,6 @@ float	drawing_wall(t_player *player, short wall_x, short wall_y, short height)
 	int 		coor_y;
 	char 		*argb;
 
-	img.img = mlx_xpm_file_to_image(player->mlx, player->map_data->wall_texture, &img_width, &img_height);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 	coor_y = 0;
 	count_y = pixel_ratio;
 	while (height-- > 0)
@@ -136,7 +129,7 @@ float	drawing_wall(t_player *player, short wall_x, short wall_y, short height)
 				count_y = 0;
 				coor_y++;
 			}
-		mlx_pixel_put(player->mlx, player->win, wall_x, wall_y, color);
+		mlx_pixel_put(map_data->player->mlx, map_data->player->win, wall_x, wall_y, color);
 		wall_y++;
 		count_y++;
 	}
@@ -148,5 +141,5 @@ float	drawing_wall(t_player *player, short wall_x, short wall_y, short height)
 	}
 	if (coor_x == 64)
 		coor_x = 0;
-	return (wall_y);
+	return ((float)wall_y);
 }

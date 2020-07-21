@@ -28,61 +28,61 @@ void print_wall(void *win, t_xvar *mlx, unsigned short pos_x, unsigned short pos
 	}
 }
 
-void 	print_map(void *win, t_xvar *mlx, char *map, t_player *player)
-{
-	char 			count_line;
-	unsigned short	x;
-	unsigned short	y;
+//void 	print_map(void *win, t_xvar *mlx, char *map, t_player *player)
+//{
+//	char 			count_line;
+//	unsigned short	x;
+//	unsigned short	y;
+//
+//	y = 0;
+//	x = 0;
+//	count_line = 0;
+//	while (*map)
+//	{
+//		if (*map == '1')
+//			print_wall(win, mlx, x, y);
+//		else if (ft_strchr(PLAYER_POS, *map))
+//			player_coor_init(player, x, y, *map);
+//		if (++count_line == player->map_data->length_line)
+//		{
+//			y += 64;
+//			x = 0;
+//			count_line = 0;
+//		}
+//		else
+//			x += 64;
+//		map++;
+//	}
+//}
 
-	y = 0;
-	x = 0;
-	count_line = 0;
-	while (*map)
-	{
-		if (*map == '1')
-			print_wall(win, mlx, x, y);
-		else if (ft_strchr(PLAYER_POS, *map))
-			player_coor_init(player, x, y, *map);
-		if (++count_line == player->map_data->length_line)
-		{
-			y += 64;
-			x = 0;
-			count_line = 0;
-		}
-		else
-			x += 64;
-		map++;
-	}
-}
+//void	cast_ray(t_player *player, double corner, int color)
+//{
+//	const t_map_data	*map_data = player->map_data;
+//	const double 		coss = cos(corner * PI / 180);
+//	const double 		sinn = -sin(corner * PI / 180);
+//	double				ray_x;
+//	double				ray_y;
+//
+//	ray_x = player->position_x;
+//	ray_y = player->position_y;
+//	while (map_data->map[(int)ray_x / 64 + (int)ray_y / 64 * map_data->length_line] != '1')
+//	{
+//		mlx_pixel_put(player->mlx, player->win, (int)ray_x, (int)ray_y, color);
+//		ray_x += coss;
+//		ray_y += sinn;
+//	}
+//}
 
-void	cast_ray(t_player *player, double corner, int color)
-{
-	const t_map_data	*map_data = player->map_data;
-	const double 		coss = cos(corner * PI / 180);
-	const double 		sinn = -sin(corner * PI / 180);
-	double				ray_x;
-	double				ray_y;
-
-	ray_x = player->position_x;
-	ray_y = player->position_y;
-	while (map_data->map[(int)ray_x / 64 + (int)ray_y / 64 * map_data->length_line] != '1')
-	{
-		mlx_pixel_put(player->mlx, player->win, (int)ray_x, (int)ray_y, color);
-		ray_x += coss;
-		ray_y += sinn;
-	}
-}
-
-void	field_of_view(t_player *player, int color)
-{
-	double			corner;
-	const double	diff = (double)FOV / player->map_data->resolution[0];
-	const double	last_corner = player->pov + ((double)FOV / 2);
-
-	corner = player->pov - ((double)FOV / 2);
-	while (corner != last_corner)
-	{
-		cast_ray(player, corner, color);
-		corner += diff;
-	}
-}
+//void	field_of_view(t_player *player, int color)
+//{
+//	double			corner;
+//	const double	diff = (double)FOV / player->map_data->resolution[0];
+//	const double	last_corner = player->pov + ((double)FOV / 2);
+//
+//	corner = player->pov - ((double)FOV / 2);
+//	while (corner != last_corner)
+//	{
+//		cast_ray(player, corner, color);
+//		corner += diff;
+//	}
+//}

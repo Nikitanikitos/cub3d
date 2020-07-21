@@ -87,3 +87,38 @@ void	counting_player_coordinate(char *map, t_player *player, int length_line)
 		map++;
 	}
 }
+
+void	open_texture_files(t_map_data *map_data, void *mlx)
+{
+	t_texture_data	*img;
+	int 			q;
+
+	q = 0;
+	while (q < 4)
+	{
+		img = (t_texture_data*)malloc(sizeof(t_texture_data));
+		map_data->textures_img[q] = img;
+		img->img = mlx_xpm_file_to_image(mlx, map_data->textures[q], &img->img_width, &img->img_height);
+		img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian);
+		q++;
+	}
+}
+
+t_texture_data	*get_wall_color(const t_map_data *map_data, float ray_angle,
+								  float dist_to_wall_h, float dist_to_wall_v)
+{
+	if (dist_to_wall_h > dist_to_wall_v)
+	{
+		if ((ray_angle < 2 / PI) || (ray_angle > 3 * PI / 2))
+			return (map_data->textures_img[0]);
+		else
+			return (map_data->textures_img[1]);
+	}
+	else
+	{
+		if (ray_angle > PI)
+			return (map_data->textures_img[2]);
+		else
+			return (map_data->textures_img[3]);
+	}
+}
