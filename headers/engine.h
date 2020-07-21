@@ -30,17 +30,17 @@
 
 void				free_player(t_player *player);
 void				player_coor_init(t_player *player, int pos_x, int pos_y, char direction);
-t_player			*player_init(void *mlx, void *win, t_map_data *map_data);
+t_player			*player_init(void *mlx, void *win);
 
-void				counting_player_coordinate(char *map, t_player *player);
+void				counting_player_coordinate(char *map, t_player *player, int length_line);
 void				print_map(void *win, t_xvar *mlx, char *map, t_player *player);
-void				change_position(int key, t_player *player);
+void				change_position(int key, t_player *player, t_map_data *map_data)
 void				change_pov(int key, t_player *player);
 void				field_of_view(t_player *player, int color);
 
-void				drawing_floor(t_player *player, short wall_x, float distance_to_wall);
-void				drawing_celling(t_player *player, short wall_x, float wall_y);
-float				drawing_wall(t_player *player, short wall_x, short wall_y, short height);
+void				drawing_floor(t_player *player, int wall_x, float distance_to_wall);
+void				drawing_celling(t_player *player, int wall_x, float wall_y);
+float				drawing_wall(t_player *player, int wall_x, int wall_y, int height);
 
 
 #endif

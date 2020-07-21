@@ -30,7 +30,7 @@ t_map_data	*map_data_init(void)
 	return (map_data);
 }
 
-t_player	*player_init(void *mlx, void *win, t_map_data *map_data)
+t_player	*player_init(void *mlx, void *win)
 {
 	t_player	*player;
 
@@ -38,7 +38,6 @@ t_player	*player_init(void *mlx, void *win, t_map_data *map_data)
 		return (NULL);
 	player->mlx = mlx;
 	player->win = win;
-	player->map_data = map_data;
 	return (player);
 }
 

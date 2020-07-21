@@ -12,38 +12,39 @@
 
 #include "engine.h"
 
-char	check_wall(t_player *player, float step_x, float step_y)
+char	check_wall(t_player *player, float step_x, float step_y, int length_line)
 {
-	const t_map_data	*map_data = player->map_data;
+	char				*map = player->map;
 	const short			coor_x = (short)((player->position_x + step_x) / 64);
 	const short			coor_y = (short)((player->position_y + step_y) / 64);
 
-	if (map_data->map[coor_x + coor_y * map_data->length_line] != '1')
+	if (map[coor_x + coor_y * length_line] != '1')
 		return (1);
 	return (0);
 }
 
-void	change_position(int key, t_player *player)
+void	change_position(int key, t_player *player, t_map_data *map_data)
 {
 	const float	coss = cosf(player->pov);
 	const float	sinn = sinf(player->pov);
+	const int	length_line = map_data->length_line;
 
-	if (key == KEY_W && check_wall(player, -coss * 8, -sinn * 8))
+	if (key == KEY_W && check_wall(player, -coss * 8, -sinn * 8, length_line))
 	{
 		player->position_x -= coss * 4;
 		player->position_y -= sinn * 4;
 	}
-	else if (key == KEY_S && check_wall(player, coss * 8, sinn * 8))
+	else if (key == KEY_S && check_wall(player, coss * 8, sinn * 8, length_line))
 	{
 		player->position_x += coss * 4;
 		player->position_y += sinn * 4;
 	}
-	else if (key == KEY_D && check_wall(player, sinn * 8, -coss * 8))
+	else if (key == KEY_D && check_wall(player, sinn * 8, -coss * 8, length_line))
 	{
 		player->position_x += sinn * 4;
 		player->position_y -= coss * 4;
 	}
-	else if (key == KEY_A && check_wall(player, -sinn * 8, coss * 8))
+	else if (key == KEY_A && check_wall(player, -sinn * 8, coss * 8, length_line))
 	{
 		player->position_x -= sinn * 4;
 		player->position_y += coss * 4;
@@ -62,17 +63,15 @@ void	change_pov(int key, t_player *player)
 		player->pov += (float)(2.f * PI);
 }
 
-void	counting_player_coordinate(char *map, t_player *player)
+void	counting_player_coordinate(char *map, t_player *player, int length_line)
 {
 	unsigned char	count_line;
-	unsigned char	length_line;
 	unsigned short	x;
 	unsigned short	y;
 
 	y = 0;
 	x = 0;
 	count_line = 0;
-	length_line = player->map_data->length_line;
 	while (*map)
 	{
 		if (ft_strchr(PLAYER_POS, *map))

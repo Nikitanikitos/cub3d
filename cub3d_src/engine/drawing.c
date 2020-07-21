@@ -113,7 +113,7 @@ int		get_colorr(char *line)
 float	drawing_wall(t_player *player, short wall_x, short wall_y, short height)
 {
 	const int 	pixel_ratio = height / 64;
-	t_data		img;
+	t_texture_data		img;
 	int     	img_width;
 	int     	img_height;
 	int			color;

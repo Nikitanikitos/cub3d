@@ -13,9 +13,8 @@
 #include "cub3d.h"
 #include "engine.h"
 
-float	dist_to_wall_horizontal(t_player *player, float ray_angle)
+float	dist_to_wall_horizontal(t_map_data *map_data, t_player *player, float ray_angle)
 {
-	const t_map_data	*map_data = player->map_data;
 	const float			step_y = (ray_angle < PI) ? -64 : 64;
 	const float			step_x = -step_y * (-1 / tanf(ray_angle));
 	float				current_y;
@@ -39,9 +38,8 @@ float	dist_to_wall_horizontal(t_player *player, float ray_angle)
 	return (sqrtf(current_x * current_x + current_y * current_y));
 }
 
-float	dist_to_wall_vertical(t_player *player, float ray_angle)
+float	dist_to_wall_vertical(t_map_data *map_data, t_player *player, float ray_angle)
 {
-	const t_map_data	*map_data = player->map_data;
 	const float			step_x = (ray_angle < (PI / 2) || ray_angle > (3 * PI / 2)) ? -64 : 64;
 	const float			step_y = -step_x * -tanf(ray_angle);
 	float				current_y;
@@ -84,63 +82,78 @@ char		*get_wall_color(const t_map_data *map_data, float ray_angle,
 	}
 }
 
-void	cast_ray_3d(t_player *player, float ray_angle, short wall_x)
+void	cast_ray_3d(t_map_data *map_data, t_player *player, float ray_angle, int wall_x)
 {
-	const t_map_data	*map_data = player->map_data;
-	short				height;
-	float				dist_to_wall;
-	float				dist_to_wall_h;
-	float				dist_to_wall_v;
+	int			height;
+	float		dist_to_wall;
+	float		dist_to_wall_h;
+	float		dist_to_wall_v;
 
 	if (ray_angle < 0)
 		ray_angle += (float)(2 * PI);
 	else if (ray_angle > (2 * PI))
 		ray_angle -= (float)(2 * PI);
 
-	dist_to_wall_h = dist_to_wall_horizontal(player, ray_angle);
-	dist_to_wall_v = dist_to_wall_vertical(player, ray_angle);
+	dist_to_wall_h = dist_to_wall_horizontal(map_data, player, ray_angle);
+	dist_to_wall_v = dist_to_wall_vertical(map_data, player, ray_angle);
 
 	if (dist_to_wall_h > dist_to_wall_v)
 		dist_to_wall = dist_to_wall_v * cosf(player->pov - ray_angle);
 	else
 		dist_to_wall = dist_to_wall_h * cosf(player->pov - ray_angle);
 
-	height = (short)(64 / dist_to_wall * ((float)map_data->resolution[0] /
+	height = (int)(64 / dist_to_wall * ((float)map_data->resolution[0] /
 														2 / tanf(FOV_RAD / 2)));
 	dist_to_wall = (float)map_data->resolution[1] / 2 - (float)height / 2;
 
-	player->map_data->wall_texture = get_wall_color(map_data, ray_angle, dist_to_wall_h, dist_to_wall_v);
+//	map_data->wall_texture = get_wall_color(map_data, ray_angle, dist_to_wall_h, dist_to_wall_v);
 	drawing_floor(player, wall_x, dist_to_wall);
-	dist_to_wall = drawing_wall(player, wall_x, dist_to_wall, height);
+	dist_to_wall = drawing_wall(player, wall_x, (int)dist_to_wall, height);
 	drawing_celling(player, wall_x, dist_to_wall);
 }
 
-void	field_of_view_3d(t_player *player)
+void	field_of_view_3d(t_player *player, t_map_data *map_data)
 {
-	const float		last_ray_angle = player->pov + (FOV_RAD / 2);
-	float			step;
-	float			ray_angle;
-	short			wall_x;
+	const float	last_ray_angle = player->pov + (FOV_RAD / 2);
+	float		step;
+	float		ray_angle;
+	int			wall_x;
 
-	step = (FOV / (float)player->map_data->resolution[0]) * PI_DIVIDED_180;
+	step = (FOV / (float)map_data->resolution[0]) * PI_DIVIDED_180;
 	ray_angle = player->pov - (FOV_RAD / 2);
 	wall_x = 0;
 	while (ray_angle <= last_ray_angle)
 	{
-		cast_ray_3d(player, ray_angle, wall_x);
+		cast_ray_3d(map_data, player, ray_angle, wall_x);
 		ray_angle += step;
 		wall_x++;
 	}
 }
 
-int		game_play(int key, t_player *player)
+int		game_play(int key, t_map_data *map_data)
 {
 	if (key == KEY_E || key == KEY_Q)
-		change_pov(key, player);
+		change_pov(key, map_data->player);
 	else if (key == KEY_A || key == KEY_D || key == KEY_S || key == KEY_W)
-		change_position(key, player);
-	field_of_view_3d(player);
+		change_position(key, map_data->player, map_data);
+	field_of_view_3d(map_data->player, map_data);
 	return (0);
+}
+
+void	open_texture_files(t_map_data *map_data, void *mlx)
+{
+	t_texture_data	*img;
+	int 			q;
+
+	q = 0;
+	while (q < 4)
+	{
+		img = (t_texture_data*)malloc(sizeof(t_texture_data));
+		map_data->textures_img[q] = img;
+		img->img = mlx_xpm_file_to_image(mlx, map_data->textures[q], &img->img_width, &img->img_height);
+		img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian);
+		q++;
+	}
 }
 
 int		engine(t_map_data *map_data)
@@ -150,13 +163,15 @@ int		engine(t_map_data *map_data)
 	void		*win;
 
 	mlx = mlx_init();
+	open_texture_files(map_data, mlx);
 	win = mlx_new_window(
 			mlx, map_data->resolution[0], map_data->resolution[1], "Cub3D");
-	player = player_init(mlx, win, map_data);
-	counting_player_coordinate(map_data->map, player);
-	field_of_view_3d(player);
-	mlx_hook(win, 2, 1L << 0, game_play, player);
-//	mlx_key_hook(win, game_play, player);
+	player = player_init(mlx, win);
+	map_data->player = player;
+	player->map = map_data->map;
+	counting_player_coordinate(player->map, player, map_data->length_line);
+	field_of_view_3d(player, map_data);
+	mlx_hook(win, 2, 1L << 0, game_play, map_data);
 	mlx_loop(mlx);
 	free_player(player);
 	return (0);
