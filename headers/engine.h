@@ -28,16 +28,6 @@
 # define KEY_Q		113
 # define KEY_E		101
 
-typedef struct		s_player
-{
-	float			position_x;
-	float			position_y;
-	float			pov;
-	void			*mlx;
-	void 			*win;
-	t_map_data		*map_data;
-}					t_player;
-
 void				free_player(t_player *player);
 void				player_coor_init(t_player *player, int pos_x, int pos_y, char direction);
 t_player			*player_init(void *mlx, void *win, t_map_data *map_data);
@@ -50,7 +40,7 @@ void				field_of_view(t_player *player, int color);
 
 void				drawing_floor(t_player *player, short wall_x, float distance_to_wall);
 void				drawing_celling(t_player *player, short wall_x, float wall_y);
-float				drawing_wall(t_player *player, short wall_x, float wall_y, short height);
+float				drawing_wall(t_player *player, short wall_x, short wall_y, short height);
 
 
 #endif

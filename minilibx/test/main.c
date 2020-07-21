@@ -174,7 +174,7 @@ int	main()
   sleep(2);
 
   printf(" => Xpm from file ...");
-  if (!(im2 = mlx_xpm_file_to_image(mlx,"open.xpm",&xpm1_x,&xpm1_y)))
+  if (!(im2 = mlx_xpm_file_to_image(mlx,"minilibx/test/open.xpm",&xpm1_x,&xpm1_y)))
     {
       printf(" !! KO !!\n");
       exit(1);

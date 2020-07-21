@@ -20,8 +20,26 @@
 # include "mlx.h"
 # include "mlx_int.h"
 
-# define MAP_CHAR		" 012NSEW"
-# define PLAYER_POS		"NSEW"
+# define MAP_CHAR	" 012NSEW"
+# define PLAYER_POS	"NSEW"
+
+typedef struct		s_data {
+	void			*img;
+	char        *addr;
+	int         bits_per_pixel;
+	int         line_length;
+	int         endian;
+}               t_data;
+
+typedef struct		s_player
+{
+	float			position_x;
+	float			position_y;
+	float			pov;
+	void			*mlx;
+	void 			*win;
+	t_map_data		*map_data;
+}					t_player;
 
 typedef struct			s_map_data
 {
@@ -30,19 +48,10 @@ typedef struct			s_map_data
 	short 				resolution[2];
 	int					floor_color;
 	int					celling_color;
-	int 				wall_color;
+	char 				*wall_texture;
 	unsigned short		length_line;
 	char				*map;
 }						t_map_data;
-
-typedef struct			s_data
-{
-	void				*img;
-	char				*addr;
-	int					bits_per_pixel;
-	int					line_length;
-	int					endian;
-}						t_data;
 
 char					get_map_data(char *line, t_map_data **map_data);
 int 					engine(t_map_data *map_data);

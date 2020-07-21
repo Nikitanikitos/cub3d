@@ -17,8 +17,8 @@ char 	get_texture(char *line, char **texture)
 	while (*line == ' ')
 		line++;
 	*texture = ft_strdup(line);
-//	if (open(texture, O_RDONLY) == -1)
-//		return (-3);
+	if (open(*texture, O_RDONLY) == -1)
+		return (-3);
 	return (1);
 }
 

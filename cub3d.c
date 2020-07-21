@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include "engine.h"
 
 int 	main(int ac, char **av)
 {
@@ -38,7 +39,7 @@ int 	main(int ac, char **av)
 		exit_failure("Not enough tools!", map_data);
 	else if (write_map(fd, line, map_data) == 0)
 		exit_failure("Not valid map!", map_data);
-	engine(map_data);
+//	engine(map_data);
 	free_scene_descr(map_data);
 	return (0);
 }
