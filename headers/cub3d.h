@@ -48,6 +48,7 @@ typedef struct			s_map_data
 {
 	char			*textures[4];
 	t_texture_data	*textures_img[4];
+	t_texture_data	*texture;
 	char			*sprite_texture;
 	char			*map;
 	int 			resolution[2];

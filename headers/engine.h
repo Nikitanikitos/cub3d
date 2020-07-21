@@ -34,13 +34,20 @@ t_player			*player_init(void *mlx, void *win);
 
 void				counting_player_coordinate(char *map, t_player *player, int length_line);
 void				print_map(void *win, t_xvar *mlx, char *map, t_player *player);
-void				change_position(int key, t_player *player, t_map_data *map_data)
+void				change_position(int key, t_player *player, t_map_data *map_data);
 void				change_pov(int key, t_player *player);
 void				field_of_view(t_player *player, int color);
 
-void				drawing_floor(t_player *player, int wall_x, float distance_to_wall);
-void				drawing_celling(t_player *player, int wall_x, float wall_y);
-float				drawing_wall(t_player *player, int wall_x, int wall_y, int height);
+void				drawing_floor(t_player *player, int wall_x, int draw_limit, int color);
+void				drawing_celling(t_map_data *map_data, int wall_x, int wall_y, int color);
+float				drawing_wall(t_map_data *map_data, int wall_x, int wall_y, int height);
+
+void				open_texture_files(t_map_data *map_data, void *mlx);
+t_texture_data		*get_wall_color(const t_map_data *map_data, float ray_angle,
+									float dist_to_wall_h, float dist_to_wall_v);
+
+float				dist_to_wall_horizontal(t_map_data *map_data, t_player *player, float ray_angle);
+float				dist_to_wall_vertical(t_map_data *map_data, t_player *player, float ray_angle);
 
 
 #endif

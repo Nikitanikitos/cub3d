@@ -22,7 +22,7 @@ char 	get_texture(char *line, char **texture)
 	return (1);
 }
 
-char	get_resolution(char *line, short *resolution)
+char	get_resolution(char *line, int *resolution)
 {
 	line += 2;
 	if ((resolution[0] = (short)ft_atoi(line)) < 100)
