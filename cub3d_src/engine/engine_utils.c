@@ -12,18 +12,18 @@
 
 #include "engine.h"
 
-char	check_wall(t_player *player, float step_x, float step_y, int length_line)
+char		check_wall(t_player *player, float step_x, float step_y, int length_line)
 {
-	char				*map = player->map;
-	const short			coor_x = (short)((player->position_x + step_x) / 64);
-	const short			coor_y = (short)((player->position_y + step_y) / 64);
+	char		*map = player->map;
+	const int	coor_x = (int)((player->position_x + step_x) / 64);
+	const int	coor_y = (int)((player->position_y + step_y) / 64);
 
 	if (map[coor_x + coor_y * length_line] != '1')
 		return (1);
 	return (0);
 }
 
-void	change_position(int key, t_player *player, t_map_data *map_data)
+void		change_position(int key, t_player *player, t_map_data *map_data)
 {
 	const float	coss = cosf(player->pov);
 	const float	sinn = sinf(player->pov);
@@ -51,23 +51,23 @@ void	change_position(int key, t_player *player, t_map_data *map_data)
 	}
 }
 
-void	change_pov(int key, t_player *player)
+void		change_pov(int key, t_player *player)
 {
 	if (key == KEY_Q)
 		player->pov -= PI_DIVIDED_180 * 5;
 	else if (key == KEY_E)
 		player->pov += PI_DIVIDED_180 * 5;
-	if (player->pov >= (2.f * PI))
-		player->pov -= (float)(2.f * PI);
+	if (player->pov >= (2 * PI))
+		player->pov -= (float)(2 * PI);
 	else if (player->pov <= 0)
-		player->pov += (float)(2.f * PI);
+		player->pov += (float)(2 * PI);
 }
 
-void	counting_player_coordinate(char *map, t_player *player, int length_line)
+void		counting_player_coordinate(char *map, t_player *player, int length_line)
 {
-	unsigned char	count_line;
-	unsigned short	x;
-	unsigned short	y;
+	int	count_line;
+	int	x;
+	int	y;
 
 	y = 0;
 	x = 0;
@@ -88,15 +88,15 @@ void	counting_player_coordinate(char *map, t_player *player, int length_line)
 	}
 }
 
-void	open_texture_files(t_map_data *map_data, void *mlx)
+void		open_texture_files(t_map_data *map_data, void *mlx)
 {
-	t_texture_data	*img;
-	int 			q;
+	t_img_data	*img;
+	char 		q;
 
 	q = 0;
 	while (q < 4)
 	{
-		img = (t_texture_data*)malloc(sizeof(t_texture_data));
+		img = (t_img_data*)malloc(sizeof(t_img_data));
 		map_data->textures_img[q] = img;
 		img->img = mlx_xpm_file_to_image(mlx, map_data->textures[q], &img->img_width, &img->img_height);
 		img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian);
@@ -104,7 +104,7 @@ void	open_texture_files(t_map_data *map_data, void *mlx)
 	}
 }
 
-t_texture_data	*get_wall_color(const t_map_data *map_data, float ray_angle,
+t_img_data	*get_wall_color(const t_map_data *map_data, float ray_angle,
 								  float dist_to_wall_h, float dist_to_wall_v)
 {
 	if (dist_to_wall_h > dist_to_wall_v)

@@ -40,10 +40,13 @@ void				field_of_view(t_player *player, int color);
 
 void				drawing_floor(t_player *player, int wall_x, int draw_limit, int color);
 void				drawing_celling(t_map_data *map_data, int wall_x, int wall_y, int color);
-float				drawing_wall(t_map_data *map_data, int wall_x, int wall_y, int height);
+void				drawing_wall(t_map_data *map_data, int wall_x, int wall_y, int height);
+
+void				drawing_celling_v2(t_map_data *map_data);
+void				drawing_floor_v2(t_map_data *map_data);
 
 void				open_texture_files(t_map_data *map_data, void *mlx);
-t_texture_data		*get_wall_color(const t_map_data *map_data, float ray_angle,
+t_img_data			*get_wall_color(const t_map_data *map_data, float ray_angle,
 									float dist_to_wall_h, float dist_to_wall_v);
 
 float				dist_to_wall_horizontal(t_map_data *map_data, t_player *player, float ray_angle);

@@ -18,23 +18,71 @@ void	drawing_floor(t_player *player, int wall_x, int draw_limit, int color)
 
 	wall_y = 0;
 	while (wall_y < draw_limit)
-	{
-		mlx_pixel_put(player->mlx, player->win, wall_x, wall_y, color);
-		wall_y++;
-	}
+		mlx_pixel_put(player->mlx, player->win, wall_x, wall_y++, color);
 }
 
 void	drawing_celling(t_map_data *map_data, int wall_x, int wall_y, int color)
 {
 	const int	draw_limit = map_data->resolution[1];
-	short 		y;
 
-	y = (short)wall_y;
-	while (y < draw_limit)
+	while (wall_y < draw_limit)
+		mlx_pixel_put(map_data->player->mlx, map_data->player->win, wall_x, wall_y++, color);
+}
+
+void	drawing_floor_v2(t_map_data *map_data)
+{
+	t_img_data	img;
+	int			y;
+	const int	height = map_data->resolution[1] / 2;;
+	int 		x;
+	int 		index;
+
+	y = 0;
+	img.img = mlx_new_image(map_data->player->mlx, map_data->resolution[0], height);
+	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
+	while (y < height)
 	{
-		mlx_pixel_put(map_data->player->mlx, map_data->player->win, wall_x, y, color);
+		x = 0;
+		while (x < img.line_length)
+		{
+			index = (y * img.line_length + x * (img.bits_per_pixel / 8));
+			img.addr[index] = 117;
+			img.addr[index + 1] = 187;
+			img.addr[index + 2] = 253;
+			img.addr[index + 3] = 0;
+			x += 1;
+		}
 		y++;
 	}
+	mlx_put_image_to_window(map_data->player->mlx, map_data->player->win, img.img, 0, 0);
+}
+
+void	drawing_celling_v2(t_map_data *map_data)
+{
+	t_img_data	img;
+	int			y;
+	const int	height = map_data->resolution[1] / 2;;
+	int 		x;
+	int 		index;
+
+	y = 0;
+	img.img = mlx_new_image(map_data->player->mlx, map_data->resolution[0], height);
+	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
+	while (y < height)
+	{
+		x = 0;
+		while (x < img.line_length)
+		{
+			index = (y * img.line_length + x * (img.bits_per_pixel / 8));
+			img.addr[index] = 63;
+			img.addr[index + 1] = 155;
+			img.addr[index + 2] = 11;
+			img.addr[index + 3] = 0;
+			x += 1;
+		}
+		y++;
+	}
+	mlx_put_image_to_window(map_data->player->mlx, map_data->player->win, img.img, 0, height);
 }
 
 //int		get_color_2(t_map_data *map_data, t_player *player, short height)
@@ -107,16 +155,16 @@ int		get_colorr(char *line)
 	return (result);
 }
 
-float		drawing_wall(t_map_data *map_data, int wall_x, int wall_y, int height)
+void	drawing_wall(t_map_data *map_data, int wall_x, int wall_y, int height)
 {
-	const int				pixel_ratio = height / 64;
-	const t_texture_data	img = *map_data->texture;
-	int			color;
-	static int 	count_x;
-	static int 	coor_x;
-	int 		count_y;
-	int 		coor_y;
-	char 		*argb;
+	const float			pixel_ratio = roundf((float)height / 64);
+	const t_img_data	img = *map_data->texture;
+	static float 		count_x;
+	static int 			coor_x;
+	float 				count_y;
+	char 				*argb;
+	int					color;
+	int 				coor_y;
 
 	coor_y = 0;
 	count_y = pixel_ratio;
@@ -124,7 +172,7 @@ float		drawing_wall(t_map_data *map_data, int wall_x, int wall_y, int height)
 	{
 		if (count_y == pixel_ratio)
 			{
-				argb = img.addr + (coor_y * img.line_length + coor_x * (img.bits_per_pixel / 8));
+				argb = img.addr + (coor_y * img.line_length + coor_x * (img.bits_per_pixel / 8)) + 1;
 				color = get_colorr(argb);
 				count_y = 0;
 				coor_y++;
@@ -134,12 +182,11 @@ float		drawing_wall(t_map_data *map_data, int wall_x, int wall_y, int height)
 		count_y++;
 	}
 	count_x++;
-	if (count_x == pixel_ratio)
+	if (count_x >= pixel_ratio)
 	{
 		coor_x++;
 		count_x = 0;
 	}
 	if (coor_x == 64)
 		coor_x = 0;
-	return ((float)wall_y);
 }

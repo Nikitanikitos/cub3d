@@ -39,7 +39,8 @@ void	cast_ray_3d(t_map_data *map_data, t_player *player, float ray_angle, int wa
 
 	map_data->texture = get_wall_color(map_data, ray_angle, dist_to_wall_h, dist_to_wall_v);
 	drawing_floor(player, wall_x, (int)dist_to_wall, map_data->floor_color);
-	dist_to_wall = drawing_wall(map_data, wall_x, (int)dist_to_wall, height);
+	drawing_wall(map_data, wall_x, (int)dist_to_wall, height);
+	dist_to_wall += height;
 	drawing_celling(map_data, wall_x, (int)dist_to_wall, map_data->celling_color);
 }
 
@@ -53,6 +54,8 @@ void	field_of_view_3d(t_player *player, t_map_data *map_data)
 	step = (FOV / (float)map_data->resolution[0]) * PI_DIVIDED_180;
 	ray_angle = player->pov - (FOV_RAD / 2);
 	wall_x = 0;
+//	drawing_celling_v2(map_data);
+//	drawing_floor_v2(map_data);
 	while (ray_angle <= last_ray_angle)
 	{
 		cast_ray_3d(map_data, player, ray_angle, wall_x);

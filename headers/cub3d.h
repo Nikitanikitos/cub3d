@@ -23,7 +23,7 @@
 # define MAP_CHAR	" 012NSEW"
 # define PLAYER_POS	"NSEW"
 
-typedef struct		s_texture_data
+typedef struct		s_img_data
 {
 	void			*img;
 	char			*addr;
@@ -32,7 +32,7 @@ typedef struct		s_texture_data
 	int				endian;
 	int 			img_width;
 	int 			img_height;
-}					t_texture_data;
+}					t_img_data;
 
 typedef struct		s_player
 {
@@ -46,16 +46,16 @@ typedef struct		s_player
 
 typedef struct			s_map_data
 {
+	t_img_data		*textures_img[4];
+	t_img_data		*texture;
+	t_player		*player;
 	char			*textures[4];
-	t_texture_data	*textures_img[4];
-	t_texture_data	*texture;
 	char			*sprite_texture;
 	char			*map;
 	int 			resolution[2];
 	int				floor_color;
 	int				celling_color;
 	int				length_line;
-	t_player		*player;
 }					t_map_data;
 
 char				get_map_data(char *line, t_map_data **map_data);
