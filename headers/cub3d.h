@@ -27,7 +27,7 @@ typedef struct		s_img_data
 {
 	void			*img;
 	char			*addr;
-	int				bits_per_pixel;
+	int				bpp;
 	int				line_length;
 	int				endian;
 	int 			img_width;
@@ -44,19 +44,19 @@ typedef struct		s_player
 	void 			*win;
 }					t_player;
 
-typedef struct			s_map_data
+typedef struct		s_map_data
 {
-	t_img_data		*textures_img[4];
-	t_img_data		*texture;
-	t_img_data 		img_ray;
+	t_img_data		textures_img[4];
+	t_img_data		texture;
+	t_img_data 		img_world;
 	t_player		*player;
 	char			*textures[4];
 	char			*sprite_texture;
 	char			*map;
 	int 			resolution[2];
-	int				floor_color;
-	int				celling_color;
 	int				length_line;
+	unsigned char	floor_color[3];
+	unsigned char	celling_color[3];
 }					t_map_data;
 
 char				get_map_data(char *line, t_map_data **map_data);

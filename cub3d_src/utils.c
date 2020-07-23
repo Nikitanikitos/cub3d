@@ -17,14 +17,14 @@ void	free_scene_descr(t_map_data *map_data)
 {
 	if (map_data->map)
 		free(map_data->map);
-	if (map_data->textures_img[0])
-		free(map_data->textures_img[0]);
-	if (map_data->textures_img[1])
-		free(map_data->textures_img[1]);
-	if (map_data->textures_img[2])
-		free(map_data->textures_img[2]);
-	if (map_data->textures_img[3])
-		free(map_data->textures_img[3]);
+//	if (map_data->textures_img[0])
+//		free(map_data->textures_img[0]);
+//	if (map_data->textures_img[1])
+//		free(map_data->textures_img[1]);
+//	if (map_data->textures_img[2])
+//		free(map_data->textures_img[2]);
+//	if (map_data->textures_img[3])
+//		free(map_data->textures_img[3]);
 	if (map_data->textures[0])
 		free(map_data->textures[0]);
 	if (map_data->textures[1])

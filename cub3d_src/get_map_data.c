@@ -34,25 +34,23 @@ char	get_resolution(char *line, int *resolution)
 	return (1);
 }
 
-char	get_color(char *line, int *color)
+char	get_color(char *line, unsigned char color[3])
 {
 	int 	color_value;
-	int 	pow;
 	int 	flag;
-	int 	result;
+	int 	q;
 
-	result = 0;
-	pow = 65536;
+	q = 0;
 	while (*line)
 	{
 		if ((('0' <= *line && *line <= '9') || *line == '-') && flag)
 		{
-			color_value = ft_atoi(line); // * 65536
+			color_value = ft_atoi(line);
 			flag = 0;
 			if (0 <= color_value && color_value <= 255)
 			{
-				result += color_value * pow;
-				pow /= 256;
+				color[q] = (unsigned char )color_value;
+				q++;
 			}
 			else
 				return (-1);
@@ -61,7 +59,6 @@ char	get_color(char *line, int *color)
 			flag = 1;
 		line++;
 	}
-	*color = result;
 	return (1);
 }
 
@@ -83,9 +80,9 @@ char 	get_map_data(char *line, t_map_data **map_data)
 	else if (*line == 'R')
 		result = get_resolution(line, (*map_data)->resolution);
 	else if (*line == 'F')
-		result = get_color(line, &(*map_data)->floor_color);
+		result = get_color(line, (*map_data)->floor_color);
 	else if (*line == 'C')
-		result = get_color(line, &(*map_data)->celling_color);
+		result = get_color(line, (*map_data)->celling_color);
 	free(line);
 	return (result);
 }

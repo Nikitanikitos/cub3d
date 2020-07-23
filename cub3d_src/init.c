@@ -48,9 +48,9 @@ void	player_coor_init(t_player	*player, int pos_x, int pos_y, char direction)
 	if (direction == 'E')
 		player->pov = 0;
 	else if (direction == 'N')
-		player->pov = 90 * PI_DIVIDED_180;
+		player->pov = 90 * PI_DIV_180;
 	else if (direction == 'W')
-		player->pov = 180 * PI_DIVIDED_180;
+		player->pov = 180 * PI_DIV_180;
 	else if (direction == 'S')
-		player->pov = 270 * PI_DIVIDED_180;
+		player->pov = 270 * PI_DIV_180;
 }
