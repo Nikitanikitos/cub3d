@@ -38,10 +38,10 @@ void	cast_ray_3d(t_map_data *map_data, t_player *player, float ray_angle, int wa
 	dist_to_wall = (float)map_data->resolution[1] / 2 - height / 2;
 
 	map_data->texture = get_wall_color(map_data, ray_angle, dist_to_wall_h, dist_to_wall_v);
-	drawing_floor_v3(map_data, (int)dist_to_wall, wall_x);
-	drawing_wall_v2(map_data, (int)dist_to_wall, (int)height, wall_x);
+	drawing_floor(map_data, (int)dist_to_wall, wall_x);
+	drawing_wall(map_data, (int)dist_to_wall, (int)height, wall_x);
 	dist_to_wall += height;
-	drawing_celling_v3(map_data, (int)dist_to_wall, wall_x);
+	drawing_celling(map_data, (int)dist_to_wall, wall_x);
 }
 
 void	field_of_view_3d(t_player *player, t_map_data *map_data)

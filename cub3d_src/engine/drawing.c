@@ -31,24 +31,7 @@ int		get_colorr(char *line)
 	return (result);
 }
 
-void	drawing_floor(t_player *player, int wall_x, int draw_limit, int color)
-{
-	int		wall_y;
-
-	wall_y = 0;
-	while (wall_y < draw_limit)
-		mlx_pixel_put(player->mlx, player->win, wall_x, wall_y++, color);
-}
-
-void	drawing_celling(t_map_data *map_data, int wall_x, int wall_y, int color)
-{
-	const int	draw_limit = map_data->resolution[1];
-
-	while (wall_y < draw_limit)
-		mlx_pixel_put(map_data->player->mlx, map_data->player->win, wall_x, wall_y++, color);
-}
-
-void	drawing_wall(t_map_data *map_data, int wall_x, int wall_y, int height)
+void	drawing_wall_v2(t_map_data *map_data, int wall_x, int wall_y, int height)
 {
 	const float			pixel_ratio = (float)height / 64;
 	const t_img_data	img = *map_data->texture;
@@ -84,28 +67,50 @@ void	drawing_wall(t_map_data *map_data, int wall_x, int wall_y, int height)
 		coor_x = 0;
 }
 
-void	drawing_wall_v2(t_map_data *map_data, int wall_y, int height, int wall_x)
+void	drawing_wall(t_map_data *map_data, int wall_y, int height, int wall_x)
 {
+	const float			pixel_ratio = (float)height / 64;
 	const t_img_data	img = map_data->img_ray;
 	const int			x = wall_x * (img.bits_per_pixel / 8);
+	const t_img_data	texture = *map_data->texture;
 	int					index;
+	int 				index_texture;
+	int 				coor_y;
+	float 				count_y;
+	static float 		count_x;
+	static int			coor_x;
 
-	if (wall_y < 0)
-		wall_y = 0;
-	if (height > map_data->resolution[1])
-		height = map_data->resolution[1];
+	coor_y = 0;
+	count_y = pixel_ratio;
+	wall_y = (wall_y < 0) ? 0 : wall_y;
+	height = (height > map_data->resolution[1]) ? map_data->resolution[1] : height;
 	while (height-- > 0)
 	{
+		if (count_y >= pixel_ratio)
+		{
+			index_texture = coor_y * texture.line_length + coor_x * (texture.bits_per_pixel / 8);
+			count_y = 0;
+			coor_y++;
+		}
 		index = (wall_y * img.line_length + x);
-		img.addr[index] = 80;
-		img.addr[index + 1] = 80;
-		img.addr[index + 2] = 80;
+		img.addr[index] = texture.addr[index_texture];
+		img.addr[index + 1] = texture.addr[index_texture + 1];
+		img.addr[index + 2] = texture.addr[index_texture + 2];
 		img.addr[index + 3] = 0;
 		wall_y++;
+		count_y++;
 	}
+	count_x++;
+	if (count_x >= pixel_ratio)
+	{
+		coor_x++;
+		count_x = 0;
+	}
+	if (coor_x == 64)
+		coor_x = 0;
 }
 
-void	drawing_floor_v3(t_map_data *map_data, int height, int wall_x)
+void	drawing_floor(t_map_data *map_data, int height, int wall_x)
 {
 	const t_img_data	img = map_data->img_ray;
 	const int 			x = wall_x * (img.bits_per_pixel / 8);
@@ -124,7 +129,7 @@ void	drawing_floor_v3(t_map_data *map_data, int height, int wall_x)
 	}
 }
 
-void	drawing_celling_v3(t_map_data *map_data, int wall_y, int wall_x)
+void	drawing_celling(t_map_data *map_data, int wall_y, int wall_x)
 {
 	const t_img_data	img = map_data->img_ray;
 	const int			x = wall_x * (img.bits_per_pixel / 8);

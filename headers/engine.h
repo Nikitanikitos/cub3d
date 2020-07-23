@@ -38,16 +38,9 @@ void				change_position(int key, t_player *player, t_map_data *map_data);
 void				change_pov(int key, t_player *player);
 void				field_of_view(t_player *player, int color);
 
-void				drawing_floor(t_player *player, int wall_x, int draw_limit, int color);
-void				drawing_celling(t_map_data *map_data, int wall_x, int wall_y, int color);
-void				drawing_wall(t_map_data *map_data, int wall_x, int wall_y, int height);
-
-void				drawing_celling_v2(t_map_data *map_data, int wall_x, int wall_y);
-void				drawing_floor_v2(t_map_data *map_data, int wall_x, int height);
-
-void				drawing_floor_v3(t_map_data *map_data, int height, int wall_x);
-void				drawing_wall_v2(t_map_data *map_data, int wall_y, int height, int wall_x);
-void				drawing_celling_v3(t_map_data *map_data, int height, int wall_x);
+void				drawing_floor(t_map_data *map_data, int height, int wall_x);
+void				drawing_wall(t_map_data *map_data, int wall_y, int height, int wall_x);
+void				drawing_celling(t_map_data *map_data, int height, int wall_x);
 
 void				open_texture_files(t_map_data *map_data, void *mlx);
 t_img_data			*get_wall_color(const t_map_data *map_data, float ray_angle,
