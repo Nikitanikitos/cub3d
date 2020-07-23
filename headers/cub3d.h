@@ -48,6 +48,7 @@ typedef struct			s_map_data
 {
 	t_img_data		*textures_img[4];
 	t_img_data		*texture;
+	t_img_data 		img_ray;
 	t_player		*player;
 	char			*textures[4];
 	char			*sprite_texture;
