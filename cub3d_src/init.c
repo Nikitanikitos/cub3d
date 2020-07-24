@@ -25,16 +25,7 @@ t_map_data	*map_data_init(void)
 	return (map_data);
 }
 
-t_player	*player_init(void)
-{
-	t_player	*player;
-
-	if (!(player = (t_player*)malloc(sizeof(t_player))))
-		return (NULL);
-	return (player);
-}
-
-void	player_coor_init(t_player	*player, int pos_x, int pos_y, char direction)
+void	player_coor_init(t_player *player, int pos_x, int pos_y, char direction)
 {
 	player->position_x = pos_x + 32;
 	player->position_y = pos_y + 32;

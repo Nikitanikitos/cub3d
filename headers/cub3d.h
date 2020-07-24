@@ -48,7 +48,7 @@ typedef struct		s_map_data
 	t_img_data		sprite_texture;
 	t_img_data		texture;
 	t_img_data 		img_world;
-	t_player		*player;
+	t_player		player;
 	void			*mlx;
 	void 			*win;
 	char			*map;

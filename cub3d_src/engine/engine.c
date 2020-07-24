@@ -60,17 +60,17 @@ void	field_of_view_3d(t_player *player, t_map_data *map_data)
 int		game_play(int key, t_map_data *map_data)
 {
 	if (key == KEY_E || key == KEY_Q)
-		change_pov(key, map_data->player);
+		change_pov(key, &map_data->player);
 	else if (key == KEY_A || key == KEY_D || key == KEY_S || key == KEY_W)
-		change_position(key, map_data->player, map_data);
-	field_of_view_3d(map_data->player, map_data);
+		change_position(key, &map_data->player, map_data);
+	field_of_view_3d(&map_data->player, map_data);
 	return (0);
 }
 
 int		engine(t_map_data *map_data)
 {
 	t_img_data	img_world;
-	t_player	*player;
+	t_player	player;
 
 	map_data->win = mlx_new_window(map_data->mlx, map_data->resolution[0],
 					map_data->resolution[1], "Cub3D");
@@ -78,14 +78,12 @@ int		engine(t_map_data *map_data)
 								map_data->resolution[1]);
 	img_world.addr = mlx_get_data_addr(img_world.img, &img_world.bpp,
 									&img_world.line_length, &img_world.endian);
-	player = player_init();
-	counting_player_coordinate(map_data->map, player, map_data->length_line);
+	counting_player_coordinate(map_data->map, &player, map_data->length_line);
 	map_data->img_world = img_world;
 	map_data->player = player;
-	player->map = map_data->map;
-	field_of_view_3d(player, map_data);
+	player.map = map_data->map;
+	field_of_view_3d(&player, map_data);
 	mlx_hook(map_data->win, 2, 1L << 0, game_play, map_data);
 	mlx_loop(map_data->mlx);
-	free_player(player);
 	return (0);
 }
