@@ -23,8 +23,8 @@ void	cast_ray_3d(t_map_data *map_data, t_player *player,
 
 	ray_angle += (ray_angle < 0) ? (float)(2 * PI) : 0;
 	ray_angle -= (ray_angle > (2 * PI)) ? (float)(2 * PI) : 0;
-	dist_to_wall_h = dist_to_wall_horizontal(map_data, player, ray_angle);
-	dist_to_wall_v = dist_to_wall_vertical(map_data, player, ray_angle);
+	dist_to_wall_h = dist_to_wall_horizontal(*map_data, *player, ray_angle);
+	dist_to_wall_v = dist_to_wall_vertical(*map_data, *player, ray_angle);
 	if (dist_to_wall_h > dist_to_wall_v)
 		dist_to_wall = dist_to_wall_v * cosf(player->pov - ray_angle);
 	else

@@ -28,9 +28,7 @@
 # define KEY_Q			113
 # define KEY_E			101
 
-void				free_player(t_player *player);
 void				player_coor_init(t_player *player, int pos_x, int pos_y, char direction);
-t_player			*player_init(void);
 
 void				counting_player_coordinate(char *map, t_player *player, int length_line);
 void				change_position(int key, t_player *player, int l_line);
@@ -42,12 +40,11 @@ void				drawing_floor(t_map_data *map_data, int height, int wall_x);
 void				drawing_wall(t_map_data *map_data, int wall_y, int height, int wall_x);
 void				drawing_celling(t_map_data *map_data, int height, int wall_x);
 
-void				open_texture_files(t_map_data *map_data, void *mlx);
 void				get_wall_texture(t_map_data *map_data, float ray_angle,
 									float dist_to_wall_h, float dist_to_wall_v);
 
-float				dist_to_wall_horizontal(t_map_data *map_data, t_player *player, float ray_angle);
-float				dist_to_wall_vertical(t_map_data *map_data, t_player *player, float ray_angle);
+float				dist_to_wall_horizontal(t_map_data map_data, t_player player, float ray_angle);
+float				dist_to_wall_vertical(t_map_data map_data, t_player player, float ray_angle);
 
 
 #endif
