@@ -40,24 +40,24 @@ typedef struct		s_player
 	float			position_x;
 	float			position_y;
 	float			pov;
-	void			*mlx;
-	void 			*win;
 }					t_player;
 
 typedef struct		s_map_data
 {
-	t_img_data		textures_img[4];
+	t_img_data		textures[4];
+	t_img_data		sprite_texture;
 	t_img_data		texture;
 	t_img_data 		img_world;
 	t_player		*player;
-	char			*textures[4];
-	char			*sprite_texture;
+	void			*mlx;
+	void 			*win;
 	char			*map;
 	int 			resolution[2];
 	int				length_line;
-	unsigned char	floor_color[3];
-	unsigned char	celling_color[3];
+	char			floor_color[3];
+	char			celling_color[3];
 }					t_map_data;
+
 
 char				get_map_data(char *line, t_map_data **map_data);
 int 				engine(t_map_data *map_data);

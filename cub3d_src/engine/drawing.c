@@ -16,7 +16,6 @@ void	drawing_wall(t_map_data *map_data, int wall_y, int height, int wall_x)
 {
 	const float			pixel_ratio = (float)height / 64;
 	const t_img_data	img_world = map_data->img_world;
-	const int			x = wall_x * (img_world.bpp / 8);
 	const t_img_data	texture = map_data->texture;
 	int					index;
 	int 				index_texture;
@@ -28,6 +27,7 @@ void	drawing_wall(t_map_data *map_data, int wall_y, int height, int wall_x)
 	coor_y = 0;
 	count_y = pixel_ratio;
 	wall_y = (wall_y < 0) ? 0 : wall_y;
+	wall_x *= img_world.bpp / 8;
 	height = (height > map_data->resolution[1]) ? map_data->resolution[1] : height;
 	while (height-- > 0)
 	{
@@ -37,10 +37,11 @@ void	drawing_wall(t_map_data *map_data, int wall_y, int height, int wall_x)
 			count_y = 0;
 			coor_y++;
 		}
-		index = (wall_y * img_world.line_length + x);
+		index = (wall_y * img_world.line_length + wall_x);
 		img_world.addr[index] = texture.addr[index_texture];
 		img_world.addr[index + 1] = texture.addr[index_texture + 1];
 		img_world.addr[index + 2] = texture.addr[index_texture + 2];
+		img_world.addr[index + 3] = texture.addr[index_texture + 3];
 		wall_y++;
 		count_y++;
 	}
@@ -54,9 +55,9 @@ void	drawing_wall(t_map_data *map_data, int wall_y, int height, int wall_x)
 		coor_x = 0;
 }
 
+
 void	drawing_floor(t_map_data *map_data, int height, int wall_x)
 {
-	const unsigned char	*color = map_data->floor_color;
 	const t_img_data	img = map_data->img_world;
 	int					y;
 	int					index;
@@ -66,16 +67,16 @@ void	drawing_floor(t_map_data *map_data, int height, int wall_x)
 	while (y < height)
 	{
 		index = (y * img.line_length + wall_x);
-		img.addr[index] = color[1];
-		img.addr[index + 1] = color[2];
-		img.addr[index + 2] = color[3];
+		img.addr[index] = 0;
+		img.addr[index + 1] = map_data->floor_color[0];
+		img.addr[index + 2] = map_data->floor_color[1];
+		img.addr[index + 3] = map_data->floor_color[2];
 		y++;
 	}
 }
 
 void	drawing_celling(t_map_data *map_data, int wall_y, int wall_x)
 {
-	const unsigned char	*color = map_data->celling_color;
 	const t_img_data	img = map_data->img_world;
 	int					index;
 
@@ -83,9 +84,10 @@ void	drawing_celling(t_map_data *map_data, int wall_y, int wall_x)
 	while (wall_y < map_data->resolution[1])
 	{
 		index = (wall_y * img.line_length + wall_x);
-		img.addr[index] = color[1];
-		img.addr[index + 1] = color[2];
-		img.addr[index + 2] = color[3];
+		img.addr[index] = 0;
+		img.addr[index + 1] = map_data->celling_color[0];
+		img.addr[index + 2] = map_data->celling_color[1];
+		img.addr[index + 3] = map_data->celling_color[2];
 		wall_y++;
 	}
 }

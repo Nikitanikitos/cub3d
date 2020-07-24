@@ -30,7 +30,7 @@
 
 void				free_player(t_player *player);
 void				player_coor_init(t_player *player, int pos_x, int pos_y, char direction);
-t_player			*player_init(void *mlx, void *win);
+t_player			*player_init(void);
 
 void				counting_player_coordinate(char *map, t_player *player, int length_line);
 void				change_position(int key, t_player *player, t_map_data *map_data);

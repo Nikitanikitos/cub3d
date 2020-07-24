@@ -21,23 +21,16 @@ t_map_data	*map_data_init(void)
 		return (NULL);
 	ft_bzero(map_data->resolution, 2);
 	map_data->map = NULL;
-	map_data->textures[0] = NULL;
-	map_data->textures[1] = NULL;
-	map_data->textures[2] = NULL;
-	map_data->textures[3] = NULL;
-	map_data->sprite_texture = NULL;
 	map_data->length_line = 0;
 	return (map_data);
 }
 
-t_player	*player_init(void *mlx, void *win)
+t_player	*player_init(void)
 {
 	t_player	*player;
 
 	if (!(player = (t_player*)malloc(sizeof(t_player))))
 		return (NULL);
-	player->mlx = mlx;
-	player->win = win;
 	return (player);
 }
 

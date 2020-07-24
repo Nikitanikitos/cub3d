@@ -12,13 +12,14 @@
 
 #include "cub3d.h"
 
-char 	get_texture(char *line, char **texture)
+char 	get_texture(char *line, t_img_data *img, void *mlx)
 {
 	while (*line == ' ')
 		line++;
-	*texture = ft_strdup(line);
-	if (open(*texture, O_RDONLY) == -1)
+	if (open(line, O_RDONLY) == -1)
 		return (-3);
+	img->img = mlx_xpm_file_to_image(mlx, line, &img->img_width, &img->img_height);
+	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_length, &img->endian);
 	return (1);
 }
 
@@ -34,7 +35,7 @@ char	get_resolution(char *line, int *resolution)
 	return (1);
 }
 
-char	get_color(char *line, unsigned char color[3])
+char	get_color(char *line, char color[3])
 {
 	int 	color_value;
 	int 	flag;
@@ -49,7 +50,7 @@ char	get_color(char *line, unsigned char color[3])
 			flag = 0;
 			if (0 <= color_value && color_value <= 255)
 			{
-				color[q] = (unsigned char )color_value;
+				color[q] = (char)color_value;
 				q++;
 			}
 			else
@@ -68,15 +69,15 @@ char 	get_map_data(char *line, t_map_data **map_data)
 
 	result = 0;
 	if (line[0] == 'N' && line[1] == 'O')
-		result = get_texture(line + 2, &(*map_data)->textures[0]);
+		result = get_texture(line + 2, &(*map_data)->textures[0], (*map_data)->mlx);
 	else if (line[0] == 'S' && line[1] == 'O')
-		result = get_texture(line + 2, &(*map_data)->textures[1]);
+		result = get_texture(line + 2, &(*map_data)->textures[1], (*map_data)->mlx);
 	else if (line[0] == 'W' && line[1] == 'E')
-		result = get_texture(line + 2, &(*map_data)->textures[2]);
+		result = get_texture(line + 2, &(*map_data)->textures[2], (*map_data)->mlx);
 	else if (line[0] == 'E' && line[1] == 'A')
-		result = get_texture(line + 2, &(*map_data)->textures[3]);
+		result = get_texture(line + 2, &(*map_data)->textures[3], (*map_data)->mlx);
 	else if (*line == 'S')
-		result = get_texture(line + 2, &(*map_data)->sprite_texture);
+		result = get_texture(line + 2, &(*map_data)->sprite_texture, (*map_data)->mlx);
 	else if (*line == 'R')
 		result = get_resolution(line, (*map_data)->resolution);
 	else if (*line == 'F')

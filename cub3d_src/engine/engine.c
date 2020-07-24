@@ -53,7 +53,7 @@ void	field_of_view_3d(t_player *player, t_map_data *map_data)
 		ray_angle += step;
 		wall_x++;
 	}
-	mlx_put_image_to_window(player->mlx, player->win,
+	mlx_put_image_to_window(map_data->mlx, map_data->win,
 							map_data->img_world.img, 0, 0);
 }
 
@@ -71,25 +71,21 @@ int		engine(t_map_data *map_data)
 {
 	t_img_data	img_world;
 	t_player	*player;
-	void		*mlx;
-	void		*win;
 
-	mlx = mlx_init();
-	win = mlx_new_window(mlx, map_data->resolution[0],
+	map_data->win = mlx_new_window(map_data->mlx, map_data->resolution[0],
 					map_data->resolution[1], "Cub3D");
-	img_world.img = mlx_new_image(mlx, map_data->resolution[0],
+	img_world.img = mlx_new_image(map_data->mlx, map_data->resolution[0],
 								map_data->resolution[1]);
 	img_world.addr = mlx_get_data_addr(img_world.img, &img_world.bpp,
 									&img_world.line_length, &img_world.endian);
-	open_texture_files(map_data, mlx);
-	player = player_init(mlx, win);
+	player = player_init();
 	counting_player_coordinate(map_data->map, player, map_data->length_line);
 	map_data->img_world = img_world;
 	map_data->player = player;
 	player->map = map_data->map;
 	field_of_view_3d(player, map_data);
-	mlx_hook(win, 2, 1L << 0, game_play, map_data);
-	mlx_loop(mlx);
+	mlx_hook(map_data->win, 2, 1L << 0, game_play, map_data);
+	mlx_loop(map_data->mlx);
 	free_player(player);
 	return (0);
 }

@@ -23,6 +23,7 @@ int 	main(int ac, char **av)
 		return((int)write(1, "Error!\n", 6) - 6);
 	count_arg = 0;
 	map_data = map_data_init();
+	map_data->mlx = mlx_init();
 	while (get_next_line(fd, &line) > 0 && count_arg < 8)
 	{
 		ac = get_map_data(line, &map_data);
