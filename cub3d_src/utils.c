@@ -21,11 +21,6 @@ void	free_scene_descr(t_map_data *map_data)
 	free(map_data);
 }
 
-void	free_player(t_player *player)
-{
-	free(player);
-}
-
 void	exit_failure(char *error, t_map_data *map_data)
 {
 	write(1, "Error!\n", 7);

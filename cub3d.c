@@ -26,7 +26,7 @@ int 	main(int ac, char **av)
 	map_data->mlx = mlx_init();
 	while (get_next_line(fd, &line) > 0 && count_arg < 8)
 	{
-		ac = get_map_data(line, &map_data);
+		ac = get_map_data(line, map_data);
 		if (ac == -1)
 			exit_failure("Color should be from 0 to 255!", map_data);
 		else if (ac == -2)

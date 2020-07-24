@@ -59,7 +59,7 @@ typedef struct		s_map_data
 }					t_map_data;
 
 
-char				get_map_data(char *line, t_map_data **map_data);
+char				get_map_data(char *line, t_map_data *map_data);
 int 				engine(t_map_data *map_data);
 
 char				write_map(char fd, char *line, t_map_data *map_data);
