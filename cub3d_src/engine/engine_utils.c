@@ -21,11 +21,10 @@ char	check_wall(t_player *player, float step_x, float step_y, int length_line)
 	return (char)(map[coor_x + coor_y * length_line] != '1');
 }
 
-void	change_position(int key, t_player *player, t_map_data *map_data)
+void	change_position(int key, t_player *player, int l_line)
 {
 	const float	coss = cosf(player->pov);
 	const float	sinn = sinf(player->pov);
-	const int	l_line = map_data->length_line;
 
 	if (key == KEY_W && check_wall(player, -coss * 8, -sinn * 8, l_line))
 	{

@@ -33,7 +33,7 @@ void				player_coor_init(t_player *player, int pos_x, int pos_y, char direction)
 t_player			*player_init(void);
 
 void				counting_player_coordinate(char *map, t_player *player, int length_line);
-void				change_position(int key, t_player *player, t_map_data *map_data);
+void				change_position(int key, t_player *player, int l_line);
 void				change_pov(int key, t_player *player);
 void				print_map(void *win, t_xvar *mlx, char *map, t_player *player);
 void				field_of_view(t_player *player, int color);

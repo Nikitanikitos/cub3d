@@ -11,21 +11,11 @@
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include "engine.h"
 
-void	free_scene_descr(t_map_data *map_data)
-{
-	free(map_data->mlx);
-	if (map_data->map)
-		free(map_data->map);
-	free(map_data);
-}
-
-void	exit_failure(char *error, t_map_data *map_data)
+void	exit_failure(char *error)
 {
 	write(1, "Error!\n", 7);
 	write(1, error, ft_strlen(error));
 	write(1, "\n", 1);
-	free_scene_descr(map_data);
 	exit(EXIT_FAILURE);
 }

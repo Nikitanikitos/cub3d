@@ -60,11 +60,11 @@ typedef struct		s_map_data
 
 
 char				get_map_data(char *line, t_map_data *map_data);
-int 				engine(t_map_data *map_data);
+int 				engine(t_map_data map_data);
 
 char				write_map(char fd, char *line, t_map_data *map_data);
 
-void				exit_failure(char *error, t_map_data *map_data);
+void				exit_failure(char *error);
 void				free_scene_descr(t_map_data *map_data);
 
 t_map_data			*map_data_init(void);

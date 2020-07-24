@@ -13,18 +13,6 @@
 #include "cub3d.h"
 #include "engine.h"
 
-t_map_data	*map_data_init(void)
-{
-	t_map_data *map_data;
-
-	if (!(map_data = (t_map_data*)malloc(sizeof(t_map_data))))
-		return (NULL);
-	ft_bzero(map_data->resolution, 2);
-	map_data->map = NULL;
-	map_data->length_line = 0;
-	return (map_data);
-}
-
 void	player_coor_init(t_player *player, int pos_x, int pos_y, char direction)
 {
 	player->position_x = pos_x + 32;
