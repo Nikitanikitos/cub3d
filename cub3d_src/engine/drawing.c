@@ -15,29 +15,29 @@
 void	drawing_wall(t_map_data *map_data, int wall_y, int height, int wall_x, float x)
 {
 	const t_img_data	img_world = map_data->img_world;
-	const t_img_data	texture = map_data->texture;
-	const float 		step = 1.0f * (float)texture.img_height / (float)height;
-	const int 			coor_x = (int)(64 * x);
+	t_wall_texture		texture;
 	float 				tex_pos;
 	int					index;
 	int 				index_texture;
-	int 				coor_y;
 
+	texture = map_data->wall_texture;
+	texture.step = 1.0f * (float)texture.texture.img_height / (float)height;
+	texture.x = ((int)(64 * x)) * (texture.texture.bpp / 8);
 	wall_x *= img_world.bpp / 8;
-	tex_pos = (float)(wall_y - map_data->resolution[1] / 2 + height / 2) * step;
+	tex_pos = (float)(wall_y - map_data->resolution[1] / 2 + height / 2) * texture.step;
 	while (height-- > 0)
 	{
-		coor_y = (int)tex_pos & (texture.img_height - 1);
-		index_texture = coor_y * texture.line_length + coor_x * (texture.bpp / 8);
+		texture.y = (int)tex_pos & (texture.texture.img_height - 1);
+		index_texture = texture.y * texture.texture.line_length + texture.x;
 		index = (wall_y * img_world.line_length + wall_x);
 		if (index > 0 && index < img_world.line_length * map_data->resolution[1])
 		{
-			img_world.addr[index] = texture.addr[index_texture];
-			img_world.addr[index + 1] = texture.addr[index_texture + 1];
-			img_world.addr[index + 2] = texture.addr[index_texture + 2];
-			img_world.addr[index + 3] = texture.addr[index_texture + 3];
+			img_world.addr[index] = texture.texture.addr[index_texture];
+			img_world.addr[index + 1] = texture.texture.addr[index_texture + 1];
+			img_world.addr[index + 2] = texture.texture.addr[index_texture + 2];
+			img_world.addr[index + 3] = texture.texture.addr[index_texture + 3];
 		}
-		tex_pos += step;
+		tex_pos += texture.step;
 		wall_y++;
 	}
 }

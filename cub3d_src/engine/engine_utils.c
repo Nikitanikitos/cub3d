@@ -91,15 +91,15 @@ void	get_wall_texture(t_map_data *map_data, float ray_angle,
 	if (dist_to_wall_h > dist_to_wall_v)
 	{
 		if ((ray_angle < 2 / PI) || (ray_angle > 3 * PI / 2))
-			map_data->texture = map_data->textures[0];
+			map_data->wall_texture.texture = map_data->textures[0];
 		else
-			map_data->texture = map_data->textures[1];
+			map_data->wall_texture.texture = map_data->textures[1];
 	}
 	else
 	{
 		if (ray_angle > PI)
-			map_data->texture = map_data->textures[2];
+			map_data->wall_texture.texture = map_data->textures[2];
 		else
-			map_data->texture = map_data->textures[3];
+			map_data->wall_texture.texture = map_data->textures[3];
 	}
 }

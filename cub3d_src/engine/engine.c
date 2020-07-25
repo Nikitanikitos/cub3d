@@ -22,6 +22,8 @@ void	cast_ray_3d(t_map_data *map_data, t_player *player,
 	float			dist_to_wall;
 	float			x;
 
+	ray_angle += (ray_angle < 0) ? (float)(2 * PI) : 0;
+	ray_angle -= (ray_angle > (2 * PI)) ? (float)(2 * PI) : 0;
 	dist_to_wall_horizontal(*map_data, *player, ray_angle, &dist_to_wall_h);
 	dist_to_wall_vertical(*map_data, *player, ray_angle, &dist_to_wall_v);
 	if (dist_to_wall_h.distance > dist_to_wall_v.distance)
@@ -56,8 +58,6 @@ void	field_of_view_3d(t_player player, t_map_data map_data)
 	{
 		cast_ray_3d(&map_data, &player, ray_angle, wall_x);
 		ray_angle += step;
-		ray_angle += (ray_angle < 0) ? (float)(2 * PI) : 0;
-		ray_angle -= (ray_angle > (2 * PI)) ? (float)(2 * PI) : 0;
 		wall_x++;
 	}
 	mlx_put_image_to_window(map_data.mlx, map_data.win,

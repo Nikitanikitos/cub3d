@@ -40,6 +40,14 @@ typedef struct		s_dist_to_wall
 	int 			x;
 }					t_dist_to_wall;
 
+typedef struct		s_wall_texture
+{
+	t_img_data		texture;
+	float			step;
+	int 			x;
+	int 			y;
+}					t_wall_texture;
+
 typedef struct		s_player
 {
 	char			*map;
@@ -52,7 +60,7 @@ typedef struct		s_map_data
 {
 	t_img_data		textures[4];
 	t_img_data		sprite_texture;
-	t_img_data		texture;
+	t_wall_texture	wall_texture;
 	t_img_data 		img_world;
 	t_player		player;
 	void			*mlx;
