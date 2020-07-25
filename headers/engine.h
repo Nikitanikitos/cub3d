@@ -43,6 +43,8 @@ void				drawing_celling(t_map_data *map_data, int height, int wall_x);
 void				get_wall_texture(t_map_data *map_data, float ray_angle,
 									float dist_to_wall_h, float dist_to_wall_v);
 
+float				count_dist_to_wall(t_map_data *map_data, t_player *player,
+											float ray_angle, float *x);
 void				dist_to_wall_horizontal(t_map_data map_data, t_player player,
 											float ray_angle, t_dist_to_wall *distance);
 void				dist_to_wall_vertical(t_map_data map_data, t_player player,
