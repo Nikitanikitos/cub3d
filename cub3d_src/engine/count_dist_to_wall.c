@@ -13,8 +13,8 @@
 #include "cub3d.h"
 #include "engine.h"
 
-float	dist_to_wall_horizontal(t_map_data map_data,
-								t_player player, float ray_angle, int *x_h)
+void	dist_to_wall_horizontal(t_map_data map_data, t_player player,
+							float ray_angle, t_dist_to_wall *distance)
 {
 	const float			step_y = (ray_angle < PI) ? -64 : 64;
 	const float			step_x = -step_y * (-1 / tanf(ray_angle));
@@ -33,14 +33,14 @@ float	dist_to_wall_horizontal(t_map_data map_data,
 		x += step_x;
 		y += step_y;
 	}
-	*x_h = (int)x;
+	distance->x = (int)x;
 	x = player.position_x - x;
 	y = player.position_y - y;
-	return (sqrtf(x * x + y * y));
+	distance->distance = sqrtf(x * x + y * y);
 }
 
-float	dist_to_wall_vertical(t_map_data map_data,
-							t_player player, float ray_angle, int *x_v)
+void	dist_to_wall_vertical(t_map_data map_data, t_player player,
+							float ray_angle, t_dist_to_wall *distance)
 {
 	const int	length_line = map_data.length_line;
 	float		step_x;
@@ -60,8 +60,8 @@ float	dist_to_wall_vertical(t_map_data map_data,
 		x += step_x;
 		y += step_y;
 	}
-	*x_v = (int)y;
+	distance->x = (int)y;
 	x = (player.position_x - x);
 	y = (player.position_y - y);
-	return (sqrtf(x * x + y * y));
+	distance->distance = sqrtf(x * x + y * y);
 }

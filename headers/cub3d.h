@@ -31,9 +31,14 @@ typedef struct		s_img_data
 	int				line_length;
 	int				endian;
 	int 			img_width;
-//	int 			img_current_width;
 	int 			img_height;
 }					t_img_data;
+
+typedef struct		s_dist_to_wall
+{
+	float			distance;
+	int 			x;
+}					t_dist_to_wall;
 
 typedef struct		s_player
 {
