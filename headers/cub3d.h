@@ -31,6 +31,7 @@ typedef struct		s_img_data
 	int				line_length;
 	int				endian;
 	int 			img_width;
+//	int 			img_current_width;
 	int 			img_height;
 }					t_img_data;
 

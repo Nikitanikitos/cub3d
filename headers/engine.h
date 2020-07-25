@@ -40,11 +40,13 @@ void				drawing_floor(t_map_data *map_data, int height, int wall_x);
 void				drawing_wall(t_map_data *map_data, int wall_y, int height, int wall_x);
 void				drawing_celling(t_map_data *map_data, int height, int wall_x);
 
+void				drawing_wall_v2(t_map_data *map_data, int wall_y, int height, int wall_x, float x);
+
 void				get_wall_texture(t_map_data *map_data, float ray_angle,
 									float dist_to_wall_h, float dist_to_wall_v);
 
-float				dist_to_wall_horizontal(t_map_data map_data, t_player player, float ray_angle);
-float				dist_to_wall_vertical(t_map_data map_data, t_player player, float ray_angle);
+float				dist_to_wall_horizontal(t_map_data map_data, t_player player, float ray_angle, int *x_h);
+float				dist_to_wall_vertical(t_map_data map_data, t_player player, float ray_angle, int *x_v);
 
 
 #endif
