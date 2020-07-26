@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-unsigned short	copy_read_map(char *map, char *line, unsigned short i)
+unsigned short	copy_read_map(char *map, char *line, int i)
 {
 	static char	flag;
 
@@ -37,8 +37,8 @@ unsigned short	copy_read_map(char *map, char *line, unsigned short i)
 
 char			*read_map(char *line, char *map_temp, t_map_data *map_data)
 {
-	static unsigned short	i;
-	unsigned short			temp_length;
+	static int	i;
+	int			temp_length;
 
 	if (*line)
 	{
@@ -52,11 +52,11 @@ char			*read_map(char *line, char *map_temp, t_map_data *map_data)
 	return (map_temp);
 }
 
-char			*copy_write_map(char *map, char *map_temp, unsigned short length_line)
+char			*copy_write_map(char *map, char *map_temp, int length_line)
 {
-	unsigned short i;
-	unsigned short q;
-	unsigned short current_length_line;
+	int		i;
+	int		q;
+	int		current_length_line;
 
 	i = 0;
 	q = 0;
@@ -80,8 +80,8 @@ char			*copy_write_map(char *map, char *map_temp, unsigned short length_line)
 
 char			write_map(char fd, char *line, t_map_data *map_data)
 {
-	char			*map_temp;
-	unsigned short	count_line;
+	char	*map_temp;
+	int		count_line;
 
 	count_line = 0;
 	map_temp = NULL;
@@ -95,7 +95,8 @@ char			write_map(char fd, char *line, t_map_data *map_data)
 		count_line++;
 	}
 	free(line);
-	map_data->map = ft_calloc(sizeof(char), (map_data->length_line * count_line) + 1);
+	map_data->map = ft_calloc(sizeof(char),
+			(map_data->length_line * count_line) + 1);
 	map_data->map = copy_write_map(map_data->map, map_temp, map_data->length_line);
 	free(map_temp);
 	return (1);
