@@ -17,6 +17,7 @@
 
 # include "get_next_line.h"
 # include "libft.h"
+# include "libbmp.h"
 # include "mlx.h"
 # include "mlx_int.h"
 
@@ -69,7 +70,7 @@ typedef struct		s_map_data
 char				get_map_data(char *line, t_map_data *map_data);
 char				write_map(char fd, char *line, t_map_data *map_data);
 
-int 				engine(t_map_data map_data);
+int 				engine(t_map_data map_data, char *save);
 
 void				exit_failure(char *error);
 

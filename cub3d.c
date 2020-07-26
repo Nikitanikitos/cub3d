@@ -20,7 +20,7 @@ int 	main(int ac, char **av)
 	const char		fd = (char)open(av[1], O_RDONLY);
 
 	if (ac == 1)
-		return((int)write(1, "Error!\n", 6) - 6);
+		exit_failure("Error");
 	count_arg = 0;
 	map_data.mlx = mlx_init();
 	while (get_next_line(fd, &line) > 0 && count_arg < 8)
@@ -38,6 +38,6 @@ int 	main(int ac, char **av)
 		exit_failure("Not enough tools!");
 	else if (write_map(fd, line, &map_data) == 0)
 		exit_failure("Not valid map!");
-	engine(map_data);
+	engine(map_data, av[ac - 1]);
 	return (0);
 }

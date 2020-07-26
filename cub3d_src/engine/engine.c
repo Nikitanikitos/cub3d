@@ -58,7 +58,7 @@ int		game_play(int key, t_map_data *map_data)
 	return (0);
 }
 
-int		engine(t_map_data map_data)
+int		engine(t_map_data map_data, char *save)
 {
 	t_img_data	img_world;
 	t_player	player;
@@ -74,7 +74,13 @@ int		engine(t_map_data map_data)
 	map_data.img_world = img_world;
 	map_data.player = player;
 	field_of_view_3d(player, map_data);
-	mlx_hook(map_data.win, 2, 1L << 0, game_play, &map_data);
-	mlx_loop(map_data.mlx);
+	if (ft_strncmp(save, "--save", 6))
+		export_as_bmp("test.bmp", map_data.img_world.addr,
+				map_data.resolution[0], map_data.resolution[1]);
+	else
+	{
+		mlx_hook(map_data.win, 2, 1L << 0, game_play, &map_data);
+		mlx_loop(map_data.mlx);
+	}
 	return (0);
 }

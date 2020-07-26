@@ -24,7 +24,7 @@ void	drawing_wall(t_map_data *map_data, int wall_y, int height, int wall_x)
 	texture.step = 1.0f * (float)texture.texture.img_height / (float)height;
 	texture.x *= (texture.texture.bpp / 8);
 	wall_x *= img_world.bpp / 8;
-	tex_pos = (float)(wall_y - map_data->resolution[1] / 2 + height / 2) * texture.step;
+	tex_pos = (wall_y - map_data->resolution[1] / 2 + height / 2) * texture.step;
 	while (height-- > 0)
 	{
 		texture.y = (int)tex_pos & (texture.texture.img_height - 1);
