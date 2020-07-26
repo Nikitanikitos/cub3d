@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
 #include "engine.h"
 
 void	cast_ray_3d(t_map_data *map_data, t_player *player,
@@ -21,11 +20,12 @@ void	cast_ray_3d(t_map_data *map_data, t_player *player,
 	float			x;
 
 	dist_to_wall = count_dist_to_wall(map_data, player, ray_angle, &x);
-	height = (64 / dist_to_wall * ((float)map_data->resolution[0] /
-										2 / tanf(FOV_RAD / 2)));
+	map_data->wall_texture.x = ((int)(64 * x));
+	height = 64 / dist_to_wall * ((float)map_data->resolution[0] /
+									2 / tanf(FOV_RAD / 2));
 	dist_to_wall = (float)map_data->resolution[1] / 2 - height / 2;
 	drawing_floor(map_data, (int)dist_to_wall, wall_x);
-	drawing_wall(map_data, (int)dist_to_wall, (int)height, wall_x, x);
+	drawing_wall(map_data, (int)dist_to_wall, (int)height, wall_x);
 	drawing_celling(map_data, (int)(dist_to_wall + height), wall_x);
 }
 

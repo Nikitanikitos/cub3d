@@ -12,7 +12,7 @@
 
 #include "engine.h"
 
-void	drawing_wall(t_map_data *map_data, int wall_y, int height, int wall_x, float x)
+void	drawing_wall(t_map_data *map_data, int wall_y, int height, int wall_x)
 {
 	const t_img_data	img_world = map_data->img_world;
 	t_wall_texture		texture;
@@ -22,7 +22,7 @@ void	drawing_wall(t_map_data *map_data, int wall_y, int height, int wall_x, floa
 
 	texture = map_data->wall_texture;
 	texture.step = 1.0f * (float)texture.texture.img_height / (float)height;
-	texture.x = ((int)(64 * x)) * (texture.texture.bpp / 8);
+	texture.x *= (texture.texture.bpp / 8);
 	wall_x *= img_world.bpp / 8;
 	tex_pos = (float)(wall_y - map_data->resolution[1] / 2 + height / 2) * texture.step;
 	while (height-- > 0)

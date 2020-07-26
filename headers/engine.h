@@ -28,27 +28,27 @@
 # define KEY_Q			113
 # define KEY_E			101
 
-void				player_coor_init(t_player *player, int pos_x, int pos_y, char direction);
+typedef struct	s_dist_to_wall
+{
+	float		distance;
+	int 		x;
+}				t_dist_to_wall;
 
-void				counting_player_coordinate(char *map, t_player *player, int length_line);
-void				change_position(int key, t_player *player, int l_line);
-void				change_pov(int key, t_player *player);
-void				print_map(void *win, t_xvar *mlx, char *map, t_player *player);
-void				field_of_view(t_player *player, int color);
 
-void				drawing_floor(t_map_data *map_data, int height, int wall_x);
-void				drawing_wall(t_map_data *map_data, int wall_y, int height, int wall_x, float x);
-void				drawing_celling(t_map_data *map_data, int height, int wall_x);
+void			player_coor_init(t_player *player, int pos_x, int pos_y, char direction);
 
-void				get_wall_texture(t_map_data *map_data, float ray_angle,
-									float dist_to_wall_h, float dist_to_wall_v);
+void			counting_player_coordinate(char *map, t_player *player, int length_line);
+void			change_position(int key, t_player *player, int l_line);
+void			change_pov(int key, t_player *player);
+void			print_map(void *win, t_xvar *mlx, char *map, t_player *player);
+void			field_of_view(t_player *player, int color);
 
-float				count_dist_to_wall(t_map_data *map_data, t_player *player,
-											float ray_angle, float *x);
-void				dist_to_wall_horizontal(t_map_data map_data, t_player player,
-											float ray_angle, t_dist_to_wall *distance);
-void				dist_to_wall_vertical(t_map_data map_data, t_player player,
-											float ray_angle, t_dist_to_wall *distance);
+void			drawing_floor(t_map_data *map_data, int height, int wall_x);
+void			drawing_wall(t_map_data *map_data, int wall_y, int height, int wall_x);
+void			drawing_celling(t_map_data *map_data, int height, int wall_x);
 
+void			get_wall_texture(t_map_data *map_data, float ray_angle, float dist_to_wall_h, float dist_to_wall_v);
+
+float			count_dist_to_wall(t_map_data *map_data, t_player *player, float ray_angle, float *x);
 
 #endif

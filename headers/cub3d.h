@@ -34,12 +34,6 @@ typedef struct		s_img_data
 	int 			img_height;
 }					t_img_data;
 
-typedef struct		s_dist_to_wall
-{
-	float			distance;
-	int 			x;
-}					t_dist_to_wall;
-
 typedef struct		s_wall_texture
 {
 	t_img_data		texture;
@@ -72,15 +66,11 @@ typedef struct		s_map_data
 	char			celling_color[3];
 }					t_map_data;
 
-
 char				get_map_data(char *line, t_map_data *map_data);
-int 				engine(t_map_data map_data);
-
 char				write_map(char fd, char *line, t_map_data *map_data);
 
-void				exit_failure(char *error);
-void				free_scene_descr(t_map_data *map_data);
+int 				engine(t_map_data map_data);
 
-t_map_data			*map_data_init(void);
+void				exit_failure(char *error);
 
 # endif

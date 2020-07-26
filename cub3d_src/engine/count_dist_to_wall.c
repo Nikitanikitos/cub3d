@@ -10,33 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
 #include "engine.h"
-
-float	count_dist_to_wall(t_map_data *map_data, t_player *player,
-						float ray_angle, float *x)
-{
-	t_dist_to_wall	dist_to_wall_h;
-	t_dist_to_wall	dist_to_wall_v;
-	float			dist_to_wall;
-
-	ray_angle += (ray_angle < 0) ? (float)(2 * PI) : 0;
-	ray_angle -= (ray_angle > (2 * PI)) ? (float)(2 * PI) : 0;
-	dist_to_wall_horizontal(*map_data, *player, ray_angle, &dist_to_wall_h);
-	dist_to_wall_vertical(*map_data, *player, ray_angle, &dist_to_wall_v);
-	if (dist_to_wall_h.distance > dist_to_wall_v.distance)
-	{
-		*x = modff((float)dist_to_wall_v.x / 64, &dist_to_wall);
-		dist_to_wall = dist_to_wall_v.distance * cosf(player->pov - ray_angle);
-	}
-	else
-	{
-		*x = modff((float)dist_to_wall_h.x / 64, &dist_to_wall);
-		dist_to_wall = dist_to_wall_h.distance * cosf(player->pov - ray_angle);
-	}
-	get_wall_texture(map_data, ray_angle, dist_to_wall_h.distance, dist_to_wall_v.distance);
-	return (dist_to_wall);
-}
 
 void	dist_to_wall_horizontal(t_map_data map_data, t_player player,
 							float ray_angle, t_dist_to_wall *distance)
@@ -89,4 +63,29 @@ void	dist_to_wall_vertical(t_map_data map_data, t_player player,
 	x = (player.position_x - x);
 	y = (player.position_y - y);
 	distance->distance = sqrtf(x * x + y * y);
+}
+
+float	count_dist_to_wall(t_map_data *map_data, t_player *player,
+							float ray_angle, float *x)
+{
+	t_dist_to_wall	dist_to_wall_h;
+	t_dist_to_wall	dist_to_wall_v;
+	float			dist_to_wall;
+
+	ray_angle += (ray_angle < 0) ? (float)(2 * PI) : 0;
+	ray_angle -= (ray_angle > (2 * PI)) ? (float)(2 * PI) : 0;
+	dist_to_wall_horizontal(*map_data, *player, ray_angle, &dist_to_wall_h);
+	dist_to_wall_vertical(*map_data, *player, ray_angle, &dist_to_wall_v);
+	if (dist_to_wall_h.distance > dist_to_wall_v.distance)
+	{
+		*x = modff((float)dist_to_wall_v.x / 64, &dist_to_wall);
+		dist_to_wall = dist_to_wall_v.distance * cosf(player->pov - ray_angle);
+	}
+	else
+	{
+		*x = modff((float)dist_to_wall_h.x / 64, &dist_to_wall);
+		dist_to_wall = dist_to_wall_h.distance * cosf(player->pov - ray_angle);
+	}
+	get_wall_texture(map_data, ray_angle, dist_to_wall_h.distance, dist_to_wall_v.distance);
+	return (dist_to_wall);
 }
