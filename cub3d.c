@@ -27,7 +27,7 @@ char	read_data_file(char *filename, t_map_data *map_data, char **line)
 		else if (result == -2)
 			exit_failure("Resolution should be from 100");
 		else if (result == -3)
-			exit_failure("Error texture path");
+			exit_failure("Error textures path");
 		count_arg += result;
 	}
 	if (count_arg != 8)
