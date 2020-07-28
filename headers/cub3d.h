@@ -43,34 +43,63 @@ typedef struct		s_wall_texture
 	int 			y;
 }					t_wall_texture;
 
-typedef struct		s_player
+typedef struct		s_map
 {
 	char			*map;
+	int				length_line;
+}					t_map;
+
+typedef struct		s_player
+{
+	t_map			map;
 	float			position_x;
 	float			position_y;
 	float			pov;
 }					t_player;
 
-typedef struct		s_map_data
+typedef struct		s_screen
+{
+	void			*mlx;
+	void 			*win;
+	t_img_data 		img_world;
+	int 			resolution[2];
+}					t_screen;
+
+typedef struct		s_game_info
 {
 	t_img_data		textures[4];
 	t_img_data		sprite_texture;
-	t_wall_texture	wall_texture;
-	t_img_data 		img_world;
-	t_player		player;
-	void			*mlx;
-	void 			*win;
-	char			*map;
-	int 			resolution[2];
-	int				length_line;
+	t_map			map;
 	char			floor_color[3];
 	char			celling_color[3];
-}					t_map_data;
+}					t_game_info;
 
-char				get_map_data(char *line, t_map_data *map_data);
-char				write_map(char fd, char *line, t_map_data *map_data);
+typedef	struct		s_generic
+{
+	t_game_info		game_info;
+	t_screen		screen;
+	t_player		player;
+	t_wall_texture	wall_texture;
+}					t_generic;
 
-int 				engine(t_map_data map_data, char *save);
+//typedef struct		s_map_data
+//{
+//	t_img_data		textures[4];
+//	t_img_data		sprite_texture;
+//	t_wall_texture	wall_texture;
+//	t_img_data 		img_world;
+//	t_player		player;
+//	char			*map;
+//	int				length_line;
+//	char			floor_color[3];
+//	char			celling_color[3];
+//}					t_map_data;
+
+char				get_map_data(char *line, t_game_info *game_info, t_screen *screen);
+char				write_map(char fd, char *line, t_map *map);
+
+int					engine(t_game_info game_info, t_screen screen, char *save);
+
 
 void				exit_failure(char *error);
 

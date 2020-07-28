@@ -35,7 +35,7 @@ unsigned short	copy_read_map(char *map, char *line, int i)
 	return (i);
 }
 
-char			*read_map(char *line, char *map_temp, t_map_data *map_data)
+char			*read_map(char *line, char *map_temp, t_map *map)
 {
 	static int	i;
 	int			temp_length;
@@ -43,8 +43,8 @@ char			*read_map(char *line, char *map_temp, t_map_data *map_data)
 	if (*line)
 	{
 		temp_length = ft_strlen(line);
-		if (temp_length > map_data->length_line)
-			map_data->length_line = temp_length;
+		if (temp_length > map->length_line)
+			map->length_line = temp_length;
 		map_temp = ft_realloc(map_temp, (int)temp_length + 2);
 		if ((i = copy_read_map(map_temp, line, i)) == 0)
 			return (NULL);
@@ -78,7 +78,7 @@ char			*copy_write_map(char *map, char *map_temp, int length_line)
 	return (map);
 }
 
-char			write_map(char fd, char *line, t_map_data *map_data)
+char			write_map(char fd, char *line, t_map *map)
 {
 	char	*map_temp;
 	int		count_line;
@@ -88,16 +88,16 @@ char			write_map(char fd, char *line, t_map_data *map_data)
 	free(line);
 	while (get_next_line(fd, &line) > 0)
 	{
-		map_temp = read_map(line, map_temp, map_data);
+		map_temp = read_map(line, map_temp, map);
 		free(line);
 		if (map_temp == NULL)
 			return (0);
 		count_line++;
 	}
 	free(line);
-	map_data->map = ft_calloc(sizeof(char),
-			(map_data->length_line * count_line) + 1);
-	map_data->map = copy_write_map(map_data->map, map_temp, map_data->length_line);
+	map->map = ft_calloc(sizeof(char),
+			(map->length_line * count_line) + 1);
+	map->map = copy_write_map(map->map, map_temp, map->length_line);
 	free(map_temp);
 	return (1);
 }

@@ -63,27 +63,27 @@ char	get_color(char *line, char color[3])
 	return (1);
 }
 
-char 	get_map_data(char *line, t_map_data *map_data)
+char 	get_map_data(char *line, t_game_info *game_info, t_screen *screen)
 {
 	char	result;
 
 	result = 0;
 	if (line[0] == 'N' && line[1] == 'O')
-		result = get_texture(line + 2, &(map_data)->textures[0], map_data->mlx);
+		result = get_texture(line + 2, &(game_info)->textures[0], screen->mlx);
 	else if (line[0] == 'S' && line[1] == 'O')
-		result = get_texture(line + 2, &(map_data)->textures[1], map_data->mlx);
+		result = get_texture(line + 2, &(game_info)->textures[1], screen->mlx);
 	else if (line[0] == 'W' && line[1] == 'E')
-		result = get_texture(line + 2, &(map_data)->textures[2], map_data->mlx);
+		result = get_texture(line + 2, &(game_info)->textures[2], screen->mlx);
 	else if (line[0] == 'E' && line[1] == 'A')
-		result = get_texture(line + 2, &(map_data)->textures[3], map_data->mlx);
+		result = get_texture(line + 2, &(game_info)->textures[3], screen->mlx);
 	else if (*line == 'S')
-		result = get_texture(line + 2, &(map_data)->sprite_texture, map_data->mlx);
+		result = get_texture(line + 2, &(game_info)->sprite_texture, screen->mlx);
 	else if (*line == 'R')
-		result = get_resolution(line, map_data->resolution);
+		result = get_resolution(line, screen->resolution);
 	else if (*line == 'F')
-		result = get_color(line, map_data->floor_color);
+		result = get_color(line, game_info->floor_color);
 	else if (*line == 'C')
-		result = get_color(line, map_data->celling_color);
+		result = get_color(line, game_info->celling_color);
 	free(line);
 	return (result);
 }

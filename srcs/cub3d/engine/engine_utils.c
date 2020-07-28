@@ -12,36 +12,36 @@
 
 #include "engine.h"
 
-char	check_wall(t_player *player, float step_x, float step_y, int length_line)
+char	check_wall(t_player *player, float step_x, float step_y)
 {
 	const int	coor_x = (int)((player->position_x + step_x) / 64);
 	const int	coor_y = (int)((player->position_y + step_y) / 64);
-	char		*map = player->map;
+	t_map		map = player->map;
 
-	return (char)(map[coor_x + coor_y * length_line] != '1');
+	return (char)(map.map[coor_x + coor_y * map.length_line] != '1');
 }
 
-void	change_position(int key, t_player *player, int l_line)
+void	change_position(int key, t_player *player)
 {
 	const float	coss = cosf(player->pov);
 	const float	sinn = sinf(player->pov);
 
-	if (key == KEY_W && check_wall(player, -coss * 8, -sinn * 8, l_line))
+	if (key == KEY_W && check_wall(player, -coss * 8, -sinn * 8))
 	{
 		player->position_x -= coss * 4;
 		player->position_y -= sinn * 4;
 	}
-	else if (key == KEY_S && check_wall(player, coss * 8, sinn * 8, l_line))
+	else if (key == KEY_S && check_wall(player, coss * 8, sinn * 8))
 	{
 		player->position_x += coss * 4;
 		player->position_y += sinn * 4;
 	}
-	else if (key == KEY_D && check_wall(player, sinn * 8, -coss * 8, l_line))
+	else if (key == KEY_D && check_wall(player, sinn * 8, -coss * 8))
 	{
 		player->position_x += sinn * 4;
 		player->position_y -= coss * 4;
 	}
-	else if (key == KEY_A && check_wall(player, -sinn * 8, coss * 8, l_line))
+	else if (key == KEY_A && check_wall(player, -sinn * 8, coss * 8))
 	{
 		player->position_x -= sinn * 4;
 		player->position_y += coss * 4;
@@ -60,20 +60,23 @@ void	change_pov(int key, t_player *player)
 		player->pov += (float)(2 * PI);
 }
 
-void	counting_player_coordinate(char *map, t_player *player, int length_line)
+void	counting_player_coordinate(t_player *player, t_map map)
 {
-	int	count_line;
-	int	x;
-	int	y;
+	int		count_line;
+	int		x;
+	int		y;
 
 	y = 0;
 	x = 0;
 	count_line = 0;
-	while (*map)
+	while (map.map)
 	{
-		if (ft_strchr(PLAYER_POS, *map))
-			player_coor_init(player, x, y, *map);
-		if (++count_line == length_line)
+		if (ft_strchr(PLAYER_POS, *map.map))
+		{
+			player_coor_init(player, x, y, *map.map);
+			break ;
+		}
+		if (++count_line == map.length_line)
 		{
 			y += 64;
 			x = 0;
@@ -81,25 +84,25 @@ void	counting_player_coordinate(char *map, t_player *player, int length_line)
 		}
 		else
 			x += 64;
-		map++;
+		map.map++;
 	}
 }
 
-void	get_wall_texture(t_map_data *map_data, float ray_angle,
+void	get_wall_texture(t_generic *generic, float ray_angle,
 								  float dist_to_wall_h, float dist_to_wall_v)
 {
 	if (dist_to_wall_h > dist_to_wall_v)
 	{
 		if ((ray_angle < 2 / PI) || (ray_angle > 3 * PI / 2))
-			map_data->wall_texture.texture = map_data->textures[0];
+			generic->wall_texture.texture = generic->game_info.textures[0];
 		else
-			map_data->wall_texture.texture = map_data->textures[1];
+			generic->wall_texture.texture = generic->game_info.textures[1];
 	}
 	else
 	{
 		if (ray_angle > PI)
-			map_data->wall_texture.texture = map_data->textures[2];
+			generic->wall_texture.texture = generic->game_info.textures[2];
 		else
-			map_data->wall_texture.texture = map_data->textures[3];
+			generic->wall_texture.texture = generic->game_info.textures[3];
 	}
 }

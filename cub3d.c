@@ -12,16 +12,16 @@
 
 #include "cub3d.h"
 
-char	read_data_file(char *filename, t_map_data *map_data, char **line)
+char	*read_data_file(int fd, t_game_info *game_info, t_screen *screen)
 {
-	const char		fd = (char)open(filename, O_RDONLY);
+	char 			*line;
 	char			count_arg;
 	char 			result;
 
 	count_arg = 0;
-	while (get_next_line(fd, line) > 0 && count_arg < 8)
+	while (get_next_line(fd, &line) > 0 && count_arg < 8)
 	{
-		result = get_map_data(*line, map_data);
+		result = get_map_data(line, game_info, screen);
 		if (result == -1)
 			exit_failure("Color should be from 0 to 255!");
 		else if (result == -2)
@@ -32,21 +32,22 @@ char	read_data_file(char *filename, t_map_data *map_data, char **line)
 	}
 	if (count_arg != 8)
 		exit_failure("Not enough tools!");
-	return (fd);
+	return (line);
 }
 
 int 	main(int ac, char **av)
 {
+	const char		fd  = (char)open(av[1], O_RDONLY);
 	char			*line;
-	t_map_data		map_data;
-	char			fd;
+	t_game_info		game_info;
+	t_screen		screen;
 
 	if (ac == 1)
 		exit_failure("Error");
-	map_data.mlx = mlx_init();
-	fd = read_data_file(av[1], &map_data, &line);
-	if (write_map(fd, line, &map_data) == 0)
+	screen.mlx = mlx_init();
+	line = read_data_file(fd, &game_info, &screen);
+	if (write_map(fd, line, &game_info.map) == 0)
 		exit_failure("Not valid map!");
-	engine(map_data, av[ac - 1]);
+	engine(game_info, screen, av[ac - 1]);
 	return (0);
 }
