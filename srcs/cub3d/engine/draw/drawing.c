@@ -29,7 +29,7 @@ void	drawing_wall(t_map_data *map_data, int wall_y, int height, int wall_x)
 	{
 		texture.y = (int)tex_pos & (texture.texture.img_height - 1);
 		index_texture = texture.y * texture.texture.line_length + texture.x;
-		index = (wall_y * img_world.line_length + wall_x);
+		index = wall_y * img_world.line_length + wall_x;
 		if (index > 0 && index < img_world.line_length * map_data->resolution[1])
 		{
 			img_world.addr[index] = texture.texture.addr[index_texture];

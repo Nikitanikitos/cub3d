@@ -60,6 +60,8 @@ void	dist_to_wall_vertical(t_map_data map_data, t_player player,
 		y += step_y;
 	}
 	distance->x = (int)y;
+	if (distance->x < 0)
+		distance->x = 0;
 	x = (player.position_x - x);
 	y = (player.position_y - y);
 	distance->distance = sqrtf(x * x + y * y);
@@ -79,6 +81,8 @@ float	count_dist_to_wall(t_map_data *map_data, t_player *player,
 	if (dist_to_wall_h.distance > dist_to_wall_v.distance)
 	{
 		*x = modff((float)dist_to_wall_v.x / 64, &dist_to_wall);
+		if (*x < 0)
+			printf("12");
 		dist_to_wall = dist_to_wall_v.distance * cosf(player->pov - ray_angle);
 	}
 	else

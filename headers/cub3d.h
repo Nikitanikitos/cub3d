@@ -17,7 +17,7 @@
 
 # include "get_next_line.h"
 # include "libft.h"
-# include "libbmp.h"
+# include "bmp.h"
 # include "mlx.h"
 # include "mlx_int.h"
 

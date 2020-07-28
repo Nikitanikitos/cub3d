@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 # include "cub3d.h"
-# include "bmp.h"
 
 t_bitmap_file_header	file_header_init(int file_size)
 {
@@ -60,7 +59,7 @@ void 					pixel_put(FILE *image, int image_size, char *data)
 	}
 }
 
-void					save_bmp(const char *filename, int width, int height, char *data)
+void					save_bmp(int width, int height, char *data)
 {
 	FILE					*image;
 	t_bitmap_file_header	bmp_file_header;
@@ -70,7 +69,7 @@ void					save_bmp(const char *filename, int width, int height, char *data)
 
 	bmp_file_header = file_header_init(file_size);
 	bmp_image_header = image_header_init(width, height, file_size);
-	image = fopen(filename, "wb");
+	image = fopen("Cub3D.bmp", "wb");
 	fwrite(&bmp_file_header, 1, 14, image);
 	fwrite(&bmp_image_header, 1, sizeof(bmp_image_header), image);
 	pixel_put(image, image_size * 4, data);

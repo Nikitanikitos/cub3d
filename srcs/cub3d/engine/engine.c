@@ -74,9 +74,9 @@ int		engine(t_map_data map_data, char *save)
 	map_data.img_world = img_world;
 	map_data.player = player;
 	field_of_view_3d(player, map_data);
-	if (ft_strncmp(save, "--save", 6))
-		export_as_bmp("test.bmp", map_data.img_world.addr,
-				map_data.resolution[0], map_data.resolution[1]);
+	if (!ft_strncmp(save, "--save", 6))
+		save_bmp(map_data.resolution[0], map_data.resolution[1],
+					map_data.img_world.addr);
 	else
 	{
 		mlx_hook(map_data.win, 2, 1L << 0, game_play, &map_data);
