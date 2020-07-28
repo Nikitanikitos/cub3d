@@ -45,20 +45,19 @@ void	drawing_wall(t_generic *generic, int wall_y, int height, int wall_x)
 void	drawing_floor(t_generic *generic, int height, int wall_x)
 {
 	const t_img_data	img = generic->screen.img_world;
-	char 				*floor_color;
+	const t_color		floor_color = generic->game_info.floor_color;
 	int					y;
 	int					index;
 
 	y = 0;
 	wall_x *= (img.bpp / 8);
-	floor_color = generic->game_info.floor_color;
 	while (y < height)
 	{
 		index = (y * img.line_length + wall_x);
-		img.addr[index] = 0;
-		img.addr[index + 1] = floor_color[0];
-		img.addr[index + 2] = floor_color[1];
-		img.addr[index + 3] = floor_color[2];
+		img.addr[index + 3] = 0;
+		img.addr[index + 2] = (char)floor_color.r;
+		img.addr[index + 1] = (char)floor_color.g;
+		img.addr[index] = (char)floor_color.b;
 		y++;
 	}
 }
@@ -66,18 +65,17 @@ void	drawing_floor(t_generic *generic, int height, int wall_x)
 void	drawing_celling(t_generic *generic, int wall_y, int wall_x)
 {
 	const t_img_data	img = generic->screen.img_world;
-	char 				*celling_color;
+	const t_color 		celling_color = generic->game_info.celling_color;
 	int					index;
 
 	wall_x *= (img.bpp / 8);
-	celling_color = generic->game_info.celling_color;
 	while (wall_y < generic->screen.resolution[1])
 	{
 		index = (wall_y * img.line_length + wall_x);
-		img.addr[index] = 0;
-		img.addr[index + 1] = celling_color[0];
-		img.addr[index + 2] = celling_color[1];
-		img.addr[index + 3] = celling_color[2];
+		img.addr[index] = (char)celling_color.b;
+		img.addr[index + 1] = (char)celling_color.g;
+		img.addr[index + 2] = (char)celling_color.r;
+		img.addr[index + 3] = 0;
 		wall_y++;
 	}
 }

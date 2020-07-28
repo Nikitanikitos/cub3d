@@ -24,6 +24,13 @@
 # define MAP_CHAR	" 012NSEW"
 # define PLAYER_POS	"NSEW"
 
+typedef struct		s_color
+{
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
+}					t_color;
+
 typedef struct		s_img_data
 {
 	void			*img;
@@ -70,8 +77,8 @@ typedef struct		s_game_info
 	t_img_data		textures[4];
 	t_img_data		sprite_texture;
 	t_map			map;
-	char			floor_color[3];
-	char			celling_color[3];
+	t_color			floor_color;
+	t_color			celling_color;
 }					t_game_info;
 
 typedef	struct		s_generic

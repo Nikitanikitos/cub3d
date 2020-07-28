@@ -35,11 +35,12 @@ char	get_resolution(char *line, int resolution[2])
 	return (1);
 }
 
-char	get_color(char *line, char color[3])
+char	get_color(char *line, t_color *rgb)
 {
-	int 	color_value;
-	int 	flag;
-	int 	q;
+	int 			color_value;
+	int 			flag;
+	int 			q;
+	unsigned char	color[3];
 
 	q = 0;
 	while (*line)
@@ -49,10 +50,7 @@ char	get_color(char *line, char color[3])
 			color_value = ft_atoi(line);
 			flag = 0;
 			if (0 <= color_value && color_value <= 255)
-			{
-				color[q] = (char)color_value;
-				q++;
-			}
+				color[q++] = (unsigned char)color_value;
 			else
 				return (-1);
 		}
@@ -60,6 +58,9 @@ char	get_color(char *line, char color[3])
 			flag = 1;
 		line++;
 	}
+	rgb->r = color[0];
+	rgb->g = color[1];
+	rgb->b = color[2];
 	return (1);
 }
 
@@ -81,9 +82,9 @@ char 	get_map_data(char *line, t_game_info *game_info, t_screen *screen)
 	else if (*line == 'R')
 		result = get_resolution(line, screen->resolution);
 	else if (*line == 'F')
-		result = get_color(line, game_info->floor_color);
+		result = get_color(line, &game_info->floor_color);
 	else if (*line == 'C')
-		result = get_color(line, game_info->celling_color);
+		result = get_color(line, &game_info->celling_color);
 	free(line);
 	return (result);
 }
