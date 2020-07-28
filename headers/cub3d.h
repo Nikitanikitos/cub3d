@@ -82,19 +82,6 @@ typedef	struct		s_generic
 	t_wall_texture	wall_texture;
 }					t_generic;
 
-//typedef struct		s_map_data
-//{
-//	t_img_data		textures[4];
-//	t_img_data		sprite_texture;
-//	t_wall_texture	wall_texture;
-//	t_img_data 		img_world;
-//	t_player		player;
-//	char			*map;
-//	int				length_line;
-//	char			floor_color[3];
-//	char			celling_color[3];
-//}					t_map_data;
-
 char				get_map_data(char *line, t_game_info *game_info, t_screen *screen);
 char				write_map(char fd, char *line, t_map *map);
 

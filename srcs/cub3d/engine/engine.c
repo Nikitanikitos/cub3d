@@ -61,21 +61,10 @@ int		game_play(int key, t_generic *generic)
 int		engine(t_game_info game_info, t_screen screen, char *save)
 {
 	t_generic	generic;
-	t_img_data	img_world;
 	t_player	player;
 
-	screen.win = mlx_new_window(screen.mlx, screen.resolution[0],
-								  screen.resolution[1], "Cub3D");
-	img_world.img = mlx_new_image(screen.mlx, screen.resolution[0],
-								  screen.resolution[1]);
-	img_world.addr = mlx_get_data_addr(img_world.img, &img_world.bpp,
-									&img_world.line_length, &img_world.endian);
-	player.map = game_info.map;
-	counting_player_coordinate(&player, player.map);
-	screen.img_world = img_world;
-	generic.player = player;
-	generic.screen = screen;
-	generic.game_info = game_info;
+	player_init(&player, game_info.map);
+	generic = generic_init(&screen, &player, &game_info);
 	field_of_view_3d(&generic, player, screen);
 	if (!ft_strncmp(save, "--save", 6))
 		save_bmp(screen.resolution[0], screen.resolution[1],

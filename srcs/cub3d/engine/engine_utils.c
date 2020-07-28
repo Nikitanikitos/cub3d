@@ -60,34 +60,6 @@ void	change_pov(int key, t_player *player)
 		player->pov += (float)(2 * PI);
 }
 
-void	counting_player_coordinate(t_player *player, t_map map)
-{
-	int		count_line;
-	int		x;
-	int		y;
-
-	y = 0;
-	x = 0;
-	count_line = 0;
-	while (map.map)
-	{
-		if (ft_strchr(PLAYER_POS, *map.map))
-		{
-			player_coor_init(player, x, y, *map.map);
-			break ;
-		}
-		if (++count_line == map.length_line)
-		{
-			y += 64;
-			x = 0;
-			count_line = 0;
-		}
-		else
-			x += 64;
-		map.map++;
-	}
-}
-
 void	get_wall_texture(t_generic *generic, float ray_angle,
 								  float dist_to_wall_h, float dist_to_wall_v)
 {

@@ -34,10 +34,10 @@ typedef struct	s_dist_to_wall
 	int 		x;
 }				t_dist_to_wall;
 
+void			player_init(t_player *player, t_map map);
+t_generic		generic_init(t_screen *screen, t_player *player,
+						  t_game_info *game_info);
 
-void			player_coor_init(t_player *player, int pos_x, int pos_y, char direction);
-
-void			counting_player_coordinate(t_player *player, t_map map);
 void			change_position(int key, t_player *player);
 void			change_pov(int key, t_player *player);
 void			print_map(void *win, t_xvar *mlx, char *map, t_player *player);
