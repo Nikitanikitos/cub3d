@@ -54,10 +54,10 @@ void	drawing_floor(t_generic *generic, int height, int wall_x)
 	while (y < height)
 	{
 		index = (y * img.line_length + wall_x);
-		img.addr[index + 3] = 0;
-		img.addr[index + 2] = (char)floor_color.r;
-		img.addr[index + 1] = (char)floor_color.g;
 		img.addr[index] = (char)floor_color.b;
+		img.addr[index + 1] = (char)floor_color.g;
+		img.addr[index + 2] = (char)floor_color.r;
+		img.addr[index + 3] = 0;
 		y++;
 	}
 }

@@ -33,7 +33,7 @@ t_bitmap_image_header	image_header_init(int width, int height, int file_size)
 	bmp_image_header.width = width;
 	bmp_image_header.height = height;
 	bmp_image_header.planes = 1;
-	bmp_image_header.bit_count = 24;
+	bmp_image_header.bit_count = 32;
 	bmp_image_header.compression = 0;
 	bmp_image_header.image_size = file_size;
 	bmp_image_header.ppm_x = 3780;
@@ -43,25 +43,26 @@ t_bitmap_image_header	image_header_init(int width, int height, int file_size)
 	return (bmp_image_header);
 }
 
-void 					pixel_put(FILE *image, int image_size, char *data)
+void 					pixel_put(int fd, int image_size, char *data)
 {
-	char	color[3];
+	char	color[4];
 	int 	i;
 
 	i = 0;
 	while (i < image_size)
 	{
-		color[0] = data[i + 1];
-		color[1] = data[i + 2];
-		color[2] = data[i + 3];
-		fwrite(color, 1, sizeof(color), image);
+		color[0] = data[i];
+		color[1] = data[i + 1];
+		color[2] = data[i + 2];
+		color[3] = data[i + 3];
+		write(fd, color, sizeof(color));
 		i += 4;
 	}
 }
 
 void					save_bmp(int width, int height, char *data)
 {
-	FILE					*image;
+	int						fd;
 	t_bitmap_file_header	bmp_file_header;
 	t_bitmap_image_header	bmp_image_header;
 	const int				image_size = width * height;
@@ -69,9 +70,9 @@ void					save_bmp(int width, int height, char *data)
 
 	bmp_file_header = file_header_init(file_size);
 	bmp_image_header = image_header_init(width, height, file_size);
-	image = fopen("Cub3D.bmp", "wb");
-	fwrite(&bmp_file_header, 1, 14, image);
-	fwrite(&bmp_image_header, 1, sizeof(bmp_image_header), image);
-	pixel_put(image, image_size * 4, data);
-	fclose(image);
+	fd = open("Cub3D.bmp", O_WRONLY);
+	write(fd, &bmp_file_header, 14);
+	write(fd, &bmp_image_header, sizeof(bmp_image_header));
+	pixel_put(fd, image_size * 4, data);
+	close(fd);
 }

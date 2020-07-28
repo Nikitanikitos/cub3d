@@ -94,7 +94,6 @@ char				write_map(char fd, char *line, t_map *map);
 
 int					engine(t_game_info game_info, t_screen screen, char *save);
 
-
 void				exit_failure(char *error);
 
 # endif
