@@ -31,8 +31,8 @@ float	count_dist_to_wall(t_cub *cub, float ray_angle, float *x)
 	float			dist_to_wall;
 
 	ray_angle = fixed_angle(ray_angle);
-	dist_to_wall_horizontal(player, &dist_to_wall_h, ray_angle, screen.resolution[0]);
-	dist_to_wall_vertical(player, &dist_to_wall_v, ray_angle, screen.resolution[1]);
+	dist_to_wall_h = dist_to_wall_horizontal(player, ray_angle, screen.resolution[0]);
+	dist_to_wall_v = dist_to_wall_vertical(player, ray_angle, screen.resolution[1]);
 	if (dist_to_wall_h.distance > dist_to_wall_v.distance)
 	{
 		*x = modff((float)dist_to_wall_v.x / 64, &dist_to_wall);

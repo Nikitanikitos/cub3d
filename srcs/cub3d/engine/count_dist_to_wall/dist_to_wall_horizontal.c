@@ -30,13 +30,14 @@ float	get_y_horizontal(t_player player, float angle)
 	return (y);
 }
 
-void	dist_to_wall_horizontal(t_player player, t_dist_to_wall *distance,
+t_dist_to_wall	dist_to_wall_horizontal(t_player player,
 								float ray_angle, int width)
 {
 	const t_map			map = player.map;
 	const float			step_y = (ray_angle < PI) ? -64 : 64;
 	const float			step_x = -step_y * (-1 / tanf(ray_angle));
 	t_coordinates		current;
+	t_dist_to_wall		distance;
 
 	current.y = get_y_horizontal(player, ray_angle);
 	current.x = get_x_horizontal(player, current.y, ray_angle);
@@ -47,8 +48,9 @@ void	dist_to_wall_horizontal(t_player player, t_dist_to_wall *distance,
 		current.x += step_x;
 		current.y += step_y;
 	}
-	distance->x = (int)current.x;
+	distance.x = (int)current.x;
 	current.x = player.position_x - current.x;
 	current.y = player.position_y - current.y;
-	distance->distance = sqrtf(current.x * current.x + current.y * current.y);
+	distance.distance = sqrtf(current.x * current.x + current.y * current.y);
+	return (distance);
 }
