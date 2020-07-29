@@ -91,7 +91,6 @@ typedef	struct		s_cub
 	t_screen		screen;
 	t_player		player;
 	t_texture		wall_texture;
-	t_texture		item_texture;
 }					t_cub;
 
 char				get_map_data(char *line, t_game_info *game_info, t_screen *screen);

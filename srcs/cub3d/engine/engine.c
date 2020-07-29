@@ -21,13 +21,14 @@ float	count_height_wall(float dist_to_wall, t_screen screen)
 	return (height);
 }
 
-void	cast_ray_3d(t_cub *cub, float ray_angle, int wall_x)
+void	cast_ray_3d(t_cub *cub, float ray_angle, int wall_x, float *distances)
 {
 	t_screen		screen = cub->screen;
 	float			height;
 	t_distance 		dist_to_wall;
 
 	dist_to_wall = count_dist_to_wall(cub, ray_angle);
+	distances[wall_x] = dist_to_wall.distance;
 	cub->wall_texture.x = (int)(CELL * dist_to_wall.x);
 	height = count_height_wall(dist_to_wall.distance, screen);
 	dist_to_wall.distance = (float)screen.height / 2 - height / 2;
@@ -41,13 +42,14 @@ void	field_of_view_3d(t_cub *cub, t_player player, t_screen screen)
 	const float	last_ray_angle = player.pov + (FOV_RAD / 2);
 	const float	step = (FOV / (float)screen.width) * PI_DIV_180;
 	float		ray_angle;
+	float 		distances[screen.width];
 	int			wall_x;
 
 	ray_angle = player.pov - (FOV_RAD / 2);
 	wall_x = 0;
 	while (ray_angle <= last_ray_angle)
 	{
-		cast_ray_3d(cub, ray_angle, wall_x);
+		cast_ray_3d(cub, ray_angle, wall_x, distances);
 		ray_angle += step;
 		wall_x++;
 	}
