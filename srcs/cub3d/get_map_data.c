@@ -23,14 +23,14 @@ char 	get_texture(char *line, t_img_data *img, void *mlx)
 	return (1);
 }
 
-char	get_resolution(char *line, int resolution[2])
+char	get_resolution(char *line, int *width, int *height)
 {
 	line += 2;
-	if ((resolution[0] = (short)ft_atoi(line)) < 100)
+	if ((*width = ft_atoi(line)) < 100)
 		return (-2);
 	while ('0' <= *line && *line <= '9')
 		line++;
-	if ((resolution[1] = (short)ft_atoi(line)) <= 100)
+	if ((*height = ft_atoi(line)) <= 100)
 		return (-2);
 	return (1);
 }
@@ -80,7 +80,7 @@ char 	get_map_data(char *line, t_game_info *game_info, t_screen *screen)
 	else if (*line == 'S')
 		result = get_texture(line + 2, &(game_info)->sprite_texture, screen->mlx);
 	else if (*line == 'R')
-		result = get_resolution(line, screen->resolution);
+		result = get_resolution(line, &screen->width, &screen->height);
 	else if (*line == 'F')
 		result = get_color(line, &game_info->floor_color);
 	else if (*line == 'C')

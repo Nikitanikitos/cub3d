@@ -62,10 +62,9 @@ t_cub	generic_init(t_screen *screen, t_player *player,
 	t_cub		cub;
 	t_img_data	img_world;
 
-	screen->win = mlx_new_window(screen->mlx, screen->resolution[0],
-								 screen->resolution[1], "Cub3D");
-	img_world.img = mlx_new_image(screen->mlx, screen->resolution[0],
-								  screen->resolution[1]);
+	screen->win = mlx_new_window(screen->mlx, screen->width,
+									screen->height, "Cub3D");
+	img_world.img = mlx_new_image(screen->mlx, screen->width, screen->height);
 	img_world.addr = mlx_get_data_addr(img_world.img, &img_world.bpp,
 									   &img_world.line_length, &img_world.endian);
 	screen->img_world = img_world;

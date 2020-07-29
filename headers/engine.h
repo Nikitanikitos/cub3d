@@ -21,6 +21,8 @@
 # define FOV			60.f
 # define FOV_RAD		FOV * PI_DIV_180
 
+# define CELL			64
+
 # define KEY_W			119
 # define KEY_S			115
 # define KEY_D			100
@@ -28,11 +30,24 @@
 # define KEY_Q			113
 # define KEY_E			101
 
-typedef struct	s_dist_to_wall
+typedef struct	s_distance
 {
 	float		distance;
-	int 		x;
-}				t_dist_to_wall;
+	float 		x;
+}				t_distance;
+
+typedef struct	s_coordinates
+{
+	float		x;
+	float		y;
+}				t_coordinates;
+
+typedef struct	s_item
+{
+	t_texture	item_texture;
+	float 		height;
+	float 		distance;
+}				t_item;
 
 void			player_init(t_player *player, t_map map);
 t_cub			generic_init(t_screen *screen, t_player *player,
@@ -50,7 +65,8 @@ void			drawing_celling(t_cub *cub, int height, int wall_x);
 void			get_wall_texture(t_cub *cub, float ray_angle,
 								 float dist_to_wall_h, float dist_to_wall_v);
 
-float			count_dist_to_wall(t_cub *cub,
-									float ray_angle, float *x);
+t_distance		dist_to_wall_vertical(t_player player, float ray_angle, int height);
+t_distance		dist_to_wall_horizontal(t_player player, float ray_angle, int width);
+t_distance		count_dist_to_wall(t_cub *cub, float ray_angle, t_item *item);
 
 #endif

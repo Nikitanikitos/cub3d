@@ -16,7 +16,7 @@ float	count_height_wall(float dist_to_wall, t_screen screen)
 {
 	float			height;
 
-	height = 64 / dist_to_wall * ((float)screen.width / 2
+	height = CELL / dist_to_wall * ((float)screen.width / 2
 									/ tanf(FOV_RAD / 2));
 	return (height);
 }
@@ -29,7 +29,7 @@ void	cast_ray_3d(t_cub *cub, float ray_angle, int wall_x)
 	t_item			item;
 
 	dist_to_wall = count_dist_to_wall(cub, ray_angle, &item);
-	cub->wall_texture.x = ((int)(64 * dist_to_wall.x));
+	cub->wall_texture.x = ((int)(CELL * dist_to_wall.x));
 	height = count_height_wall(dist_to_wall.distance, screen);
 	dist_to_wall.distance = (float)screen.height / 2 - height / 2;
 	drawing_floor(cub, (int)dist_to_wall.distance, wall_x);

@@ -42,13 +42,13 @@ typedef struct		s_img_data
 	int 			img_height;
 }					t_img_data;
 
-typedef struct		s_wall_texture
+typedef struct		s_texture
 {
 	t_img_data		texture;
 	float			step;
 	int 			x;
 	int 			y;
-}					t_wall_texture;
+}					t_texture;
 
 typedef struct		s_map
 {
@@ -70,7 +70,8 @@ typedef struct		s_screen
 	void			*mlx;
 	void 			*win;
 	t_img_data 		img_world;
-	int 			resolution[2];
+	int 			width;
+	int 			height;
 }					t_screen;
 
 typedef struct		s_game_info
@@ -87,7 +88,7 @@ typedef	struct		s_cub
 	t_game_info		game_info;
 	t_screen		screen;
 	t_player		player;
-	t_wall_texture	wall_texture;
+	t_texture		wall_texture;
 }					t_cub;
 
 char				get_map_data(char *line, t_game_info *game_info, t_screen *screen);

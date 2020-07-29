@@ -15,17 +15,17 @@
 float		get_step_x_vertical(float ray_angle)
 {
 	if (ray_angle < (PI / 2) || ray_angle > (3 * PI / 2))
-		return (-64);
+		return (-CELL);
 	else
-		return (64);
+		return (CELL);
 }
 
 float		get_x_vertical(float position, float angle)
 {
 	float	x;
 
-	x = (float)((int)(position / 64) * 64);
-	x += (angle < (PI / 2) || angle > (3 * PI / 2)) ? -.01f : 64;
+	x = (float)((int)(position / CELL) * CELL);
+	x += (angle < (PI / 2) || angle > (3 * PI / 2)) ? -.01f : CELL;
 	return (x);
 }
 
@@ -49,7 +49,7 @@ t_distance	dist_to_wall_vertical(t_player player, float ray_angle, int height)
 	current.y = get_y_verticatal(player, current.x, ray_angle);
 	while ((int)current.y > 0 && (int)current.y < height)
 	{
-		if (map.map[(int)(current.x / 64) + (int)(current.y / 64) * map.length_line] == '1')
+		if (map.map[(int)(current.x / CELL) + (int)(current.y / CELL) * map.length_line] == '1')
 			break ;
 		current.x += step_x;
 		current.y += step_y;

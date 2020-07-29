@@ -12,7 +12,7 @@
 
 #include "engine.h"
 
-float	fixed_angle(float angle)
+float		fixed_angle(float angle)
 {
 	if (angle < 0)
 		return (angle + (float)(2 * PI));
@@ -26,7 +26,7 @@ t_distance	dist_to_wall_init(t_distance dist_to_wall, float pov, float angle)
 {
 	t_distance	distance;
 
-	distance.x = modff(dist_to_wall.x / 64, &dist_to_wall.x);
+	distance.x = modff(dist_to_wall.x / CELL, &dist_to_wall.x);
 	distance.distance = dist_to_wall.distance * cosf(pov - angle);
 	return (distance);
 }
