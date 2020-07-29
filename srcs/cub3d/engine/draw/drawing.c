@@ -12,25 +12,25 @@
 
 #include "engine.h"
 
-void	drawing_wall(t_generic *generic, int wall_y, int height, int wall_x)
+void	drawing_wall(t_cub *cub, int wall_y, int height, int wall_x)
 {
-	const t_img_data	img = generic->screen.img_world;
+	const t_img_data	img = cub->screen.img_world;
 	t_wall_texture		texture;
 	float 				tex_pos;
 	int					index;
 	int 				index_texture;
 
-	texture = generic->wall_texture;
+	texture = cub->wall_texture;
 	texture.step = 1.0f * (float)texture.texture.img_height / (float)height;
 	texture.x *= (texture.texture.bpp / 8);
 	wall_x *= img.bpp / 8;
-	tex_pos = (wall_y - generic->screen.resolution[1] / 2 + height / 2) * texture.step;
+	tex_pos = (wall_y - cub->screen.resolution[1] / 2 + height / 2) * texture.step;
 	while (height-- > 0)
 	{
 		texture.y = (int)tex_pos & (texture.texture.img_height - 1);
 		index_texture = texture.y * texture.texture.line_length + texture.x;
 		index = wall_y * img.line_length + wall_x;
-		if (index > 0 && index < img.line_length * generic->screen.resolution[1])
+		if (index > 0 && index < img.line_length * cub->screen.resolution[1])
 		{
 			img.addr[index] = texture.texture.addr[index_texture];
 			img.addr[index + 1] = texture.texture.addr[index_texture + 1];
@@ -42,10 +42,10 @@ void	drawing_wall(t_generic *generic, int wall_y, int height, int wall_x)
 	}
 }
 
-void	drawing_floor(t_generic *generic, int height, int wall_x)
+void	drawing_floor(t_cub *cub, int height, int wall_x)
 {
-	const t_img_data	img = generic->screen.img_world;
-	const t_color		floor_color = generic->game_info.floor_color;
+	const t_img_data	img = cub->screen.img_world;
+	const t_color		floor_color = cub->game_info.floor_color;
 	int					y;
 	int					index;
 
@@ -62,14 +62,14 @@ void	drawing_floor(t_generic *generic, int height, int wall_x)
 	}
 }
 
-void	drawing_celling(t_generic *generic, int wall_y, int wall_x)
+void	drawing_celling(t_cub *cub, int wall_y, int wall_x)
 {
-	const t_img_data	img = generic->screen.img_world;
-	const t_color 		celling_color = generic->game_info.celling_color;
+	const t_img_data	img = cub->screen.img_world;
+	const t_color 		celling_color = cub->game_info.celling_color;
 	int					index;
 
 	wall_x *= (img.bpp / 8);
-	while (wall_y < generic->screen.resolution[1])
+	while (wall_y < cub->screen.resolution[1])
 	{
 		index = (wall_y * img.line_length + wall_x);
 		img.addr[index] = (char)celling_color.b;

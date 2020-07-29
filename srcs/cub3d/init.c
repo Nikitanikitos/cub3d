@@ -56,10 +56,10 @@ void	player_init(t_player *player, t_map map)
 	}
 }
 
-t_generic	generic_init(t_screen *screen, t_player *player,
+t_cub	generic_init(t_screen *screen, t_player *player,
 						  t_game_info *game_info)
 {
-	t_generic	generic;
+	t_cub		cub;
 	t_img_data	img_world;
 
 	screen->win = mlx_new_window(screen->mlx, screen->resolution[0],
@@ -69,8 +69,8 @@ t_generic	generic_init(t_screen *screen, t_player *player,
 	img_world.addr = mlx_get_data_addr(img_world.img, &img_world.bpp,
 									   &img_world.line_length, &img_world.endian);
 	screen->img_world = img_world;
-	generic.screen = *screen;
-	generic.player = *player;
-	generic.game_info = *game_info;
-	return (generic);
+	cub.screen = *screen;
+	cub.player = *player;
+	cub.game_info = *game_info;
+	return (cub);
 }

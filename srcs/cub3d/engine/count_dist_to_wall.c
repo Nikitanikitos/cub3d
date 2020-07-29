@@ -38,17 +38,23 @@ void	dist_to_wall_horizontal(t_player player, t_dist_to_wall *distance,
 	distance->distance = sqrtf(x * x + y * y);
 }
 
+float	get_step_x_vertical(float ray_angle)
+{
+	if (ray_angle < (PI / 2) || ray_angle > (3 * PI / 2))
+		return (-64);
+	else
+		return (64);
+}
+
 void	dist_to_wall_vertical(t_player player, t_dist_to_wall *distance,
 							  float ray_angle, int height)
 {
 	t_map		map = player.map;
-	float		step_x;
-	float		step_y;
+	const float	step_x = get_step_x_vertical(ray_angle);
+	const float	step_y = -step_x * -tanf(ray_angle);
 	float		y;
 	float		x;
 
-	step_x = (ray_angle < (PI / 2) || ray_angle > (3 * PI / 2)) ? -64 : 64;
-	step_y = -step_x * -tanf(ray_angle);
 	x = (float)((int)(player.position_x / 64) * 64);
 	x += (ray_angle < (PI / 2) || ray_angle > (3 * PI / 2)) ? -.01f : 64;
 	y = player.position_y + (player.position_x - x) * -tanf(ray_angle);
@@ -67,11 +73,11 @@ void	dist_to_wall_vertical(t_player player, t_dist_to_wall *distance,
 	distance->distance = sqrtf(x * x + y * y);
 }
 
-float	count_dist_to_wall(t_generic *generic,
+float	count_dist_to_wall(t_cub *cub,
 							float ray_angle, float *x)
 {
-	t_player		player = generic->player;
-	t_screen		screen = generic->screen;
+	t_player		player = cub->player;
+	t_screen		screen = cub->screen;
 	t_dist_to_wall	dist_to_wall_h;
 	t_dist_to_wall	dist_to_wall_v;
 	float			dist_to_wall;
@@ -90,6 +96,6 @@ float	count_dist_to_wall(t_generic *generic,
 		*x = modff((float)dist_to_wall_h.x / 64, &dist_to_wall);
 		dist_to_wall = dist_to_wall_h.distance * cosf(player.pov - ray_angle);
 	}
-	get_wall_texture(generic, ray_angle, dist_to_wall_h.distance, dist_to_wall_v.distance);
+	get_wall_texture(cub, ray_angle, dist_to_wall_h.distance, dist_to_wall_v.distance);
 	return (dist_to_wall);
 }

@@ -60,21 +60,21 @@ void	change_pov(int key, t_player *player)
 		player->pov += (float)(2 * PI);
 }
 
-void	get_wall_texture(t_generic *generic, float ray_angle,
-								  float dist_to_wall_h, float dist_to_wall_v)
+void	get_wall_texture(t_cub *cub, float ray_angle,
+						 float dist_to_wall_h, float dist_to_wall_v)
 {
 	if (dist_to_wall_h > dist_to_wall_v)
 	{
 		if ((ray_angle < 2 / PI) || (ray_angle > 3 * PI / 2))
-			generic->wall_texture.texture = generic->game_info.textures[0];
+			cub->wall_texture.texture = cub->game_info.textures[0];
 		else
-			generic->wall_texture.texture = generic->game_info.textures[1];
+			cub->wall_texture.texture = cub->game_info.textures[1];
 	}
 	else
 	{
 		if (ray_angle > PI)
-			generic->wall_texture.texture = generic->game_info.textures[2];
+			cub->wall_texture.texture = cub->game_info.textures[2];
 		else
-			generic->wall_texture.texture = generic->game_info.textures[3];
+			cub->wall_texture.texture = cub->game_info.textures[3];
 	}
 }

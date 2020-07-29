@@ -82,13 +82,13 @@ typedef struct		s_game_info
 	t_color			celling_color;
 }					t_game_info;
 
-typedef	struct		s_generic
+typedef	struct		s_cub
 {
 	t_game_info		game_info;
 	t_screen		screen;
 	t_player		player;
 	t_wall_texture	wall_texture;
-}					t_generic;
+}					t_cub;
 
 char				get_map_data(char *line, t_game_info *game_info, t_screen *screen);
 char				write_map(char fd, char *line, t_map *map);
