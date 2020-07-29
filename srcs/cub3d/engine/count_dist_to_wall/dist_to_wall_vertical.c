@@ -39,17 +39,20 @@ float		get_y_verticatal(t_player player, float x, float angle)
 
 t_distance	dist_to_wall_vertical(t_player player, float ray_angle, int height)
 {
-	t_map			map = player.map;
+	t_map			map;
 	const float		step_x = get_step_x_vertical(ray_angle);
 	const float		step_y = -step_x * -tanf(ray_angle);
 	t_coordinates	current;
 	t_distance		distance;
 
+	map = player.map;
 	current.x = get_x_vertical(player.position_x, ray_angle);
 	current.y = get_y_verticatal(player, current.x, ray_angle);
 	while ((int)current.y > 0 && (int)current.y < height)
 	{
-		if (map.map[(int)(current.x / CELL) + (int)(current.y / CELL) * map.length_line] == '1')
+		map.x = (int)(current.x / CELL);
+		map.y = (int)(current.y / CELL);
+		if (map.map[map.x + map.y * map.length_line] == '1')
 			break ;
 		current.x += step_x;
 		current.y += step_y;
