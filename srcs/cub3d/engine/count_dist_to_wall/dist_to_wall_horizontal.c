@@ -30,11 +30,11 @@ float		get_y_horizontal(t_player player, float angle)
 	return (y);
 }
 
-t_distance	dist_to_wall_horizontal(t_player player, float ray_angle, int width, t_distance *distance_item)
+t_distance	dist_to_wall_horizontal(t_player player, float ray_angle, int width)
 {
-	t_map			map;
 	const float		step_y = (ray_angle < PI) ? -CELL : CELL;
 	const float		step_x = -step_y * (-1 / tanf(ray_angle));
+	t_map			map;
 	t_coordinates	current;
 	t_distance		distance;
 

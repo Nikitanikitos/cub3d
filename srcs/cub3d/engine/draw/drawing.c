@@ -42,6 +42,40 @@ void	drawing_wall(t_cub *cub, int wall_y, int height, int wall_x)
 	}
 }
 
+void	drawing_item(t_cub *cub, int wall_y, int height, int wall_x)
+{
+	const t_img_data	img = cub->screen.img_world;
+	t_texture			texture;
+	float 				tex_pos;
+	int					index;
+	int 				index_texture;
+
+	texture = cub->item_texture;
+	texture.step = 1.0f * (float)texture.texture.img_height / (float)height;
+	texture.x *= (texture.texture.bpp / 8);
+	wall_x *= img.bpp / 8;
+	tex_pos = (wall_y - cub->screen.height / 2 + height / 2) * texture.step;
+	while (height-- > 0)
+	{
+		texture.y = (int)tex_pos & (texture.texture.img_height - 1);
+		index_texture = texture.y * texture.texture.line_length + texture.x;
+		index = wall_y * img.line_length + wall_x;
+		if (index > 0 && index < img.line_length * cub->screen.height)
+		{
+			if (texture.texture.addr[index_texture] != -120)
+				img.addr[index] = texture.texture.addr[index_texture];
+			if (texture.texture.addr[index_texture + 1] != 0)
+				img.addr[index + 1] = texture.texture.addr[index_texture + 1];
+			if (texture.texture.addr[index_texture + 2] != -104)
+				img.addr[index + 2] = texture.texture.addr[index_texture + 2];
+			if (texture.texture.addr[index_texture + 3] != 0)
+				img.addr[index + 3] = texture.texture.addr[index_texture + 3];
+		}
+		tex_pos += texture.step;
+		wall_y++;
+	}
+}
+
 void	drawing_floor(t_cub *cub, int height, int wall_x)
 {
 	const t_img_data	img = cub->screen.img_world;
