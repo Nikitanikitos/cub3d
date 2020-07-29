@@ -65,8 +65,12 @@ void			drawing_celling(t_cub *cub, int height, int wall_x);
 void			get_wall_texture(t_cub *cub, float ray_angle,
 								 float dist_to_wall_h, float dist_to_wall_v);
 
-t_distance		dist_to_wall_vertical(t_player player, float ray_angle, int height);
-t_distance		dist_to_wall_horizontal(t_player player, float ray_angle, int width);
-t_distance		count_dist_to_wall(t_cub *cub, float ray_angle, t_item *item);
+float			get_texture_x(float current_x);
+float			get_distance(float x, float y);
+
+
+t_distance		dist_to_wall_vertical(t_player player, float ray_angle, int height, t_distance *distance_item);
+t_distance		dist_to_wall_horizontal(t_player player, float ray_angle, int width, t_distance *distance_item);
+t_distance		count_distance(t_cub *cub, float ray_angle, t_distance *dist_to_item);
 
 #endif

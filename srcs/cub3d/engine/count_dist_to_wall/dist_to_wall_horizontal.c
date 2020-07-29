@@ -30,7 +30,7 @@ float		get_y_horizontal(t_player player, float angle)
 	return (y);
 }
 
-t_distance	dist_to_wall_horizontal(t_player player, float ray_angle, int width)
+t_distance	dist_to_wall_horizontal(t_player player, float ray_angle, int width, t_distance *distance_item)
 {
 	t_map			map;
 	const float		step_y = (ray_angle < PI) ? -CELL : CELL;
@@ -50,11 +50,8 @@ t_distance	dist_to_wall_horizontal(t_player player, float ray_angle, int width)
 		current.x += step_x;
 		current.y += step_y;
 	}
-	distance.x = current.x;
-	if (distance.x < 0)
-		distance.x = 0;
-	current.x = player.position_x - current.x;
-	current.y = player.position_y - current.y;
-	distance.distance = sqrtf(current.x * current.x + current.y * current.y);
+	distance.x = get_texture_x(current.x);
+	distance.distance = get_distance(player.position_x - current.x,
+									player.position_y - current.y);
 	return (distance);
 }

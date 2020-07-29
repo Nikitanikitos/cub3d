@@ -26,9 +26,9 @@ void	cast_ray_3d(t_cub *cub, float ray_angle, int wall_x)
 	t_screen		screen = cub->screen;
 	float			height;
 	t_distance 		dist_to_wall;
-	t_item			item;
+	t_distance 		dist_to_item;
 
-	dist_to_wall = count_dist_to_wall(cub, ray_angle, &item);
+	dist_to_wall = count_distance(cub, ray_angle, &dist_to_item);
 	cub->wall_texture.x = ((int)(CELL * dist_to_wall.x));
 	height = count_height_wall(dist_to_wall.distance, screen);
 	dist_to_wall.distance = (float)screen.height / 2 - height / 2;
