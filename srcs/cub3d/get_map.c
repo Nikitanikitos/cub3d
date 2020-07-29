@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-unsigned short	copy_read_map(char *map, char *line, int i)
+int		copy_read_map(char *map, char *line, int i)
 {
 	static char	flag;
 
@@ -35,7 +35,7 @@ unsigned short	copy_read_map(char *map, char *line, int i)
 	return (i);
 }
 
-char			*read_map(char *line, char *map_temp, t_map *map)
+char		*read_map(char *line, char *map_temp, t_map *map)
 {
 	static int	i;
 	int			temp_length;
@@ -86,8 +86,11 @@ char			write_map(char fd, char *line, t_map *map)
 	count_line = 0;
 	map_temp = NULL;
 	free(line);
+	map->count_item = 0;
 	while (get_next_line(fd, &line) > 0)
 	{
+		if (ft_strchr(line, '2'))
+			map->count_item += 1;
 		map_temp = read_map(line, map_temp, map);
 		free(line);
 		if (map_temp == NULL)

@@ -54,6 +54,7 @@ typedef struct		s_map
 {
 	char			*map;
 	int				length_line;
+	int				count_item;
 }					t_map;
 
 typedef struct		s_player

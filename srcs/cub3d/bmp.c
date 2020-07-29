@@ -49,15 +49,16 @@ void 					pixel_put(int fd, int image_size, char *data)
 	int 	i;
 
 	i = 0;
-	while (i < image_size)
-	{
-		color[0] = data[i];
-		color[1] = data[i + 1];
-		color[2] = data[i + 2];
-		color[3] = data[i + 3];
-		write(fd, color, sizeof(color));
-		i += 4;
-	}
+	write(fd, data, sizeof(data));
+//	while (i < image_size)
+//	{
+//		color[0] = data[i];
+//		color[1] = data[i + 1];
+//		color[2] = data[i + 2];
+//		color[3] = data[i + 3];
+//		write(fd, color, sizeof(color));
+//		i += 4;
+//	}
 }
 
 void					save_bmp(int width, int height, char *data)

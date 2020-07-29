@@ -58,6 +58,24 @@ int		game_play(int key, t_generic *generic)
 	return (0);
 }
 
+void 	close_game(t_generic generic)
+{
+	char	i;
+	void	*img;
+
+	i = 0;
+	while (i < 4)
+	{
+		img = generic.game_info.textures[i++].img;
+		mlx_destroy_image(generic.screen.mlx, img);
+	}
+	mlx_destroy_image(generic.screen.mlx, generic.screen.img_world.img);
+	mlx_destroy_image(generic.screen.mlx, generic.game_info.sprite_texture.img);
+	mlx_destroy_window(generic.screen.mlx, generic.screen.win);
+	free(generic.screen.mlx);
+	free(generic.game_info.map.map);
+}
+
 int		engine(t_game_info game_info, t_screen screen, char *save)
 {
 	t_generic	generic;
@@ -74,5 +92,7 @@ int		engine(t_game_info game_info, t_screen screen, char *save)
 		mlx_hook(screen.win, 2, 1L << 0, game_play, &generic);
 		mlx_loop(screen.mlx);
 	}
+	close_game(generic);
+
 	return (0);
 }
