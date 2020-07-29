@@ -12,7 +12,7 @@
 
 # include "engine.h"
 
-float	get_x_horizontal(t_player player, float y, float angle)
+float		get_x_horizontal(t_player player, float y, float angle)
 {
 	float	x;
 
@@ -21,7 +21,7 @@ float	get_x_horizontal(t_player player, float y, float angle)
 	return (x);
 }
 
-float	get_y_horizontal(t_player player, float angle)
+float		get_y_horizontal(t_player player, float angle)
 {
 	float	y;
 
@@ -30,14 +30,13 @@ float	get_y_horizontal(t_player player, float angle)
 	return (y);
 }
 
-t_dist_to_wall	dist_to_wall_horizontal(t_player player,
-								float ray_angle, int width)
+t_distance	dist_to_wall_horizontal(t_player player, float ray_angle, int width)
 {
-	const t_map			map = player.map;
-	const float			step_y = (ray_angle < PI) ? -64 : 64;
-	const float			step_x = -step_y * (-1 / tanf(ray_angle));
-	t_coordinates		current;
-	t_dist_to_wall		distance;
+	const t_map		map = player.map;
+	const float		step_y = (ray_angle < PI) ? -64 : 64;
+	const float		step_x = -step_y * (-1 / tanf(ray_angle));
+	t_coordinates	current;
+	t_distance		distance;
 
 	current.y = get_y_horizontal(player, ray_angle);
 	current.x = get_x_horizontal(player, current.y, ray_angle);
@@ -48,7 +47,9 @@ t_dist_to_wall	dist_to_wall_horizontal(t_player player,
 		current.x += step_x;
 		current.y += step_y;
 	}
-	distance.x = (int)current.x;
+	distance.x = current.x;
+	if (distance.x < 0)
+		distance.x = 0;
 	current.x = player.position_x - current.x;
 	current.y = player.position_y - current.y;
 	distance.distance = sqrtf(current.x * current.x + current.y * current.y);

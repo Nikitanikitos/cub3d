@@ -12,22 +12,28 @@
 
 #include "engine.h"
 
-void	cast_ray_3d(t_cub *cub,
-					float ray_angle, int wall_x)
+float	count_height_wall(float dist_to_wall, t_screen screen)
+{
+	float			height;
+
+	height = 64 / dist_to_wall * ((float)screen.resolution[0] /
+								  2 / tanf(FOV_RAD / 2));
+	return (height);
+}
+
+void	cast_ray_3d(t_cub *cub, float ray_angle, int wall_x)
 {
 	t_screen		screen = cub->screen;
 	float			height;
-	float			dist_to_wall;
-	float			x;
+	t_distance 		dist_to_wall;
 
-	dist_to_wall = count_dist_to_wall(cub, ray_angle, &x);
-	cub->wall_texture.x = ((int)(64 * x));
-	height = 64 / dist_to_wall * ((float)screen.resolution[0] /
-									2 / tanf(FOV_RAD / 2));
-	dist_to_wall = (float)screen.resolution[1] / 2 - height / 2;
-	drawing_floor(cub, (int)dist_to_wall, wall_x);
-	drawing_wall(cub, (int)dist_to_wall, (int)height, wall_x);
-	drawing_celling(cub, (int)(dist_to_wall + height), wall_x);
+	dist_to_wall = count_dist_to_wall(cub, ray_angle);
+	cub->wall_texture.x = ((int)(64 * dist_to_wall.x));
+	height = count_height_wall(dist_to_wall.distance, screen);
+	dist_to_wall.distance = (float)screen.resolution[1] / 2 - height / 2;
+	drawing_floor(cub, (int)dist_to_wall.distance, wall_x);
+	drawing_wall(cub, (int)dist_to_wall.distance, (int)height, wall_x);
+	drawing_celling(cub, (int)(dist_to_wall.distance + height), wall_x);
 }
 
 void	field_of_view_3d(t_cub *cub, t_player player, t_screen screen)
