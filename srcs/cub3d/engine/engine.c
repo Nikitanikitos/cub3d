@@ -16,8 +16,8 @@ float	count_height_wall(float dist_to_wall, t_screen screen)
 {
 	float			height;
 
-	height = 64 / dist_to_wall * ((float)screen.resolution[0] /
-								  2 / tanf(FOV_RAD / 2));
+	height = 64 / dist_to_wall * ((float)screen.width / 2
+									/ tanf(FOV_RAD / 2));
 	return (height);
 }
 
@@ -26,11 +26,12 @@ void	cast_ray_3d(t_cub *cub, float ray_angle, int wall_x)
 	t_screen		screen = cub->screen;
 	float			height;
 	t_distance 		dist_to_wall;
+	t_item			item;
 
-	dist_to_wall = count_dist_to_wall(cub, ray_angle);
+	dist_to_wall = count_dist_to_wall(cub, ray_angle, &item);
 	cub->wall_texture.x = ((int)(64 * dist_to_wall.x));
 	height = count_height_wall(dist_to_wall.distance, screen);
-	dist_to_wall.distance = (float)screen.resolution[1] / 2 - height / 2;
+	dist_to_wall.distance = (float)screen.height / 2 - height / 2;
 	drawing_floor(cub, (int)dist_to_wall.distance, wall_x);
 	drawing_wall(cub, (int)dist_to_wall.distance, (int)height, wall_x);
 	drawing_celling(cub, (int)(dist_to_wall.distance + height), wall_x);
@@ -39,7 +40,7 @@ void	cast_ray_3d(t_cub *cub, float ray_angle, int wall_x)
 void	field_of_view_3d(t_cub *cub, t_player player, t_screen screen)
 {
 	const float	last_ray_angle = player.pov + (FOV_RAD / 2);
-	const float	step = (FOV / (float)screen.resolution[0]) * PI_DIV_180;
+	const float	step = (FOV / (float)screen.width) * PI_DIV_180;
 	float		ray_angle;
 	int			wall_x;
 
@@ -91,8 +92,7 @@ int		engine(t_game_info game_info, t_screen screen, char *save)
 	cub = generic_init(&screen, &player, &game_info);
 	field_of_view_3d(&cub, player, screen);
 	if (!ft_strncmp(save, "--save", 6))
-		save_bmp(screen.resolution[0], screen.resolution[1],
-					screen.img_world.addr);
+		save_bmp(screen.width, screen.height, screen.img_world.addr);
 	else
 	{
 		mlx_hook(screen.win, 2, 1L << 0, game_play, &cub);
