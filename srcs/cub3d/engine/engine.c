@@ -86,12 +86,11 @@ void 	close_game(t_cub cub)
 
 int		engine(t_game_info game_info, t_screen screen, char *save)
 {
-	t_cub		cub;
-	t_player	player;
+	t_cub	cub;
 
-	player_init(&player, game_info.map);
-	cub = generic_init(&screen, &player, &game_info);
-	field_of_view_3d(&cub, player, screen);
+	cub = cub_init(screen, game_info);
+	screen = cub.screen;
+	field_of_view_3d(&cub, cub.player, screen);
 	if (!ft_strncmp(save, "--save", 6))
 		save_bmp(screen.width, screen.height, screen.img_world.addr);
 	else
@@ -100,6 +99,5 @@ int		engine(t_game_info game_info, t_screen screen, char *save)
 		mlx_loop(screen.mlx);
 	}
 	close_game(cub);
-
 	return (0);
 }

@@ -27,49 +27,70 @@ void	player_coor_init(t_player *player, int pos_x, int pos_y, char direction)
 		player->pov = 270 * PI_DIV_180;
 }
 
-void	player_init(t_player *player, t_map map)
+t_item	item_init(int x, int y)
 {
-	int		count_line;
-	int		x;
-	int		y;
+	t_item	item;
 
-	y = 0;
-	x = 0;
-	count_line = 0;
-	player->map = map;
-	while (map.map)
-	{
-		if (ft_strchr(PLAYER_POS, *map.map))
-		{
-			player_coor_init(player, x, y, *map.map);
-			break ;
-		}
-		else if (++count_line == map.length_line)
-		{
-			y += 64;
-			x = 0;
-			count_line = 0;
-		}
-		else
-			x += 64;
-		map.map++;
-	}
+	item.x = x - 32;
+	item.y = y - 32;
+	return (item);
 }
 
-t_cub	generic_init(t_screen *screen, t_player *player,
-						  t_game_info *game_info)
+void 	check(t_player *player, char c, int length_line, t_item *items)
 {
+	static int	count_line;
+	static int 	i;
+	static int	x;
+	static int	y;
+
+	if (ft_strchr(PLAYER_POS, c))
+		player_coor_init(player, x, y, c);
+	else if (c == '2')
+		items[i++] = item_init(x, y);
+	else if (++count_line == length_line)
+	{
+		y += 64;
+		x = 0;
+		count_line = 0;
+	}
+	else
+		x += 64;
+}
+
+t_player	player_init(t_game_info *game_info)
+{
+	t_map		map;
+	t_player	player;
+	t_item		items[game_info->map.count_item];
+
+	map = game_info->map;
+	while (True)
+	{
+		if (!*map.map)
+			break;
+		check(&player, *map.map, map.length_line, items);
+		map.map++;
+	}
+	player.map = game_info->map;
+	game_info->items = items;
+	return (player);
+}
+
+t_cub	cub_init(t_screen screen, t_game_info game_info)
+{
+	t_player	player;
 	t_cub		cub;
 	t_img_data	img_world;
 
-	screen->win = mlx_new_window(screen->mlx, screen->width,
-									screen->height, "Cub3D");
-	img_world.img = mlx_new_image(screen->mlx, screen->width, screen->height);
+	player = player_init(&game_info);
+	screen.win = mlx_new_window(screen.mlx, screen.width,
+									screen.height, "Cub3D");
+	img_world.img = mlx_new_image(screen.mlx, screen.width, screen.height);
 	img_world.addr = mlx_get_data_addr(img_world.img, &img_world.bpp,
 									   &img_world.line_length, &img_world.endian);
-	screen->img_world = img_world;
-	cub.screen = *screen;
-	cub.player = *player;
-	cub.game_info = *game_info;
+	screen.img_world = img_world;
+	cub.screen = screen;
+	cub.player = player;
+	cub.game_info = game_info;
 	return (cub);
 }

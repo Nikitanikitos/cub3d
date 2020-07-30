@@ -76,6 +76,12 @@ typedef struct		s_screen
 	int 			height;
 }					t_screen;
 
+typedef struct	s_item
+{
+	int 		x;
+	int 		y;
+}				t_item;
+
 typedef struct		s_game_info
 {
 	t_img_data		textures[4];
@@ -83,6 +89,7 @@ typedef struct		s_game_info
 	t_map			map;
 	t_color			floor_color;
 	t_color			celling_color;
+	t_item			*items;
 }					t_game_info;
 
 typedef	struct		s_cub
