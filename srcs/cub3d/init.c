@@ -76,13 +76,13 @@ t_player	player_init(t_game_info *game_info)
 	return (player);
 }
 
-t_cub	cub_init(t_screen screen, t_game_info game_info)
+t_cub	cub_init(t_screen screen, t_game_info *game_info)
 {
 	t_player	player;
 	t_cub		cub;
 	t_img_data	img_world;
 
-	player = player_init(&game_info);
+	player = player_init(game_info);
 	screen.win = mlx_new_window(screen.mlx, screen.width,
 									screen.height, "Cub3D");
 	img_world.img = mlx_new_image(screen.mlx, screen.width, screen.height);
@@ -91,6 +91,6 @@ t_cub	cub_init(t_screen screen, t_game_info game_info)
 	screen.img_world = img_world;
 	cub.screen = screen;
 	cub.player = player;
-	cub.game_info = game_info;
+	cub.game_info = *game_info;
 	return (cub);
 }

@@ -42,7 +42,7 @@ typedef struct	s_coordinates
 	float		y;
 }				t_coordinates;
 
-t_cub			cub_init(t_screen screen, t_game_info game_info);
+t_cub			cub_init(t_screen screen, t_game_info *game_info);
 
 void			change_position(int key, t_player *player);
 void			change_pov(int key, t_player *player);
@@ -52,6 +52,10 @@ void			field_of_view(t_player *player, int color);
 void			drawing_floor(t_cub *cub, int height, int wall_x);
 void			drawing_wall(t_cub *cub, int wall_y, int height, int wall_x);
 void			drawing_celling(t_cub *cub, int height, int wall_x);
+void			drawing_items(t_game_info game_info, t_player player, t_screen screen);
+
+float	count_height_wall(float dist_to_wall, t_screen screen);
+
 
 void			get_wall_texture(t_cub *cub, float ray_angle,
 								 float dist_to_wall_h, float dist_to_wall_v);

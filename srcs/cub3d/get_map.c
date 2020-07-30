@@ -57,11 +57,12 @@ char			*copy_write_map(char *map, char *map_temp, int length_line)
 	int		i;
 	int		q;
 	int		current_length_line;
+	int 	k = ft_strlen(map_temp);
 
 	i = 0;
 	q = 0;
 	current_length_line = 0;
-	while (map_temp[i])
+	while (i < k)
 	{
 		if (map_temp[i] == '\n')
 		{
@@ -87,6 +88,7 @@ char			write_map(char fd, char *line, t_map *map)
 	map_temp = NULL;
 	free(line);
 	map->count_item = 0;
+	map->length_line = 0;
 	while (get_next_line(fd, &line) > 0)
 	{
 		if (ft_strchr(line, '2'))

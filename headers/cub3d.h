@@ -76,11 +76,11 @@ typedef struct		s_screen
 	int 			height;
 }					t_screen;
 
-typedef struct	s_item
+typedef struct		s_item
 {
-	int 		x;
-	int 		y;
-}				t_item;
+	float 			x;
+	float			y;
+}					t_item;
 
 typedef struct		s_game_info
 {
