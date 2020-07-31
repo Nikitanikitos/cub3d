@@ -15,8 +15,8 @@
 
 void	player_coor_init(t_player *player, int pos_x, int pos_y, char direction)
 {
-	player->position_x = pos_x + 32;
-	player->position_y = pos_y + 32;
+	player->x = pos_x + 32;
+	player->y = pos_y + 32;
 	if (direction == 'E')
 		player->pov = 0;
 	else if (direction == 'N')
@@ -43,10 +43,10 @@ void 	check(t_player *player, char c, int length_line, t_item *items)
 	static int	x;
 	static int	y;
 
+	if (c == '2')
+		items[i++] = item_init(x, y);
 	if (ft_strchr(PLAYER_POS, c))
 		player_coor_init(player, x, y, c);
-	else if (c == '2')
-		items[i++] = item_init(x, y);
 	else if (++count_line == length_line)
 	{
 		y += 64;
@@ -61,8 +61,9 @@ t_player	player_init(t_game_info *game_info)
 {
 	t_map		map;
 	t_player	player;
-	t_item		items[game_info->map.count_item];
+	t_item		*items;
 
+	items = (t_item*)malloc(sizeof(t_item) * game_info->map.count_item);
 	map = game_info->map;
 	while (True)
 	{

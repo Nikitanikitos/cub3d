@@ -90,23 +90,28 @@ void	drawing_items(t_game_info game_info, t_player player, t_screen screen)
 	int		v_offset;
 
 	q = 0;
-	while (q <= game_info.map.count_item)
+	while (q < game_info.map.count_item)
 	{
-		sprite_dir = atan2f(player.position_y - game_info.items[q].y, player.position_x - game_info.items[q].x);
-		sprite_dist = get_distance(player.position_x - game_info.items[q].x, player.position_y - game_info.items[q].y);
+		sprite_dir = atan2f(game_info.items[q].y - player.y, game_info.items[q].x - player.x);
+		while (sprite_dir - player.pov >  M_PI)
+			sprite_dir -= 2 * M_PI;
+		while (sprite_dir - player.pov < -M_PI)
+			sprite_dir += 2 * M_PI;
+		sprite_dist = get_distance(player.x - game_info.items[q].x, player.y - game_info.items[q].y);
 		height = count_height_wall(sprite_dist, screen);
+		printf("%f\n", player.pov);
 		h_offset = (int)((sprite_dir - player.pov) * (float)screen.width / FOV + (float)screen.width / 2 - height / 2);
-		v_offset = (int)((float)screen.height / 2 - height / 2);
+		v_offset = screen.height / 2 - height / 2;
 		q++;
-		for (size_t i = 0; i < height; i++)
+		for (int i = 0; i < height; i++)
 		{
-			if (h_offset + i < 0 || h_offset+i>=screen.width/2)
+			if (h_offset + i < 0 || h_offset+i >= screen.width)
 				continue;
-			for (size_t j = 0; j<height; j++)
+			for (int j = 0; j < height; j++)
 			{
-				if (v_offset + j < 0 || v_offset+j>=screen.width)
+				if (v_offset + j < 0 || v_offset+j >= screen.height)
 					continue;
-				mlx_pixel_put(screen.mlx, screen.win, screen.width + h_offset+i, v_offset+j, 0000);
+				mlx_pixel_put(screen.mlx, screen.win, h_offset + i, v_offset + j, 0000);
 			}
 		}
 	}

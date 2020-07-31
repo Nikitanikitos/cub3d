@@ -14,8 +14,8 @@
 
 char	check_wall(t_player *player, float step_x, float step_y)
 {
-	const int	coor_x = (int)((player->position_x + step_x) / 64);
-	const int	coor_y = (int)((player->position_y + step_y) / 64);
+	const int	coor_x = (int)((player->x + step_x) / 64);
+	const int	coor_y = (int)((player->y + step_y) / 64);
 	t_map		map = player->map;
 
 	return (char)(map.map[coor_x + coor_y * map.length_line] != '1');
@@ -24,36 +24,36 @@ char	check_wall(t_player *player, float step_x, float step_y)
 void	change_position(int key, t_player *player)
 {
 	const float	coss = cosf(player->pov);
-	const float	sinn = sinf(player->pov);
+	const float	sinn = -sinf(player->pov);
 
-	if (key == KEY_W && check_wall(player, -coss * 8, -sinn * 8))
+	if (key == KEY_W && check_wall(player, coss * 8, sinn * 8))
 	{
-		player->position_x -= coss * 4;
-		player->position_y -= sinn * 4;
+		player->x += coss * 4;
+		player->y += sinn * 4;
 	}
-	else if (key == KEY_S && check_wall(player, coss * 8, sinn * 8))
+	else if (key == KEY_S && check_wall(player, -coss * 8, -sinn * 8))
 	{
-		player->position_x += coss * 4;
-		player->position_y += sinn * 4;
+		player->x -= coss * 4;
+		player->y -= sinn * 4;
 	}
-	else if (key == KEY_D && check_wall(player, sinn * 8, -coss * 8))
+	else if (key == KEY_D && check_wall(player, -sinn * 8, coss * 8))
 	{
-		player->position_x += sinn * 4;
-		player->position_y -= coss * 4;
+		player->x -= sinn * 4;
+		player->y += coss * 4;
 	}
-	else if (key == KEY_A && check_wall(player, -sinn * 8, coss * 8))
+	else if (key == KEY_A && check_wall(player, sinn * 8, -coss * 8))
 	{
-		player->position_x -= sinn * 4;
-		player->position_y += coss * 4;
+		player->x += sinn * 4;
+		player->y -= coss * 4;
 	}
 }
 
 void	change_pov(int key, t_player *player)
 {
 	if (key == KEY_Q)
-		player->pov -= PI_DIV_180 * 5;
-	else if (key == KEY_E)
 		player->pov += PI_DIV_180 * 5;
+	else if (key == KEY_E)
+		player->pov -= PI_DIV_180 * 5;
 	if (player->pov >= (2 * PI))
 		player->pov -= (float)(2 * PI);
 	else if (player->pov <= 0)

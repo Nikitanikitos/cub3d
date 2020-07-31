@@ -39,24 +39,22 @@ void	cast_ray_3d(t_cub *cub, float ray_angle, int wall_x)
 
 void	field_of_view_3d(t_cub *cub, t_player player, t_screen screen)
 {
-	const float	last_ray_angle = player.pov + (FOV_RAD / 2);
+	const float	last_ray_angle = player.pov - (FOV_RAD / 2);
 	const float	step = (FOV / (float)screen.width) * PI_DIV_180;
 	float		ray_angle;
 //	float 		distances[screen.width];
 	int			wall_x;
 
-	ray_angle = player.pov - (FOV_RAD / 2);
+	ray_angle = player.pov + (FOV_RAD / 2);
 	wall_x = 0;
-	while (ray_angle <= last_ray_angle)
+	while (ray_angle >= last_ray_angle)
 	{
 		cast_ray_3d(cub, ray_angle, wall_x);
-		ray_angle += step;
+		ray_angle -= step;
 		wall_x++;
-		if (wall_x == 1000)
-			wall_x = 1000;
 	}
 	mlx_put_image_to_window(screen.mlx, screen.win, screen.img_world.img, 0, 0);
-	drawing_items(cub->game_info, player, cub->screen);
+//	drawing_items(cub->game_info, player, cub->screen);
 }
 
 int		game_play(int key, t_cub *cub)
@@ -84,6 +82,7 @@ void 	close_game(t_cub cub)
 	mlx_destroy_image(cub.screen.mlx, cub.game_info.sprite_texture.img);
 	mlx_destroy_window(cub.screen.mlx, cub.screen.win);
 	free(cub.screen.mlx);
+	free(cub.game_info.items);
 	free(cub.game_info.map.map);
 }
 

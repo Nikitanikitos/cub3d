@@ -16,8 +16,7 @@ float		get_x_horizontal(t_player player, float y, float angle)
 {
 	float	x;
 
-	x = player.position_x + (player.position_y - y) *
-							(-1 / tanf(angle));
+	x = player.x + (player.y - y) * (1 / tanf(angle));
 	return (x);
 }
 
@@ -25,7 +24,7 @@ float		get_y_horizontal(t_player player, float angle)
 {
 	float	y;
 
-	y = (float)((int)(player.position_y / CELL) * CELL);
+	y = (float)((int)(player.y / CELL) * CELL);
 	y += (angle < PI) ? -.01f : CELL;
 	return (y);
 }
@@ -33,7 +32,7 @@ float		get_y_horizontal(t_player player, float angle)
 t_distance	dist_to_wall_horizontal(t_player player, float ray_angle, int width)
 {
 	const float		step_y = (ray_angle < PI) ? -CELL : CELL;
-	const float		step_x = -step_y * (-1 / tanf(ray_angle));
+	const float		step_x = -step_y * (1 / tanf(ray_angle));
 	t_map			map;
 	t_coordinates	current;
 	t_distance		distance;
@@ -51,7 +50,6 @@ t_distance	dist_to_wall_horizontal(t_player player, float ray_angle, int width)
 		current.y += step_y;
 	}
 	distance.x = get_texture_x(current.x);
-	distance.distance = get_distance(player.position_x - current.x,
-									player.position_y - current.y);
+	distance.distance = get_distance(player.x - current.x, player.y - current.y);
 	return (distance);
 }
