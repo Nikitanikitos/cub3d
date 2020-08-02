@@ -99,7 +99,6 @@ void	drawing_items(t_game_info game_info, t_player player, t_screen screen)
 			sprite_dir += 2 * M_PI;
 		sprite_dist = get_distance(player.x - game_info.items[q].x, player.y - game_info.items[q].y);
 		height = count_height_wall(sprite_dist, screen);
-		printf("%f\n", player.pov);
 		h_offset = (int)((sprite_dir - player.pov) * (float)screen.width / FOV + (float)screen.width / 2 - height / 2);
 		v_offset = screen.height / 2 - height / 2;
 		q++;

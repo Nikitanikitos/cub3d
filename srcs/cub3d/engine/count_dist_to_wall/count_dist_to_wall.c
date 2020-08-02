@@ -24,9 +24,9 @@ t_distance	dist_to_wall_init(t_distance dist_to_wall, float pov, float angle)
 float		fixed_angle(float angle)
 {
 	if (angle < 0)
-		return (angle + (float)(2 * PI));
-	else if (angle > (2 * PI))
-		return (angle - (float)(2 * PI));
+		return (angle + (float)(2 * M_PI));
+	else if (angle > (2 * M_PI))
+		return (angle - (float)(2 * M_PI));
 	else
 		return (angle);
 }

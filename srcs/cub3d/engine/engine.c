@@ -57,16 +57,6 @@ void	field_of_view_3d(t_cub *cub, t_player player, t_screen screen)
 //	drawing_items(cub->game_info, player, cub->screen);
 }
 
-int		game_play(int key, t_cub *cub)
-{
-	if (key == KEY_E || key == KEY_Q)
-		change_pov(key, &cub->player);
-	else if (key == KEY_A || key == KEY_D || key == KEY_S || key == KEY_W)
-		change_position(key, &cub->player);
-	field_of_view_3d(cub, cub->player, cub->screen);
-	return (0);
-}
-
 void 	close_game(t_cub cub)
 {
 	char	i;
@@ -84,6 +74,19 @@ void 	close_game(t_cub cub)
 	free(cub.screen.mlx);
 	free(cub.game_info.items);
 	free(cub.game_info.map.map);
+	exit(0);
+}
+
+int		game_play(int key, t_cub *cub)
+{
+	if (key == XK_e || key == XK_q)
+		change_pov(key, &cub->player);
+	else if (key == XK_a || key == XK_d || key == XK_s || key == XK_w)
+		change_position(key, &cub->player);
+	else if (key == XK_Escape)
+		close_game(*cub);
+	field_of_view_3d(cub, cub->player, cub->screen);
+	return (0);
 }
 
 int		engine(t_game_info game_info, t_screen screen, char *save)

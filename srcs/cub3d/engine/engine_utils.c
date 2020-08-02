@@ -26,22 +26,22 @@ void	change_position(int key, t_player *player)
 	const float	coss = cosf(player->pov);
 	const float	sinn = -sinf(player->pov);
 
-	if (key == KEY_W && check_wall(player, coss * 8, sinn * 8))
+	if (key == XK_w && check_wall(player, coss * 8, sinn * 8))
 	{
 		player->x += coss * 4;
 		player->y += sinn * 4;
 	}
-	else if (key == KEY_S && check_wall(player, -coss * 8, -sinn * 8))
+	else if (key == XK_s && check_wall(player, -coss * 8, -sinn * 8))
 	{
 		player->x -= coss * 4;
 		player->y -= sinn * 4;
 	}
-	else if (key == KEY_D && check_wall(player, -sinn * 8, coss * 8))
+	else if (key == XK_d && check_wall(player, -sinn * 8, coss * 8))
 	{
 		player->x -= sinn * 4;
 		player->y += coss * 4;
 	}
-	else if (key == KEY_A && check_wall(player, sinn * 8, -coss * 8))
+	else if (key == XK_a && check_wall(player, sinn * 8, -coss * 8))
 	{
 		player->x += sinn * 4;
 		player->y -= coss * 4;
@@ -50,14 +50,14 @@ void	change_position(int key, t_player *player)
 
 void	change_pov(int key, t_player *player)
 {
-	if (key == KEY_Q)
+	if (key == XK_q)
 		player->pov += PI_DIV_180 * 5;
-	else if (key == KEY_E)
+	else if (key == XK_e)
 		player->pov -= PI_DIV_180 * 5;
-	if (player->pov >= (2 * PI))
-		player->pov -= (float)(2 * PI);
+	if (player->pov >= (2 * M_PI))
+		player->pov -= (float)(2 * M_PI);
 	else if (player->pov <= 0)
-		player->pov += (float)(2 * PI);
+		player->pov += (float)(2 * M_PI);
 }
 
 void	get_wall_texture(t_cub *cub, float ray_angle,
@@ -65,14 +65,14 @@ void	get_wall_texture(t_cub *cub, float ray_angle,
 {
 	if (dist_to_wall_h > dist_to_wall_v)
 	{
-		if ((ray_angle < 2 / PI) || (ray_angle > 3 * PI / 2))
+		if ((ray_angle < 2 / M_PI) || (ray_angle > 3 * M_PI / 2))
 			cub->wall_texture.texture = cub->game_info.textures[0];
 		else
 			cub->wall_texture.texture = cub->game_info.textures[1];
 	}
 	else
 	{
-		if (ray_angle > PI)
+		if (ray_angle > M_PI)
 			cub->wall_texture.texture = cub->game_info.textures[2];
 		else
 			cub->wall_texture.texture = cub->game_info.textures[3];

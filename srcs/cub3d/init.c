@@ -31,8 +31,8 @@ t_item	item_init(int x, int y)
 {
 	t_item	item;
 
-	item.x = x - 32;
-	item.y = y - 32;
+	item.x = x + 32;
+	item.y = y + 32;
 	return (item);
 }
 
@@ -45,9 +45,9 @@ void 	check(t_player *player, char c, int length_line, t_item *items)
 
 	if (c == '2')
 		items[i++] = item_init(x, y);
-	if (ft_strchr(PLAYER_POS, c))
+	else if (ft_strchr(PLAYER_POS, c))
 		player_coor_init(player, x, y, c);
-	else if (++count_line == length_line)
+	if (++count_line == length_line)
 	{
 		y += 64;
 		x = 0;

@@ -14,7 +14,7 @@
 
 float		get_step_x_vertical(float ray_angle)
 {
-	if (ray_angle < (PI / 2) || ray_angle > (3 * PI / 2))
+	if (ray_angle < (M_PI / 2) || ray_angle > (3 * M_PI / 2))
 		return (CELL);
 	else
 		return (-CELL);
@@ -25,7 +25,7 @@ float		get_x_vertical(float position, float angle)
 	float	x;
 
 	x = (float)((int)(position / CELL) * CELL);
-	x += (angle < (PI / 2) || angle > (3 * PI / 2)) ? CELL : -.01f;
+	x += (angle < (M_PI / 2) || angle > (3 * M_PI / 2)) ? CELL : -.01f;
 	return (x);
 }
 
