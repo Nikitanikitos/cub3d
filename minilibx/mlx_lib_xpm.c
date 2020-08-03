@@ -1,14 +1,14 @@
-/*
-** mlx_xpm.c for minilibX in 
-** 
-** Made by Charlie Root
-** Login   <ol@epitech.net>
-** 
-** Started on  Fri Dec  8 11:07:24 2000 Charlie Root
-** Last update Thu Oct  4 16:00:22 2001 Charlie Root
-*/
-
-
+///*
+//** mlx_xpm.c for minilibX in
+//**
+//** Made by Charlie Root
+//** Login   <ol@epitech.net>
+//**
+//** Started on  Fri Dec  8 11:07:24 2000 Charlie Root
+//** Last update Thu Oct  4 16:00:22 2001 Charlie Root
+//*/
+//
+//
 #include	"mlx_int.h"
 
 
