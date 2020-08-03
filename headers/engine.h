@@ -16,7 +16,7 @@
 # include "cub3d.h"
 # include <math.h>
 
-# define PI_DIV_180		(float)(M_PI / 180)
+# define PI_DIV_180		(M_PI / 180)
 # define FOV			60.f
 # define FOV_RAD		FOV * PI_DIV_180
 
@@ -44,7 +44,7 @@ void			field_of_view(t_player *player, int color);
 void			drawing_floor(t_cub *cub, int height, int wall_x);
 void			drawing_wall(t_cub *cub, int wall_y, int height, int wall_x);
 void			drawing_celling(t_cub *cub, int height, int wall_x);
-void			drawing_items(t_game_info game_info, t_player player, t_screen screen);
+void			drawing_items(t_game_info game_info, t_player player, t_screen screen, float *distances);
 
 float			count_height_wall(float dist_to_wall, t_screen screen);
 

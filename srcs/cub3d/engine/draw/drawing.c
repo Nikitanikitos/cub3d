@@ -80,38 +80,45 @@ void	drawing_celling(t_cub *cub, int wall_y, int wall_x)
 	}
 }
 
-void	drawing_items(t_game_info game_info, t_player player, t_screen screen)
+void	drawing_item(t_item item, t_player player, t_screen screen, float *distances)
 {
-	int		q;
 	float	sprite_dir;
 	float	sprite_dist;
-	float	height;
+	int		height;
 	int		h_offset;
 	int		v_offset;
+
+	sprite_dir = atan2(item.y - player.y, item.x - player.x);
+	while (sprite_dir - player.pov >  M_PI)
+		sprite_dir -= 2 * M_PI;
+	while (sprite_dir - player.pov < -M_PI)
+		sprite_dir += 2 * M_PI;
+	sprite_dist = get_distance(player.x - item.x, player.y - item.y);
+	height = (int)count_height_wall(sprite_dist, screen);
+	h_offset = (sprite_dir - player.pov) * screen.width / FOV_RAD + screen.width / 2 - height / 2;
+	v_offset = screen.height / 2 - height / 2;
+	for (int i = 0; i < height; i++)
+	{
+		if ((h_offset + i < 0 || h_offset + i >= screen.width) ||
+				(distances[h_offset + i] < sprite_dist))
+			continue ;
+		for (int j = 0; j < height; j++)
+		{
+			if (v_offset + j < 0 || v_offset + j >= screen.height)
+				continue;
+			mlx_pixel_put(screen.mlx, screen.win, h_offset + i, v_offset + j, 0000);
+		}
+	}
+}
+
+void	drawing_items(t_game_info game_info, t_player player, t_screen screen, float *distances)
+{
+	int		q;
 
 	q = 0;
 	while (q < game_info.map.count_item)
 	{
-		sprite_dir = atan2f(game_info.items[q].y - player.y, game_info.items[q].x - player.x);
-		while (sprite_dir - player.pov >  M_PI)
-			sprite_dir -= 2 * M_PI;
-		while (sprite_dir - player.pov < -M_PI)
-			sprite_dir += 2 * M_PI;
-		sprite_dist = get_distance(player.x - game_info.items[q].x, player.y - game_info.items[q].y);
-		height = count_height_wall(sprite_dist, screen);
-		h_offset = (int)((sprite_dir - player.pov) * (float)screen.width / FOV + (float)screen.width / 2 - height / 2);
-		v_offset = screen.height / 2 - height / 2;
+		drawing_item(game_info.items[q], player, screen, distances);
 		q++;
-		for (int i = 0; i < height; i++)
-		{
-			if (h_offset + i < 0 || h_offset+i >= screen.width)
-				continue;
-			for (int j = 0; j < height; j++)
-			{
-				if (v_offset + j < 0 || v_offset+j >= screen.height)
-					continue;
-				mlx_pixel_put(screen.mlx, screen.win, h_offset + i, v_offset + j, 0000);
-			}
-		}
 	}
 }
