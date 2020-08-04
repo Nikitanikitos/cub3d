@@ -21,21 +21,21 @@ void	drawing_wall(t_cub *cub, int wall_y, int height, int wall_x)
 	int 				index_texture;
 
 	texture = cub->wall_texture;
-	texture.step = 1.0f * (float)texture.texture.img_height / (float)height;
-	texture.x *= (texture.texture.bpp / 8);
+	texture.step = 1.0f * (float)texture.img_data.height / (float)height;
+	texture.x *= (texture.img_data.bpp / 8);
 	wall_x *= img.bpp / 8;
 	tex_pos = (wall_y - cub->screen.height / 2 + height / 2) * texture.step;
 	while (height-- > 0)
 	{
-		texture.y = (int)tex_pos & (texture.texture.img_height - 1);
-		index_texture = texture.y * texture.texture.line_length + texture.x;
+		texture.y = (int)tex_pos & (texture.img_data.height - 1);
+		index_texture = texture.y * texture.img_data.line_length + texture.x;
 		index = wall_y * img.line_length + wall_x;
 		if (index > 0 && index < img.line_length * cub->screen.height)
 		{
-			img.addr[index] = texture.texture.addr[index_texture];
-			img.addr[index + 1] = texture.texture.addr[index_texture + 1];
-			img.addr[index + 2] = texture.texture.addr[index_texture + 2];
-			img.addr[index + 3] = texture.texture.addr[index_texture + 3];
+			img.addr[index] = texture.img_data.addr[index_texture];
+			img.addr[index + 1] = texture.img_data.addr[index_texture + 1];
+			img.addr[index + 2] = texture.img_data.addr[index_texture + 2];
+			img.addr[index + 3] = texture.img_data.addr[index_texture + 3];
 		}
 		tex_pos += texture.step;
 		wall_y++;
@@ -87,13 +87,13 @@ void	put_item_col(t_item item, t_screen screen, t_img_data img, int i)
 	t_img_data	texture;
 	int			index_texture;
 
-	texture = item.texture.texture;
+	texture = item.texture.img_data;
 	j = 0;
 	while (j < item.height)
 	{
 		if (item.v_offset + j > 0 && item.v_offset + j <= screen.height)
 		{
-			index_texture = j * texture.img_height/item.height * texture.line_length + i * texture.img_height/item.height * img.bpp / 8;
+			index_texture = j * texture.height / item.height * texture.line_length + i * texture.height / item.height * img.bpp / 8;
 			index = (item.v_offset + j) * img.line_length + (item.h_offset + i) * img.bpp / 8;
 			img.addr[index] = texture.addr[index_texture];
 			img.addr[index + 1] = texture.addr[index_texture + 1];
@@ -127,13 +127,13 @@ void	drawing_items(t_game_info game_info, t_player player, t_screen screen, floa
 	int			q;
 
 	q = 0;
-	while (q < game_info.map.count_item)
+	while (q < game_info.number_items)
 	{
 		item = game_info.items[q];
 		sprite_dir = count_item_dir(item, player, pov);
 		item.dist = get_distance(player.x - item.x, player.y - item.y);
 		item.height = (int)count_height(item.dist, screen);
-		item.texture.texture = game_info.sprite_texture;
+		item.texture.img_data = game_info.sprite_texture;
 		count_offset(&item, screen, sprite_dir - pov);
 		put_item(item, screen, distances);
 		q++;

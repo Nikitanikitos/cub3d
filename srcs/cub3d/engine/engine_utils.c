@@ -18,7 +18,7 @@ char	check_wall(t_player *player, float step_x, float step_y)
 	const int	coor_y = (int)((player->y + step_y) / 64);
 	t_map		map = player->map;
 
-	return (char)(map.map[coor_x + coor_y * map.length_line] != '1');
+	return (char)(map.map[coor_x + coor_y * map.line_length] != '1');
 }
 
 void	change_position(int key, t_player *player)
@@ -66,15 +66,15 @@ void	get_wall_texture(t_cub *cub, float ray_angle,
 	if (dist_to_wall_h > dist_to_wall_v)
 	{
 		if ((ray_angle < 2 / M_PI) || (ray_angle > 3 * M_PI / 2))
-			cub->wall_texture.texture = cub->game_info.textures[0];
+			cub->wall_texture.img_data = cub->game_info.textures[0];
 		else
-			cub->wall_texture.texture = cub->game_info.textures[1];
+			cub->wall_texture.img_data = cub->game_info.textures[1];
 	}
 	else
 	{
 		if (ray_angle > M_PI)
-			cub->wall_texture.texture = cub->game_info.textures[2];
+			cub->wall_texture.img_data = cub->game_info.textures[2];
 		else
-			cub->wall_texture.texture = cub->game_info.textures[3];
+			cub->wall_texture.img_data = cub->game_info.textures[3];
 	}
 }

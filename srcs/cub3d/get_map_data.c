@@ -18,7 +18,7 @@ char 	get_texture(char *line, t_img_data *img, void *mlx)
 		line++;
 	if (open(line, O_RDONLY) == -1)
 		return (TEX_ERR);
-	img->img = mlx_xpm_file_to_image(mlx, line, &img->img_width, &img->img_height);
+	img->img = mlx_xpm_file_to_image(mlx, line, &img->width, &img->height);
 	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_length, &img->endian);
 	return (1);
 }

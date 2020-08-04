@@ -28,6 +28,8 @@
 # define RES_ERR	-2
 # define TEX_ERR	-3
 
+# define COUNT_ARG	8
+
 typedef struct		s_color
 {
 	unsigned char	r;
@@ -42,13 +44,13 @@ typedef struct		s_img_data
 	int				bpp;
 	int				line_length;
 	int				endian;
-	int 			img_width;
-	int 			img_height;
+	int 			width;
+	int 			height;
 }					t_img_data;
 
 typedef struct		s_texture
 {
-	t_img_data		texture;
+	t_img_data		img_data;
 	float			step;
 	int 			x;
 	int 			y;
@@ -57,8 +59,7 @@ typedef struct		s_texture
 typedef struct		s_map
 {
 	char			*map;
-	int				length_line;
-	int				count_item;
+	int				line_length;
 	int 			x;
 	int 			y;
 }					t_map;
@@ -93,12 +94,13 @@ typedef struct		s_item
 
 typedef struct		s_game_info
 {
+	int				number_items;
+	t_item			*items;
 	t_img_data		textures[4];
 	t_img_data		sprite_texture;
 	t_map			map;
 	t_color			floor_color;
 	t_color			celling_color;
-	t_item			*items;
 }					t_game_info;
 
 typedef	struct		s_cub
@@ -110,7 +112,7 @@ typedef	struct		s_cub
 }					t_cub;
 
 char				get_map_data(char *line, t_game_info *game_info, t_screen *screen);
-char				write_map(char fd, t_map *map);
+char				write_map(char fd, t_game_info *game_info, t_map *map);
 
 int					engine(t_game_info game_info, t_screen screen, char *save);
 

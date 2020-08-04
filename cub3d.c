@@ -19,7 +19,7 @@ void	read_data_file(int fd, t_game_info *game_info, t_screen *screen)
 	char 			result;
 
 	count_arg = 0;
-	while (get_next_line(fd, &line) > 0 && count_arg < 8)
+	while (get_next_line(fd, &line) > 0 && count_arg < COUNT_ARG)
 	{
 		result = get_map_data(line, game_info, screen);
 		if (result == COLOR_ERR)
@@ -30,7 +30,7 @@ void	read_data_file(int fd, t_game_info *game_info, t_screen *screen)
 			exit_failure("Error textures path");
 		count_arg += result;
 	}
-	if (count_arg != 8)
+	if (count_arg != COUNT_ARG)
 		exit_failure("Not enough tools!");
 }
 
@@ -42,9 +42,11 @@ int 	main(int ac, char **av)
 
 	if (ac == 1)
 		exit_failure("Error");
+	else if (fd == -1)
+		exit_failure("Error file");
 	screen.mlx = mlx_init();
 	read_data_file(fd, &game_info, &screen);
-	if (write_map(fd, &game_info.map) == 0)
+	if (write_map(fd, &game_info, &game_info.map) == 0)
 		exit_failure("Not valid map!");
 	engine(game_info, screen, av[ac - 1]);
 	return (0);

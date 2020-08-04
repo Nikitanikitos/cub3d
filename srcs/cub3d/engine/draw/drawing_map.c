@@ -43,7 +43,7 @@ void print_wall(void *win, t_xvar *mlx, unsigned short pos_x, unsigned short pos
 //			print_wall(win, mlx, x, y);
 //		else if (ft_strchr(PLAYER_POS, *map))
 //			player_coor_init(player, x, y, *map);
-//		if (++count_line == player->map_data->length_line)
+//		if (++count_line == player->map_data->line_length)
 //		{
 //			y += 64;
 //			x = 0;
@@ -65,7 +65,7 @@ void print_wall(void *win, t_xvar *mlx, unsigned short pos_x, unsigned short pos
 //
 //	ray_x = player->position_x;
 //	ray_y = player->position_y;
-//	while (map_data->map[(int)ray_x / 64 + (int)ray_y / 64 * map_data->length_line] != '1')
+//	while (map_data->map[(int)ray_x / 64 + (int)ray_y / 64 * map_data->line_length] != '1')
 //	{
 //		mlx_pixel_put(player->mlx, player->win, (int)ray_x, (int)ray_y, color);
 //		ray_x += coss;

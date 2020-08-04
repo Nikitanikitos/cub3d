@@ -43,8 +43,8 @@ char	*read_map(char *line, char *map_temp, t_map *map)
 	if (*line)
 	{
 		temp_length = ft_strlen(line);
-		if (temp_length > map->length_line)
-			map->length_line = temp_length;
+		if (temp_length > map->line_length)
+			map->line_length = temp_length;
 		map_temp = ft_realloc(map_temp, (int)temp_length + 2);
 		if ((i = copy_read_map(map_temp, line, i)) == 0)
 			return (NULL);
@@ -93,18 +93,18 @@ int		count_item(char *line)
 	return (result);
 }
 
-char	write_map(char fd, t_map *map)
+char	write_map(char fd, t_game_info *game_info, t_map *map)
 {
 	char	*map_temp;
 	int		count_line;
 	char 	*line;
 
 	count_line = 0;
-	map->count_item = 0;
-	map->length_line = 0;
+	game_info->number_items = 0;
+	map->line_length = 0;
 	while (get_next_line(fd, &line) > 0)
 	{
-		map->count_item += count_item(line);
+		game_info->number_items += count_item(line);
 		map_temp = read_map(line, map_temp, map);
 		free(line);
 		if (map_temp == NULL)
@@ -113,8 +113,8 @@ char	write_map(char fd, t_map *map)
 	}
 	free(line);
 	map->map = ft_calloc(sizeof(char),
-			(map->length_line * count_line) + 1);
-	map->map = copy_write_map(map->map, map_temp, map->length_line);
+						 (map->line_length * count_line) + 1);
+	map->map = copy_write_map(map->map, map_temp, map->line_length);
 	free(map_temp);
 	return (1);
 }
