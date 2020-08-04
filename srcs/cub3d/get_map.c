@@ -79,6 +79,20 @@ char			*copy_write_map(char *map, char *map_temp, int length_line)
 	return (map);
 }
 
+int				count_item(char *line)
+{
+	int	result;
+
+	result = 0;
+	while (*line)
+	{
+		if (*line == '2')
+			result++;
+		line++;
+	}
+	return (result);
+}
+
 char			write_map(char fd, char *line, t_map *map)
 {
 	char	*map_temp;
@@ -91,8 +105,7 @@ char			write_map(char fd, char *line, t_map *map)
 	map->length_line = 0;
 	while (get_next_line(fd, &line) > 0)
 	{
-		if (ft_strchr(line, '2'))
-			map->count_item += 1;
+		map->count_item += count_item(line);
 		map_temp = read_map(line, map_temp, map);
 		free(line);
 		if (map_temp == NULL)
