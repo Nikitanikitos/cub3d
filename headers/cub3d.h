@@ -24,6 +24,10 @@
 # define MAP_CHAR	" 012NSEW"
 # define PLAYER_POS	"NSEW"
 
+# define COLOR_ERR	-1
+# define RES_ERR	-2
+# define TEX_ERR	-3
+
 typedef struct		s_color
 {
 	unsigned char	r;

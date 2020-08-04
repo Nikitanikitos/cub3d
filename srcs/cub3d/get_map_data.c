@@ -17,7 +17,7 @@ char 	get_texture(char *line, t_img_data *img, void *mlx)
 	while (*line == ' ')
 		line++;
 	if (open(line, O_RDONLY) == -1)
-		return (-3);
+		return (TEX_ERR);
 	img->img = mlx_xpm_file_to_image(mlx, line, &img->img_width, &img->img_height);
 	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_length, &img->endian);
 	return (1);
@@ -31,7 +31,7 @@ char	get_resolution(char *line, int *width, int *height)
 	while ('0' <= *line && *line <= '9')
 		line++;
 	if ((*height = ft_atoi(line)) <= 100)
-		return (-2);
+		return (RES_ERR);
 	return (1);
 }
 
@@ -52,7 +52,7 @@ char	get_color(char *line, t_color *rgb)
 			if (0 <= color_value && color_value <= 255)
 				color[q++] = (unsigned char)color_value;
 			else
-				return (-1);
+				return (COLOR_ERR);
 		}
 		else if (!(('0' <= *line && *line <= '9') || *line == '-'))
 			flag = 1;

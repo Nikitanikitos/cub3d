@@ -22,11 +22,11 @@ void	read_data_file(int fd, t_game_info *game_info, t_screen *screen)
 	while (get_next_line(fd, &line) > 0 && count_arg < 8)
 	{
 		result = get_map_data(line, game_info, screen);
-		if (result == -1)
+		if (result == COLOR_ERR)
 			exit_failure("Color should be from 0 to 255!");
-		else if (result == -2)
+		else if (result == RES_ERR)
 			exit_failure("Resolution should be from 100");
-		else if (result == -3)
+		else if (result == TEX_ERR)
 			exit_failure("Error textures path");
 		count_arg += result;
 	}
