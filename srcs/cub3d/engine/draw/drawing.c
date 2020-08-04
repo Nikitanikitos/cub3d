@@ -80,31 +80,41 @@ void	drawing_celling(t_cub *cub, int wall_y, int wall_x)
 	}
 }
 
+void	put_item_col(t_item item, t_screen screen, t_img_data img, int i)
+{
+	int			j;
+	int 		index;
+	t_img_data	texture;
+	int			index_texture;
+
+	texture = item.texture.texture;
+	j = 0;
+	while (j < item.height)
+	{
+		if (item.v_offset + j > 0 && item.v_offset + j <= screen.height)
+		{
+			index_texture = j * texture.img_height/item.height * texture.line_length + i * texture.img_height/item.height * img.bpp / 8;
+			index = (item.v_offset + j) * img.line_length + (item.h_offset + i) * img.bpp / 8;
+			img.addr[index] = texture.addr[index_texture];
+			img.addr[index + 1] = texture.addr[index_texture + 1];
+			img.addr[index + 2] = texture.addr[index_texture + 2];
+			img.addr[index + 3] = texture.addr[index_texture + 3];
+		}
+		j++;
+	}
+}
+
 void	put_item(t_item item, t_screen screen, float *distances)
 {
 	const t_img_data	img = screen.img_world;
-	int					index;
 	int					i;
-	int 				j;
 
 	i = 0;
 	while (i < item.height)
 	{
-		j = 0;
 		if ((item.h_offset + i > 0 && item.h_offset + i <= screen.width) &&
 			(distances[item.h_offset + i] > item.dist))
-			while (j < item.height)
-			{
-				if (item.v_offset + j > 0 && item.v_offset + j <= screen.height)
-				{
-					index = (item.v_offset + j) * img.line_length + (item.h_offset + i) * img.bpp / 8;
-					img.addr[index] = 0;
-					img.addr[index + 1] = 0;
-					img.addr[index + 2] = 0;
-					img.addr[index + 3] = 0;
-				}
-				j++;
-			}
+			put_item_col(item, screen, img, i);
 		i++;
 	}
 }
@@ -123,7 +133,7 @@ void	drawing_items(t_game_info game_info, t_player player, t_screen screen, floa
 		sprite_dir = count_item_dir(item, player, pov);
 		item.dist = get_distance(player.x - item.x, player.y - item.y);
 		item.height = (int)count_height(item.dist, screen);
-		item.texture = game_info.sprite_texture;
+		item.texture.texture = game_info.sprite_texture;
 		count_offset(&item, screen, sprite_dir - pov);
 		put_item(item, screen, distances);
 		q++;

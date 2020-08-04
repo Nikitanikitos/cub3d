@@ -84,7 +84,7 @@ typedef struct		s_item
 	int				h_offset;
 	int				v_offset;
 	int				height;
-	t_img_data		texture;
+	t_texture		texture;
 }					t_item;
 
 typedef struct		s_game_info
