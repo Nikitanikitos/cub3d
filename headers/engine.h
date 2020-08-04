@@ -44,6 +44,10 @@ void			drawing_wall(t_cub *cub, int wall_y, int height, int wall_x);
 void			drawing_celling(t_cub *cub, int height, int wall_x);
 void			drawing_items(t_game_info game_info, t_player player, t_screen screen, float *distances);
 
+
+void			put_pixel(t_img_data img, int index, t_color color);
+void			put_pixel_img(t_img_data img, t_img_data texture,
+					  int index, int index_texture);
 void			count_offset(t_item *item, t_screen screen, float angle);
 void			get_wall_texture(t_cub *cub, float ray_angle,
 								 float dist_to_wall_h, float dist_to_wall_v);
