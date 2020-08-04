@@ -82,29 +82,29 @@ void	drawing_celling(t_cub *cub, int wall_y, int wall_x)
 
 void	put_item(t_item item, t_screen screen, float *distances)
 {
-	int		i;
-	int 	j;
+	const t_img_data	img = screen.img_world;
+	int					index;
+	int					i;
+	int 				j;
 
 	i = 0;
 	while (i < item.height)
 	{
-		if ((item.h_offset + i < 0 || item.h_offset + i >= screen.width) ||
-			(distances[item.h_offset + i] < item.dist))
-		{
-			i++;
-			continue ;
-		}
 		j = 0;
-		while (j < item.height)
-		{
-			if (item.v_offset + j < 0 || item.v_offset + j >= screen.height)
+		if ((item.h_offset + i > 0 && item.h_offset + i <= screen.width) &&
+			(distances[item.h_offset + i] > item.dist))
+			while (j < item.height)
 			{
+				if (item.v_offset + j > 0 && item.v_offset + j <= screen.height)
+				{
+					index = (item.v_offset + j) * img.line_length + (item.h_offset + i) * img.bpp / 8;
+					img.addr[index] = 0;
+					img.addr[index + 1] = 0;
+					img.addr[index + 2] = 0;
+					img.addr[index + 3] = 0;
+				}
 				j++;
-				continue;
 			}
-			mlx_pixel_put(screen.mlx, screen.win, item.h_offset + i, item.v_offset + j, 0000);
-			j++;
-		}
 		i++;
 	}
 }

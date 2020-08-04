@@ -53,8 +53,8 @@ void	field_of_view_3d(t_cub *cub, t_player player, t_screen screen)
 		ray_angle -= step;
 		wall_x++;
 	}
-	mlx_put_image_to_window(screen.mlx, screen.win, screen.img_world.img, 0, 0);
 	drawing_items(cub->game_info, player, cub->screen, distances);
+	mlx_put_image_to_window(screen.mlx, screen.win, screen.img_world.img, 0, 0);
 }
 
 void 	close_game(t_cub cub)
