@@ -80,6 +80,8 @@ typedef struct		s_item
 {
 	float 			x;
 	float			y;
+	int				h_offset;
+	int				v_offset;
 }					t_item;
 
 typedef struct		s_game_info

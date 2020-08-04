@@ -80,40 +80,51 @@ void	drawing_celling(t_cub *cub, int wall_y, int wall_x)
 	}
 }
 
+
+float	check_sprite_dir(float sprite_dir, float pov)
+{
+	while (sprite_dir - pov >  M_PI)
+		sprite_dir -= 2 * M_PI;
+	while (sprite_dir - pov < -M_PI)
+		sprite_dir += 2 * M_PI;
+	return (sprite_dir);
+}
+
+void	count_offset(t_item *item, t_screen screen, float angle, int height)
+{
+	const float	fov = 60 * M_PI / 180;
+
+	item->h_offset = (int)(angle * (float)screen.width / fov +
+					(float)screen.width / 2 - (float)height / 2);
+	item->v_offset = screen.height / 2 - height / 2;
+}
+
 void	drawing_item(t_item item, t_player player, t_screen screen, float *distances)
 {
-	float	sprite_dir;
-	float	sprite_dist;
-	int		height;
-	int		h_offset;
-	int		v_offset;
-	float	q;
+	const float	pov = -player.pov;
+	float		sprite_dir;
+	float		sprite_dist;
+	int			height;
 
-	q = -player.pov;
 	sprite_dir = atan2f(item.y - player.y, item.x - player.x);
-//	if (q > M_PI)
-//		q -= 2 * M_PI;
-	while (sprite_dir - q >  M_PI)
-		sprite_dir -= 2 * M_PI;
-	while (sprite_dir - q < -M_PI)
-		sprite_dir += 2 * M_PI;
+	sprite_dir = check_sprite_dir(sprite_dir, pov);
 	sprite_dist = get_distance(player.x - item.x, player.y - item.y);
 	height = (int)count_height_wall(sprite_dist, screen);
-	h_offset = (sprite_dir - q) * screen.width / (60.f * M_PI / 180.f) + screen.width / 2 - height / 2;
-	v_offset = screen.height / 2 - height / 2;
+	count_offset(&item, screen, sprite_dir - pov, height);
 	for (int i = 0; i < height; i++)
 	{
-		if ((h_offset + i < 0 || h_offset + i >= screen.width) ||
-				(distances[h_offset + i] < sprite_dist))
+		if ((item.h_offset + i < 0 || item.h_offset + i >= screen.width) ||
+				(distances[item.h_offset + i] < sprite_dist))
 			continue ;
 		for (int j = 0; j < height; j++)
 		{
-			if (v_offset + j < 0 || v_offset + j >= screen.height)
+			if (item.v_offset + j < 0 || item.v_offset + j >= screen.height)
 				continue;
-			mlx_pixel_put(screen.mlx, screen.win, h_offset + i, v_offset + j, 0000);
+			mlx_pixel_put(screen.mlx, screen.win, item.h_offset + i, item.v_offset + j, 0000);
 		}
 	}
 }
+
 
 void	drawing_items(t_game_info game_info, t_player player, t_screen screen, float *distances)
 {
