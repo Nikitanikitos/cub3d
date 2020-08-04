@@ -12,52 +12,23 @@
 
 #include "engine.h"
 
-char	check_wall(t_player *player, float step_x, float step_y)
+float	fixed_angle(float angle)
 {
-	const int	coor_x = (int)((player->x + step_x) / 64);
-	const int	coor_y = (int)((player->y + step_y) / 64);
-	t_map		map = player->map;
-
-	return (char)(map.map[coor_x + coor_y * map.line_length] != '1');
+	if (angle <= 0)
+		return (angle + (float)(2 * M_PI));
+	else if (angle >= (2 * M_PI))
+		return (angle - (float)(2 * M_PI));
+	else
+		return (angle);
 }
 
-void	change_position(int key, t_player *player)
+float	count_height(float dist_to_wall, t_screen screen)
 {
-	const float	coss = cosf(player->pov);
-	const float	sinn = -sinf(player->pov);
+	float			height;
 
-	if (key == XK_w && check_wall(player, coss * 8, sinn * 8))
-	{
-		player->x += coss * 4;
-		player->y += sinn * 4;
-	}
-	else if (key == XK_s && check_wall(player, -coss * 8, -sinn * 8))
-	{
-		player->x -= coss * 4;
-		player->y -= sinn * 4;
-	}
-	else if (key == XK_d && check_wall(player, -sinn * 8, coss * 8))
-	{
-		player->x -= sinn * 4;
-		player->y += coss * 4;
-	}
-	else if (key == XK_a && check_wall(player, sinn * 8, -coss * 8))
-	{
-		player->x += sinn * 4;
-		player->y -= coss * 4;
-	}
-}
-
-void	change_pov(int key, t_player *player)
-{
-	if (key == XK_q)
-		player->pov += PI_DIV_180 * 5;
-	else if (key == XK_e)
-		player->pov -= PI_DIV_180 * 5;
-	if (player->pov >= (2 * M_PI))
-		player->pov -= (float)(2 * M_PI);
-	else if (player->pov <= 0)
-		player->pov += (float)(2 * M_PI);
+	height = CELL / dist_to_wall * ((float)screen.width / 2
+									/ tanf(FOV_RAD / 2));
+	return (height);
 }
 
 void	get_wall_texture(t_cub *cub, float ray_angle,

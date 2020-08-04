@@ -118,4 +118,6 @@ int					engine(t_game_info game_info, t_screen screen, char *save);
 
 void				exit_failure(char *error);
 
+void				close_game(t_cub cub);
+
 # endif

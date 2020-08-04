@@ -79,7 +79,7 @@ char	*copy_write_map(char *map, char *map_temp, int length_line)
 	return (map);
 }
 
-int		count_item(char *line)
+int		get_number_items(char *line)
 {
 	int	result;
 
@@ -104,7 +104,7 @@ char	write_map(char fd, t_game_info *game_info, t_map *map)
 	map->line_length = 0;
 	while (get_next_line(fd, &line) > 0)
 	{
-		game_info->number_items += count_item(line);
+		game_info->number_items += get_number_items(line);
 		map_temp = read_map(line, map_temp, map);
 		free(line);
 		if (map_temp == NULL)

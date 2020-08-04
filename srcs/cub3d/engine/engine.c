@@ -12,32 +12,23 @@
 
 #include "engine.h"
 
-float	count_height(float dist_to_wall, t_screen screen)
-{
-	float			height;
-
-	height = CELL / dist_to_wall * ((float)screen.width / 2
-									/ tanf(FOV_RAD / 2));
-	return (height);
-}
-
-void	cast_ray_3d(t_cub *cub, float ray_angle, int wall_x, float *distances)
+float	cast_ray(t_cub *cub, float ray_angle, int wall_x)
 {
 	t_screen		screen = cub->screen;
 	float			height;
 	t_distance 		dist_to_wall;
 
 	dist_to_wall = count_dist_to_wall(cub, ray_angle);
-	distances[wall_x] = dist_to_wall.distance;
 	cub->wall_texture.x = (int)(CELL * dist_to_wall.x);
 	height = count_height(dist_to_wall.distance, screen);
 	dist_to_wall.distance = (float)screen.height / 2 - height / 2;
 	drawing_floor(cub, (int)dist_to_wall.distance, wall_x);
 	drawing_wall(cub, (int)dist_to_wall.distance, (int)height, wall_x);
 	drawing_celling(cub, (int)(dist_to_wall.distance + height), wall_x);
+	return (dist_to_wall.distance);
 }
 
-void	field_of_view_3d(t_cub *cub, t_player player, t_screen screen)
+void	field_of_view(t_cub *cub, t_player player, t_screen screen)
 {
 	const float	last_ray_angle = player.pov - (FOV_RAD / 2);
 	const float	step = (FOV / (float)screen.width) * PI_DIV_180;
@@ -49,32 +40,12 @@ void	field_of_view_3d(t_cub *cub, t_player player, t_screen screen)
 	wall_x = 0;
 	while (ray_angle >= last_ray_angle)
 	{
-		cast_ray_3d(cub, ray_angle, wall_x, distances);
+		distances[wall_x] = cast_ray(cub, ray_angle, wall_x);
 		ray_angle -= step;
 		wall_x++;
 	}
 	drawing_items(cub->game_info, player, cub->screen, distances);
 	mlx_put_image_to_window(screen.mlx, screen.win, screen.img_world.img, 0, 0);
-}
-
-void 	close_game(t_cub cub)
-{
-	char	i;
-	void	*img;
-
-	i = 0;
-	while (i < 4)
-	{
-		img = cub.game_info.textures[i++].img;
-		mlx_destroy_image(cub.screen.mlx, img);
-	}
-	mlx_destroy_image(cub.screen.mlx, cub.screen.img_world.img);
-	mlx_destroy_image(cub.screen.mlx, cub.game_info.sprite_texture.img);
-	mlx_destroy_window(cub.screen.mlx, cub.screen.win);
-	free(cub.screen.mlx);
-	free(cub.game_info.items);
-	free(cub.game_info.map.map);
-	exit(0);
 }
 
 int		game_play(int key, t_cub *cub)
@@ -85,7 +56,7 @@ int		game_play(int key, t_cub *cub)
 		change_position(key, &cub->player);
 	else if (key == XK_Escape)
 		close_game(*cub);
-	field_of_view_3d(cub, cub->player, cub->screen);
+	field_of_view(cub, cub->player, cub->screen);
 	return (0);
 }
 
@@ -95,7 +66,7 @@ int		engine(t_game_info game_info, t_screen screen, char *save)
 
 	cub = cub_init(screen, &game_info);
 	screen = cub.screen;
-	field_of_view_3d(&cub, cub.player, screen);
+	field_of_view(&cub, cub.player, screen);
 	if (!ft_strncmp(save, "--save", 6))
 		save_bmp(screen.width, screen.height, screen.img_world.addr);
 	else
