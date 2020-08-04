@@ -87,15 +87,19 @@ void	drawing_item(t_item item, t_player player, t_screen screen, float *distance
 	int		height;
 	int		h_offset;
 	int		v_offset;
+	float	q;
 
-	sprite_dir = atan2(item.y - player.y, item.x - player.x);
-	while (sprite_dir - player.pov >  M_PI)
+	q = -player.pov;
+	sprite_dir = atan2f(item.y - player.y, item.x - player.x);
+//	if (q > M_PI)
+//		q -= 2 * M_PI;
+	while (sprite_dir - q >  M_PI)
 		sprite_dir -= 2 * M_PI;
-	while (sprite_dir - player.pov < -M_PI)
+	while (sprite_dir - q < -M_PI)
 		sprite_dir += 2 * M_PI;
 	sprite_dist = get_distance(player.x - item.x, player.y - item.y);
 	height = (int)count_height_wall(sprite_dist, screen);
-	h_offset = (sprite_dir - player.pov) * screen.width / FOV_RAD + screen.width / 2 - height / 2;
+	h_offset = (sprite_dir - q) * screen.width / (60.f * M_PI / 180.f) + screen.width / 2 - height / 2;
 	v_offset = screen.height / 2 - height / 2;
 	for (int i = 0; i < height; i++)
 	{

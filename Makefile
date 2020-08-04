@@ -42,7 +42,7 @@ SRCS    = cub3d.c srcs/libft/ft_realloc.c \
 					srcs/cub3d/engine/count_dist_to_wall/distance_utils.c
 
 OBJS	= $(SRCS:.c=.o)
-LIBS    = -lXext -lX11 -lm -L./minilibx -lmlx
+LIBS    = -L./minilibx -lmlx -lXext -lX11 -lm
 MLX		= minilibx/libmlx_Linux.a
 
 .PHONY: clean fclean all
