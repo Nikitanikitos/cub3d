@@ -12,7 +12,7 @@
 
 #include "engine.h"
 
-float	count_height_wall(float dist_to_wall, t_screen screen)
+float	count_height(float dist_to_wall, t_screen screen)
 {
 	float			height;
 
@@ -30,7 +30,7 @@ void	cast_ray_3d(t_cub *cub, float ray_angle, int wall_x, float *distances)
 	dist_to_wall = count_dist_to_wall(cub, ray_angle);
 	distances[wall_x] = dist_to_wall.distance;
 	cub->wall_texture.x = (int)(CELL * dist_to_wall.x);
-	height = count_height_wall(dist_to_wall.distance, screen);
+	height = count_height(dist_to_wall.distance, screen);
 	dist_to_wall.distance = (float)screen.height / 2 - height / 2;
 	drawing_floor(cub, (int)dist_to_wall.distance, wall_x);
 	drawing_wall(cub, (int)dist_to_wall.distance, (int)height, wall_x);

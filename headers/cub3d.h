@@ -80,8 +80,11 @@ typedef struct		s_item
 {
 	float 			x;
 	float			y;
+	float			dist;
 	int				h_offset;
 	int				v_offset;
+	int				height;
+	t_img_data		texture;
 }					t_item;
 
 typedef struct		s_game_info

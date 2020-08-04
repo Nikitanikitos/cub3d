@@ -80,60 +80,52 @@ void	drawing_celling(t_cub *cub, int wall_y, int wall_x)
 	}
 }
 
-
-float	check_sprite_dir(float sprite_dir, float pov)
+void	put_item(t_item item, t_screen screen, float *distances)
 {
-	while (sprite_dir - pov >  M_PI)
-		sprite_dir -= 2 * M_PI;
-	while (sprite_dir - pov < -M_PI)
-		sprite_dir += 2 * M_PI;
-	return (sprite_dir);
-}
+	int		i;
+	int 	j;
 
-void	count_offset(t_item *item, t_screen screen, float angle, int height)
-{
-	const float	fov = 60 * M_PI / 180;
-
-	item->h_offset = (int)(angle * (float)screen.width / fov +
-					(float)screen.width / 2 - (float)height / 2);
-	item->v_offset = screen.height / 2 - height / 2;
-}
-
-void	drawing_item(t_item item, t_player player, t_screen screen, float *distances)
-{
-	const float	pov = -player.pov;
-	float		sprite_dir;
-	float		sprite_dist;
-	int			height;
-
-	sprite_dir = atan2f(item.y - player.y, item.x - player.x);
-	sprite_dir = check_sprite_dir(sprite_dir, pov);
-	sprite_dist = get_distance(player.x - item.x, player.y - item.y);
-	height = (int)count_height_wall(sprite_dist, screen);
-	count_offset(&item, screen, sprite_dir - pov, height);
-	for (int i = 0; i < height; i++)
+	i = 0;
+	while (i < item.height)
 	{
 		if ((item.h_offset + i < 0 || item.h_offset + i >= screen.width) ||
-				(distances[item.h_offset + i] < sprite_dist))
+			(distances[item.h_offset + i] < item.dist))
+		{
+			i++;
 			continue ;
-		for (int j = 0; j < height; j++)
+		}
+		j = 0;
+		while (j < item.height)
 		{
 			if (item.v_offset + j < 0 || item.v_offset + j >= screen.height)
+			{
+				j++;
 				continue;
+			}
 			mlx_pixel_put(screen.mlx, screen.win, item.h_offset + i, item.v_offset + j, 0000);
+			j++;
 		}
+		i++;
 	}
 }
 
-
 void	drawing_items(t_game_info game_info, t_player player, t_screen screen, float *distances)
 {
-	int		q;
+	const float	pov = -player.pov;
+	float		sprite_dir;
+	t_item		item;
+	int			q;
 
 	q = 0;
 	while (q < game_info.map.count_item)
 	{
-		drawing_item(game_info.items[q], player, screen, distances);
+		item = game_info.items[q];
+		sprite_dir = count_item_dir(item, player, pov);
+		item.dist = get_distance(player.x - item.x, player.y - item.y);
+		item.height = (int)count_height(item.dist, screen);
+		item.texture = game_info.sprite_texture;
+		count_offset(&item, screen, sprite_dir - pov);
+		put_item(item, screen, distances);
 		q++;
 	}
 }
