@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-char	*read_data_file(int fd, t_game_info *game_info, t_screen *screen)
+void	read_data_file(int fd, t_game_info *game_info, t_screen *screen)
 {
 	char 			*line;
 	char			count_arg;
@@ -32,21 +32,19 @@ char	*read_data_file(int fd, t_game_info *game_info, t_screen *screen)
 	}
 	if (count_arg != 8)
 		exit_failure("Not enough tools!");
-	return (line);
 }
 
 int 	main(int ac, char **av)
 {
-	const char		fd  = (char)open(av[1], O_RDONLY);
-	char			*line;
+	const char		fd = (char)open(av[1], O_RDONLY);
 	t_game_info		game_info;
 	t_screen		screen;
 
 	if (ac == 1)
 		exit_failure("Error");
 	screen.mlx = mlx_init();
-	line = read_data_file(fd, &game_info, &screen);
-	if (write_map(fd, line, &game_info.map) == 0)
+	read_data_file(fd, &game_info, &screen);
+	if (write_map(fd, &game_info.map) == 0)
 		exit_failure("Not valid map!");
 	engine(game_info, screen, av[ac - 1]);
 	return (0);

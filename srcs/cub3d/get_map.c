@@ -35,7 +35,7 @@ int		copy_read_map(char *map, char *line, int i)
 	return (i);
 }
 
-char		*read_map(char *line, char *map_temp, t_map *map)
+char	*read_map(char *line, char *map_temp, t_map *map)
 {
 	static int	i;
 	int			temp_length;
@@ -52,7 +52,7 @@ char		*read_map(char *line, char *map_temp, t_map *map)
 	return (map_temp);
 }
 
-char			*copy_write_map(char *map, char *map_temp, int length_line)
+char	*copy_write_map(char *map, char *map_temp, int length_line)
 {
 	int		i;
 	int		q;
@@ -79,7 +79,7 @@ char			*copy_write_map(char *map, char *map_temp, int length_line)
 	return (map);
 }
 
-int				count_item(char *line)
+int		count_item(char *line)
 {
 	int	result;
 
@@ -93,14 +93,13 @@ int				count_item(char *line)
 	return (result);
 }
 
-char			write_map(char fd, char *line, t_map *map)
+char	write_map(char fd, t_map *map)
 {
 	char	*map_temp;
 	int		count_line;
+	char 	*line;
 
 	count_line = 0;
-	map_temp = NULL;
-	free(line);
 	map->count_item = 0;
 	map->length_line = 0;
 	while (get_next_line(fd, &line) > 0)
