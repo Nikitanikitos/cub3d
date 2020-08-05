@@ -49,12 +49,12 @@ t_distance	dist_to_wall_vertical(t_player player, float ray_angle)
 	map.y = (int)(current.y / CELL);
 	while (map.y > 0 && map.y < map.column_length)
 	{
-		map.x = (int)(current.x / CELL);
-		map.y = (int)(current.y / CELL);
 		if (map.map[map.x + map.y * map.line_length] == '1')
 			break ;
 		current.x += step_x;
 		current.y += step_y;
+		map.x = (int)(current.x / CELL);
+		map.y = (int)(current.y / CELL);
 	}
 	distance.x = get_texture_x(current.y);
 	distance.distance = get_distance(player.x - current.x, player.y - current.y);

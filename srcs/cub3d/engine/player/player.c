@@ -18,7 +18,8 @@ char	check_wall(t_player *player, float step_x, float step_y)
 	const int	coor_y = (int)((player->y + step_y) / 64);
 	t_map		map = player->map;
 
-	return (char)(map.map[coor_x + coor_y * map.line_length] != '1');
+	return (char)(map.map[coor_x + coor_y * map.line_length] != '1' &&
+			map.map[coor_x + coor_y * map.line_length] != '2');
 }
 
 void	change_position(int key, t_player *player)
