@@ -12,14 +12,6 @@
 
 #include "engine.h"
 
-int		check_transparency(t_img_data texture, int index)
-{
-	if (texture.addr[index] == 0 && texture.addr[index + 1] == 0 &&
-		texture.addr[index + 2] == 0 && texture.addr[index + 3] == 0)
-		return (0);
-	return (1);
-}
-
 void	put_item(t_item item, t_screen screen, t_img_data img, int i)
 {
 	int			j;

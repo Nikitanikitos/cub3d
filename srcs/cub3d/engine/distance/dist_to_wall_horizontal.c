@@ -37,7 +37,9 @@ t_distance	dist_to_wall_horizontal(t_player player, float ray_angle, int width)
 	map = player.map;
 	current.y = get_y_horizontal(player, ray_angle);
 	current.x = get_x_horizontal(player, current.y, ray_angle);
-	while ((int)current.x > 0 && (int)current.x < width)
+	map.x = (int)(current.x / CELL);
+	map.y = (int)(current.y / CELL);
+	while (map.x > 0 && map.x < map.line_length)
 	{
 		map.x = (int)(current.x / CELL);
 		map.y = (int)(current.y / CELL);

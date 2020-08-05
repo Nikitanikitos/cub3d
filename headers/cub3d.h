@@ -60,6 +60,7 @@ typedef struct		s_map
 {
 	char			*map;
 	int				line_length;
+	int 			column_length;
 	int 			x;
 	int 			y;
 }					t_map;

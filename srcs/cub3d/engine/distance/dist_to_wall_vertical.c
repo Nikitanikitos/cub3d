@@ -45,7 +45,9 @@ t_distance	dist_to_wall_vertical(t_player player, float ray_angle, int height)
 	map = player.map;
 	current.x = get_x_vertical(player.x, ray_angle);
 	current.y = get_y_vertical(player, current.x, ray_angle);
-	while ((int)current.y > 0 && (int)current.y < height)
+	map.x = (int)(current.x / CELL);
+	map.y = (int)(current.y / CELL);
+	while (map.y > 0 && map.y < map.column_length)
 	{
 		map.x = (int)(current.x / CELL);
 		map.y = (int)(current.y / CELL);

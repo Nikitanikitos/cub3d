@@ -102,6 +102,7 @@ char	write_map(char fd, t_game_info *game_info, t_map *map)
 	count_line = 0;
 	game_info->number_items = 0;
 	map->line_length = 0;
+	map->column_length = 0;
 	while (get_next_line(fd, &line) > 0)
 	{
 		game_info->number_items += get_number_items(line);
@@ -111,6 +112,7 @@ char	write_map(char fd, t_game_info *game_info, t_map *map)
 			return (0);
 		count_line++;
 	}
+	map->column_length = count_line;
 	free(line);
 	map->map = ft_calloc(sizeof(char),
 						 (map->line_length * count_line) + 1);

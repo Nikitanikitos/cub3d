@@ -12,6 +12,14 @@
 
 # include "engine.h"
 
+int		check_transparency(t_img_data texture, int index)
+{
+	if (texture.addr[index] == 0 && texture.addr[index + 1] == 0 &&
+		texture.addr[index + 2] == 0 && texture.addr[index + 3] == 0)
+		return (0);
+	return (1);
+}
+
 float	count_item_dir(t_item item, t_player player, float pov)
 {
 	float	item_dir;
