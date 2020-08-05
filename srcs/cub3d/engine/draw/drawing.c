@@ -22,7 +22,8 @@ void	drawing_celling(t_cub *cub, int wall_y, int wall_x)
 	while (wall_y < cub->screen.height)
 	{
 		index = (wall_y * img.line_length + wall_x);
-		put_pixel(img, index, celling_color);
+		if (index > 0)
+			put_pixel(img, index, celling_color);
 		wall_y++;
 	}
 }
@@ -39,7 +40,8 @@ void	drawing_floor(t_cub *cub, int height, int wall_x)
 	while (y < height)
 	{
 		index = (y * img.line_length + wall_x);
-		put_pixel(img, index, floor_color);
+		if (index < cub->screen.height * img.line_length)
+			put_pixel(img, index, floor_color);
 		y++;
 	}
 }
@@ -56,7 +58,8 @@ void	drawing_wall(t_cub *cub, int wall_y, int height, int wall_x)
 	texture.step = 1.0f * (float)texture.img_data.height / (float)height;
 	texture.x *= (texture.img_data.bpp / 8);
 	wall_x *= img.bpp / 8;
-	tex_pos = (float)(wall_y - cub->screen.height / 2 + height / 2) * texture.step;
+	tex_pos = (float)((wall_y - cub->player.look - cub->player.crouch) -
+			cub->screen.height / 2 + height / 2) * texture.step;
 	while (height-- > 0)
 	{
 		texture.y = (int)tex_pos & (texture.img_data.height - 1);

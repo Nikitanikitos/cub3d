@@ -33,13 +33,13 @@ float	count_item_dir(t_item item, t_player player, float pov)
 	return (item_dir);
 }
 
-void	count_offset(t_item *item, t_screen screen, float angle)
+void	count_offset(t_item *item, t_screen screen, float angle, t_player player)
 {
 	const float	fov = 60.f * (float)M_PI / 180;
 
 	item->h_offset = (int)(angle * (float)screen.width / fov +
 						   (float)screen.width / 2 - (float)item->height / 2);
-	item->v_offset = screen.height / 2 - item->height / 2;
+	item->v_offset = (screen.height / 2 - item->height / 2 + 30) + player.look + player.crouch;
 }
 
 void	put_pixel(t_img_data img, int index, t_color color)

@@ -47,13 +47,25 @@ void	change_position(int key, t_player *player)
 		player->x += sinn * 4;
 		player->y -= coss * 4;
 	}
+	else if (key == XK_Control_L)
+	{
+		if (player->crouch == 0)
+			player->crouch = -50;
+		else
+			player->crouch = 0;
+	}
+
 }
 
 void	change_pov(int key, t_player *player)
 {
-	if (key == XK_q)
+	if (key == ARROW_LEFT)
 		player->pov += PI_DIV_180 * 5;
-	else if (key == XK_e)
+	else if (key == ARROW_RIGHT)
 		player->pov -= PI_DIV_180 * 5;
+	else if (key == ARROW_UP)
+		player->look += 10;
+	else if (key == ARROW_DOWN)
+		player->look -= 10;
 	player->pov = fixed_angle(player->pov);
 }

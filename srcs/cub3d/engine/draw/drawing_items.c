@@ -14,10 +14,10 @@
 
 void	put_item(t_item item, t_screen screen, t_img_data img, int i)
 {
-	int			j;
-	int 		index;
 	t_img_data	texture;
 	int			index_texture;
+	int 		index;
+	int			j;
 
 	texture = item.texture.img_data;
 	j = 0;
@@ -93,7 +93,7 @@ void	items_init(t_game_info *game_info, t_player player, t_screen screen)
 		item->dist = get_distance(player.x - item->x, player.y - item->y);
 		item->height = (int)count_height(item->dist, screen);
 		item->texture.img_data = game_info->sprite_texture;
-		count_offset(item, screen, sprite_dir - pov);
+		count_offset(item, screen, sprite_dir - pov, player);
 		q++;
 	}
 }

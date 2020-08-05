@@ -22,6 +22,11 @@
 
 # define CELL			64
 
+# define ARROW_LEFT		65361
+# define ARROW_RIGHT	65363
+# define ARROW_UP		65362
+# define ARROW_DOWN		65364
+
 typedef struct	s_distance
 {
 	float		distance;
@@ -48,7 +53,7 @@ int				check_transparency(t_img_data texture, int index);
 void			put_pixel(t_img_data img, int index, t_color color);
 void			put_pixel_img(t_img_data img, t_img_data texture,
 					  int index, int index_texture);
-void			count_offset(t_item *item, t_screen screen, float angle);
+void			count_offset(t_item *item, t_screen screen, float angle, t_player player);
 void			get_wall_texture(t_cub *cub, float ray_angle,
 								 float dist_to_wall_h, float dist_to_wall_v);
 float			fixed_angle(float angle);

@@ -17,6 +17,8 @@ void	player_coor_init(t_player *player, int pos_x, int pos_y, char direction)
 {
 	player->x = (float)pos_x + 32;
 	player->y = (float)pos_y + 32;
+	player->crouch = 0;
+	player->look = 0;
 	if (direction == 'E')
 		player->pov = 0;
 	else if (direction == 'N')

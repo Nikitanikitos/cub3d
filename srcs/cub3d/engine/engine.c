@@ -14,16 +14,17 @@
 
 float	cast_ray(t_cub *cub, float ray_angle, int wall_x)
 {
-	t_screen		screen = cub->screen;
+	const t_screen	screen = cub->screen;
+	const t_player	player = cub->player;
+	t_distance		dist_to_wall;
 	float			height;
 	float 			dist;
-	t_distance 		dist_to_wall;
 
 	dist_to_wall = count_dist_to_wall(cub, ray_angle);
 	dist = dist_to_wall.distance;
 	cub->wall_texture.x = (int)(CELL * dist_to_wall.x);
 	height = count_height(dist_to_wall.distance, screen);
-	dist_to_wall.distance = (float)screen.height / 2 - height / 2;
+	dist_to_wall.distance = (float)(screen.height / 2 - height / 2) + player.crouch + player.look;
 	drawing_floor(cub, (int)dist_to_wall.distance, wall_x);
 	drawing_wall(cub, (int)dist_to_wall.distance, (int)height, wall_x);
 	drawing_celling(cub, (int)(dist_to_wall.distance + height), wall_x);
@@ -54,9 +55,11 @@ void	field_of_view(t_cub *cub, t_player player, t_screen screen)
 
 int		game_play(int key, t_cub *cub)
 {
-	if (key == XK_e || key == XK_q)
+	if (key == ARROW_LEFT || key == ARROW_RIGHT ||
+		key == ARROW_DOWN || key == ARROW_UP)
 		change_pov(key, &cub->player);
-	else if (key == XK_a || key == XK_d || key == XK_s || key == XK_w)
+	else if (key == XK_a || key == XK_d || key == XK_s || key == XK_w
+		|| key == XK_Control_L)
 		change_position(key, &cub->player);
 	else if (key == XK_Escape)
 		close_game(*cub);
