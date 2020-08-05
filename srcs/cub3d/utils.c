@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-void 	close_game(t_cub cub)
+int		close_game(t_cub cub)
 {
 	char	i;
 	void	*img;
@@ -30,6 +30,7 @@ void 	close_game(t_cub cub)
 	free(cub.game_info.items);
 	free(cub.game_info.map.map);
 	exit(0);
+	return (0);
 }
 
 void	exit_failure(char *error)

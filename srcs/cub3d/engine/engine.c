@@ -79,6 +79,7 @@ int		engine(t_game_info game_info, t_screen screen, char *save)
 	else
 	{
 		mlx_hook(screen.win, 2, 1L << 0, game_play, &cub);
+		mlx_hook(screen.win, 17, 1L << 17, close_game, &cub);
 		mlx_loop(screen.mlx);
 	}
 	close_game(cub);
