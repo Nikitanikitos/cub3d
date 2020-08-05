@@ -12,9 +12,9 @@
 
 # include "engine.h"
 
-float		get_step_x_vertical(float ray_angle)
+float		get_step_x_vertical(float angle)
 {
-	if (ray_angle < (M_PI / 2) || ray_angle > (3 * M_PI / 2))
+	if (angle < (M_PI / 2) || angle > (3 * M_PI / 2))
 		return (CELL);
 	else
 		return (-CELL);
@@ -34,7 +34,7 @@ float		get_y_vertical(t_player player, float x, float angle)
 	return (player.y + (player.x - x) * tanf(angle));
 }
 
-t_distance	dist_to_wall_vertical(t_player player, float ray_angle, int height)
+t_distance	dist_to_wall_vertical(t_player player, float ray_angle)
 {
 	const float		step_x = get_step_x_vertical(ray_angle);
 	const float		step_y = -step_x * tanf(ray_angle);

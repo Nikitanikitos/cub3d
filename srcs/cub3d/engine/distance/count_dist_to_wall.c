@@ -29,8 +29,8 @@ t_distance	count_dist_to_wall(t_cub *cub, float ray_angle)
 	t_distance	dist_to_wall_v;
 
 	ray_angle = fixed_angle(ray_angle);
-	dist_to_wall_h = dist_to_wall_horizontal(player, ray_angle, screen.width);
-	dist_to_wall_v = dist_to_wall_vertical(player, ray_angle, screen.height);
+	dist_to_wall_h = dist_to_wall_horizontal(player, ray_angle);
+	dist_to_wall_v = dist_to_wall_vertical(player, ray_angle);
 	get_wall_texture(cub, ray_angle, dist_to_wall_h.distance, dist_to_wall_v.distance);
 	if (dist_to_wall_h.distance > dist_to_wall_v.distance)
 		return (dist_to_wall_init(dist_to_wall_v, player.pov, ray_angle));
