@@ -27,14 +27,13 @@
 # define COLOR_ERR	-1
 # define RES_ERR	-2
 # define TEX_ERR	-3
-
 # define COUNT_ARG	8
 
 typedef struct		s_color
 {
-	unsigned char	r;
-	unsigned char	g;
-	unsigned char	b;
+	u_int8_t		r;
+	u_int8_t		g;
+	u_int8_t		b;
 }					t_color;
 
 typedef struct		s_img_data
@@ -71,8 +70,8 @@ typedef struct		s_player
 	float			x;
 	float			y;
 	float			pov;
-	int				crouch;
-	int 			look;
+	float			crouch;
+	float			look;
 }					t_player;
 
 typedef struct		s_screen
@@ -84,7 +83,7 @@ typedef struct		s_screen
 	int 			height;
 }					t_screen;
 
-typedef struct		s_item
+typedef struct		s_sprite
 {
 	float 			x;
 	float			y;
@@ -93,17 +92,17 @@ typedef struct		s_item
 	int				v_offset;
 	int				height;
 	t_texture		texture;
-}					t_item;
+}					t_sprite;
 
 typedef struct		s_game_info
 {
-	int				number_items;
-	t_item			*items;
+	int				number_sprites;
+	t_sprite		*sprites;
 	t_img_data		textures[4];
 	t_img_data		sprite_texture;
 	t_map			map;
 	t_color			floor_color;
-	t_color			celling_color;
+	t_color			ceiling_color;
 }					t_game_info;
 
 typedef	struct		s_cub
@@ -114,13 +113,14 @@ typedef	struct		s_cub
 	t_texture		wall_texture;
 }					t_cub;
 
-char				get_map_data(char *line, t_game_info *game_info, t_screen *screen);
-char				write_map(char fd, t_game_info *game_info, t_map *map);
+int8_t				get_data(char *line, t_game_info *game_info, t_screen *screen);
+int8_t				read_map_data(char fd, t_game_info *game_info, t_map *map);
+int8_t				check_valid_map(int x, int y, t_map map_info, char *map);
 
 int					engine(t_game_info game_info, t_screen screen, char *save);
 
 void				exit_failure(char *error);
 
-void				close_game(t_cub cub);
+int					close_game(t_cub cub);
 
 # endif
