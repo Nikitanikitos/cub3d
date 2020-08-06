@@ -30,6 +30,7 @@ void	read_game_data(int fd, t_game_info *game_info, t_screen *screen)
 			exit_failure("Error textures path");
 		count_arg += answer;
 	}
+	free(line);
 	if (count_arg != COUNT_ARG)
 		exit_failure("Not enough tools!");
 }

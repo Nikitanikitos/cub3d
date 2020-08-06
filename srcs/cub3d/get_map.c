@@ -99,8 +99,9 @@ int8_t	read_map_data(char fd, t_game_info *game_info, t_map *map)
 	char 	*line;
 
 	game_info->number_sprites = 0;
-	map->line_length = 0;
 	map->column_length = 0;
+	map->line_length = 0;
+	temp_map = NULL;
 	while (get_next_line(fd, &line) > 0)
 	{
 		game_info->number_sprites += get_number_sprites(line);

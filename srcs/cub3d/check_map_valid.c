@@ -58,8 +58,8 @@ int8_t		check_valid_map_sw(int x, int y, t_map map_info, char *map)
 		return (0);
 	else if (map[index] == '1')
 		return (1);
-	result_s = check_valid_map_nw(x, y + 1, map_info, map);
-	result_w = check_valid_map_nw(x - 1, y, map_info, map);
+	result_s = check_valid_map_sw(x, y + 1, map_info, map);
+	result_w = check_valid_map_sw(x - 1, y, map_info, map);
 	return (result_s == 1 && result_w == 1);
 }
 
@@ -75,8 +75,8 @@ int8_t		check_valid_map_se(int x, int y, t_map map_info, char *map)
 		return (0);
 	else if (map[index] == '1')
 		return (1);
-	result_s = check_valid_map_nw(x, y + 1, map_info, map);
-	result_e = check_valid_map_nw(x + 1, y, map_info, map);
+	result_s = check_valid_map_se(x, y + 1, map_info, map);
+	result_e = check_valid_map_se(x + 1, y, map_info, map);
 	return (result_e == 1 && result_s == 1);
 }
 
