@@ -12,9 +12,9 @@
 
 #include "cub3d.h"
 
-void	close_game(t_cub cub)
+int	close_game(t_cub cub)
 {
-	char	i;
+	int8_t	i;
 	void	*img;
 
 	i = 0;

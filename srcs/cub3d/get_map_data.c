@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-char 	get_texture(char *line, t_img_data *img, void *mlx)
+int8_t	get_texture(char *line, t_img_data *img, void *mlx)
 {
 	while (*line == ' ')
 		line++;
@@ -24,7 +24,7 @@ char 	get_texture(char *line, t_img_data *img, void *mlx)
 	return (1);
 }
 
-char	get_resolution(char *line, int *width, int *height)
+int8_t	get_resolution(char *line, int *width, int *height)
 {
 	line += 2;
 	if ((*width = ft_atoi(line)) < 100)
@@ -36,12 +36,12 @@ char	get_resolution(char *line, int *width, int *height)
 	return (1);
 }
 
-char	get_color(char *line, t_color *rgb)
+int8_t	get_color(char *line, t_color *rgb)
 {
 	int 			color_value;
-	int 			flag;
-	int 			q;
 	unsigned char	color[3];
+	int8_t			flag;
+	int 			q;
 
 	q = 0;
 	while (*line)
@@ -65,9 +65,9 @@ char	get_color(char *line, t_color *rgb)
 	return (1);
 }
 
-char 	get_data(char *line, t_game_info *game_info, t_screen *screen)
+int8_t	get_data(char *line, t_game_info *game_info, t_screen *screen)
 {
-	char	answer;
+	int8_t	answer;
 
 	answer = 0;
 	if (line[0] == 'N' && line[1] == 'O')

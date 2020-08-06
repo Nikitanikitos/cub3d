@@ -93,7 +93,7 @@ int		get_number_sprites(char *line)
 	return (result);
 }
 
-char	read_map_data(char fd, t_game_info *game_info, t_map *map)
+int8_t	read_map_data(char fd, t_game_info *game_info, t_map *map)
 {
 	char	*temp_map;
 	char 	*line;

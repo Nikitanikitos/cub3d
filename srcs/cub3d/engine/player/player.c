@@ -12,13 +12,13 @@
 
 # include "engine.h"
 
-char	check_wall(t_player *player, float step_x, float step_y)
+int8_t	check_wall(t_player *player, float step_x, float step_y)
 {
 	const int	coor_x = (int)((player->x + step_x) / 64);
 	const int	coor_y = (int)((player->y + step_y) / 64);
 	t_map		map = player->map;
 
-	return (char)(map.map[coor_x + coor_y * map.line_length] != '1' &&
+	return (map.map[coor_x + coor_y * map.line_length] != '1' &&
 			map.map[coor_x + coor_y * map.line_length] != '2');
 }
 
