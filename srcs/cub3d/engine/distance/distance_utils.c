@@ -12,7 +12,7 @@
 
 # include "engine.h"
 
-float		get_texture_x(float current_x)
+float		get_texture_coordinate(float current_x)
 {
 	if (current_x < 0)
 		return (0);

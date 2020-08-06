@@ -20,26 +20,28 @@ int		check_transparency(t_img_data texture, int index)
 	return (1);
 }
 
-float	count_item_dir(t_item item, t_player player, float pov)
+float	calculate_direction_sprite(t_sprite sprite, t_player player, float pov)
 {
-	float	item_dir;
+	float	sprite_dir;
 
-	item_dir = atan2f(item.y - player.y, item.x - player.x);
+	sprite_dir = atan2f(sprite.y - player.y, sprite.x - player.x);
 
-	while (item_dir - pov >  M_PI)
-		item_dir -= 2 * (float)M_PI;
-	while (item_dir - pov < -M_PI)
-		item_dir += 2 * (float)M_PI;
-	return (item_dir);
+	while (sprite_dir - pov > M_PI)
+		sprite_dir -= 2 * (float)M_PI;
+	while (sprite_dir - pov < -M_PI)
+		sprite_dir += 2 * (float)M_PI;
+	return (sprite_dir);
 }
 
-void	count_offset(t_item *item, t_screen screen, float angle, t_player player)
+void	calculate_offset(t_sprite *sprite, t_screen screen, float angle,
+						 t_player player)
 {
 	const float	fov = 60.f * (float)M_PI / 180;
 
-	item->h_offset = (int)(angle * (float)screen.width / fov +
-						   (float)screen.width / 2 - (float)item->height / 2);
-	item->v_offset = (screen.height / 2 - item->height / 2 + 30) + player.look + player.crouch;
+	sprite->h_offset = (int)(angle * (float)screen.width / fov +
+						   (float)screen.width / 2 - (float)sprite->height / 2);
+	sprite->v_offset = screen.height / 2 - ((float)sprite->height / 2) + 30
+											   + player.look + player.crouch;
 }
 
 void	put_pixel(t_img_data img, int index, t_color color)

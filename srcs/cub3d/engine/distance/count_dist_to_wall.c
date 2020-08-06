@@ -21,19 +21,19 @@ t_distance	dist_to_wall_init(t_distance dist_to_wall, float pov, float angle)
 	return (distance);
 }
 
-t_distance	count_dist_to_wall(t_cub *cub, float ray_angle)
+t_distance	calculating_distance_to_wall(t_cub *cub, float ray_angle)
 {
 	t_player	player = cub->player;
-	t_screen	screen = cub->screen;
-	t_distance	dist_to_wall_h;
-	t_distance	dist_to_wall_v;
+	t_distance	distance_to_wall_h;
+	t_distance	distance_to_wall_v;
 
-	ray_angle = fixed_angle(ray_angle);
-	dist_to_wall_h = dist_to_wall_horizontal(player, ray_angle);
-	dist_to_wall_v = dist_to_wall_vertical(player, ray_angle);
-	get_wall_texture(cub, ray_angle, dist_to_wall_h.distance, dist_to_wall_v.distance);
-	if (dist_to_wall_h.distance > dist_to_wall_v.distance)
-		return (dist_to_wall_init(dist_to_wall_v, player.pov, ray_angle));
+	ray_angle = fix_angle(ray_angle);
+	distance_to_wall_h = calculating_distance_to_wall_h(player, ray_angle);
+	distance_to_wall_v = calculating_distance_to_wall_v(player, ray_angle);
+	get_wall_texture(cub, ray_angle, distance_to_wall_h.distance,
+					 distance_to_wall_v.distance);
+	if (distance_to_wall_h.distance > distance_to_wall_v.distance)
+		return (dist_to_wall_init(distance_to_wall_v, player.pov, ray_angle));
 	else
-		return (dist_to_wall_init(dist_to_wall_h, player.pov, ray_angle));
+		return (dist_to_wall_init(distance_to_wall_h, player.pov, ray_angle));
 }

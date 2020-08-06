@@ -12,11 +12,11 @@
 
 # include "cub3d.h"
 
-int		check_valid_map_ne(int x, int y, t_map map_info, char *map)
+int8_t	check_valid_map_ne(int x, int y, t_map map_info, char *map)
 {
 	int		index;
-	int		result_e;
-	int		result_n;
+	int8_t	result_e;
+	int8_t	result_n;
 
 	index = y * map_info.line_length + x;
 	if (x > map_info.line_length || y > map_info.column_length ||
@@ -29,11 +29,11 @@ int		check_valid_map_ne(int x, int y, t_map map_info, char *map)
 	return (result_e == 1 && result_n == 1);
 }
 
-int		check_valid_map_nw(int x, int y, t_map map_info, char *map)
+int8_t	check_valid_map_nw(int x, int y, t_map map_info, char *map)
 {
 	int		index;
-	int		result_w;
-	int		result_n;
+	int8_t	result_w;
+	int8_t	result_n;
 
 	index = y * map_info.line_length + x;
 	if (x > map_info.line_length || y > map_info.column_length ||
@@ -46,11 +46,11 @@ int		check_valid_map_nw(int x, int y, t_map map_info, char *map)
 	return (result_w == 1 && result_n == 1);
 }
 
-int		check_valid_map_sw(int x, int y, t_map map_info, char *map)
+int8_t		check_valid_map_sw(int x, int y, t_map map_info, char *map)
 {
 	int		index;
-	int		result_s;
-	int		result_w;
+	int8_t	result_s;
+	int8_t	result_w;
 
 	index = y * map_info.line_length + x;
 	if (x > map_info.line_length || y > map_info.column_length ||
@@ -63,11 +63,11 @@ int		check_valid_map_sw(int x, int y, t_map map_info, char *map)
 	return (result_s == 1 && result_w == 1);
 }
 
-int		check_valid_map_se(int x, int y, t_map map_info, char *map)
+int8_t		check_valid_map_se(int x, int y, t_map map_info, char *map)
 {
 	int		index;
-	int		result_e;
-	int		result_s;
+	int8_t	result_e;
+	int8_t	result_s;
 
 	index = y * map_info.line_length + x;
 	if (x > map_info.line_length || y > map_info.column_length ||
@@ -80,15 +80,13 @@ int		check_valid_map_se(int x, int y, t_map map_info, char *map)
 	return (result_e == 1 && result_s == 1);
 }
 
-int		check_valid_map(int x, int y, t_map map_info, char *map)
+int8_t	check_valid_map(int x, int y, t_map map_info, char *map)
 {
-	if (check_valid_map_ne(x, y, map_info, map) == 0)
+	if (check_valid_map_ne(x, y, map_info, map) &&
+		check_valid_map_nw(x - 1, y, map_info, map) &&
+		check_valid_map_se(x, y + 1, map_info, map) &&
+			check_valid_map_sw(x - 1, y + 1, map_info, map))
+		return (1);
+	else
 		return (0);
-	else if (check_valid_map_nw(x - 1, y, map_info, map) == 0)
-		return (0);
-	else if (check_valid_map_se(x, y + 1, map_info, map) == 0)
-		return (0);
-	else if (check_valid_map_sw(x - 1, y + 1, map_info, map) == 0)
-		return (0);
-	return (1);
 }

@@ -35,43 +35,43 @@ int		copy_read_map(char *map, char *line, int i)
 	return (i);
 }
 
-char	*read_map(char *line, char *map_temp, t_map *map)
+char	*read_map(char *line, char *temp_map, t_map *map)
 {
 	static int	i;
-	int			temp_length;
+	int			current_length;
 
 	if (*line)
 	{
-		temp_length = ft_strlen(line);
-		if (temp_length > map->line_length)
-			map->line_length = temp_length;
-		map_temp = ft_realloc(map_temp, (int)temp_length + 2);
-		if ((i = copy_read_map(map_temp, line, i)) == 0)
+		current_length = ft_strlen(line);
+		if (current_length > map->line_length)
+			map->line_length = current_length;
+		temp_map = ft_realloc(temp_map, (int)current_length + 2);
+		if ((i = copy_read_map(temp_map, line, i)) == 0)
 			return (NULL);
 	}
-	return (map_temp);
+	return (temp_map);
 }
 
-char	*copy_write_map(char *map, char *map_temp, int length_line)
+char	*copy_write_map(char *map, char *temp_map, int length_line)
 {
+	const int	k = ft_strlen(temp_map);
+	int		current_length_line;
 	int		i;
 	int		q;
-	int		current_length_line;
-	int 	k = ft_strlen(map_temp);
 
 	i = 0;
 	q = 0;
 	current_length_line = 0;
 	while (i < k)
 	{
-		if (map_temp[i] == '\n')
+		if (temp_map[i] == '\n')
 		{
 			while (current_length_line++ < length_line)
 				map[q++] = ' ';
 			i++;
 			current_length_line = 0;
 		}
-		map[q++] = map_temp[i++];
+		map[q++] = temp_map[i++];
 		current_length_line++;
 	}
 	--q;
@@ -79,7 +79,7 @@ char	*copy_write_map(char *map, char *map_temp, int length_line)
 	return (map);
 }
 
-int		get_number_items(char *line)
+int		get_number_sprites(char *line)
 {
 	int	result;
 
@@ -93,20 +93,20 @@ int		get_number_items(char *line)
 	return (result);
 }
 
-char	write_map(char fd, t_game_info *game_info, t_map *map)
+char	read_map_data(char fd, t_game_info *game_info, t_map *map)
 {
-	char	*map_temp;
+	char	*temp_map;
 	char 	*line;
 
-	game_info->number_items = 0;
+	game_info->number_sprites = 0;
 	map->line_length = 0;
 	map->column_length = 0;
 	while (get_next_line(fd, &line) > 0)
 	{
-		game_info->number_items += get_number_items(line);
-		map_temp = read_map(line, map_temp, map);
+		game_info->number_sprites += get_number_sprites(line);
+		temp_map = read_map(line, temp_map, map);
 		free(line);
-		if (map_temp == NULL)
+		if (temp_map == NULL)
 			return (0);
 		map->column_length++;
 	}
@@ -115,7 +115,7 @@ char	write_map(char fd, t_game_info *game_info, t_map *map)
 	free(line);
 	map->map = ft_calloc(sizeof(char),
 						 (map->line_length * map->column_length) + 1);
-	map->map = copy_write_map(map->map, map_temp, map->line_length);
-	free(map_temp);
+	map->map = copy_write_map(map->map, temp_map, map->line_length);
+	free(temp_map);
 	return (1);
 }

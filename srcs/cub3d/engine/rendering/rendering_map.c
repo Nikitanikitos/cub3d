@@ -55,7 +55,7 @@ void print_wall(void *win, t_xvar *mlx, unsigned short pos_x, unsigned short pos
 //	}
 //}
 
-//void	cast_ray(t_player *player, double corner, int color)
+//void	ray_casting(t_player *player, double corner, int color)
 //{
 //	const t_map_data	*map_data = player->map_data;
 //	const double 		coss = cos(corner * PI / 180);
@@ -73,7 +73,7 @@ void print_wall(void *win, t_xvar *mlx, unsigned short pos_x, unsigned short pos
 //	}
 //}
 
-//void	field_of_view(t_player *player, int color)
+//void	frame_rendering(t_player *player, int color)
 //{
 //	double			corner;
 //	const double	diff = (double)FOV / player->map_data->resolution[0];
@@ -82,7 +82,7 @@ void print_wall(void *win, t_xvar *mlx, unsigned short pos_x, unsigned short pos
 //	corner = player->pov - ((double)FOV / 2);
 //	while (corner != last_corner)
 //	{
-//		cast_ray(player, corner, color);
+//		ray_casting(player, corner, color);
 //		corner += diff;
 //	}
 //}

@@ -67,5 +67,5 @@ void	change_pov(int key, t_player *player)
 		player->look += 10;
 	else if (key == ARROW_DOWN)
 		player->look -= 10;
-	player->pov = fixed_angle(player->pov);
+	player->pov = fix_angle(player->pov);
 }

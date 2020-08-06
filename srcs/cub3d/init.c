@@ -13,7 +13,7 @@
 #include "cub3d.h"
 #include "engine.h"
 
-void	player_coor_init(t_player *player, int pos_x, int pos_y, char direction)
+void	init_player_coord(t_player *player, int pos_x, int pos_y, char direction)
 {
 	player->x = (float)pos_x + 32;
 	player->y = (float)pos_y + 32;
@@ -29,31 +29,32 @@ void	player_coor_init(t_player *player, int pos_x, int pos_y, char direction)
 		player->pov = 270 * PI_DIV_180;
 }
 
-t_item	item_init(int x, int y)
+t_sprite	init_sprite_coord(int x, int y)
 {
-	t_item	item;
+	t_sprite	item;
 
 	item.x = (float)x + 32;
 	item.y = (float)y + 32;
 	return (item);
 }
 
-void 	check(t_player *player, char c, int length_line, t_item *items)
+void 	check_positions(t_player *player, char c, int length_line,
+													t_sprite *items)
 {
-	static int	count_line;
+	static int	current_length_line;
 	static int 	i;
 	static int	x;
 	static int	y;
 
 	if (c == '2')
-		items[i++] = item_init(x, y);
+		items[i++] = init_sprite_coord(x, y);
 	else if (ft_strchr(PLAYER_POS, c))
-		player_coor_init(player, x, y, c);
-	if (++count_line == length_line)
+		init_player_coord(player, x, y, c);
+	if (++current_length_line == length_line)
 	{
 		y += 64;
 		x = 0;
-		count_line = 0;
+		current_length_line = 0;
 	}
 	else
 		x += 64;
@@ -63,21 +64,19 @@ t_player	player_init(t_game_info *game_info)
 {
 	t_map		map;
 	t_player	player;
-	t_item		*items;
+	t_sprite	*sprites;
 
-	items = (t_item*)malloc(sizeof(t_item) * game_info->number_items);
+	sprites = (t_sprite*)malloc(sizeof(t_sprite) * game_info->number_sprites);
 	map = game_info->map;
 	while (*map.map)
 	{
-		check(&player, *map.map, map.line_length, items);
+		check_positions(&player, *map.map, map.line_length, sprites);
 		map.map++;
 	}
 	player.map = game_info->map;
-	game_info->items = items;
+	game_info->sprites = sprites;
 	return (player);
 }
-
-
 
 t_cub	cub_init(t_screen screen, t_game_info *game_info)
 {
@@ -86,13 +85,17 @@ t_cub	cub_init(t_screen screen, t_game_info *game_info)
 	t_img_data	img_world;
 
 	player = player_init(game_info);
-	if (!check_valid_map(player.x / 64, player.y / 64, player.map, player.map.map))
+	if (!check_valid_map(player.x / 64, player.y / 64, player.map,
+															player.map.map))
+	{
+		free(game_info->sprites);
 		exit_failure("Error map");
-	screen.win = mlx_new_window(screen.mlx, screen.width,
-									screen.height, "Cub3D");
+	}
+	screen.win = mlx_new_window(screen.mlx, screen.width, screen.height,
+																"Cub3D");
 	img_world.img = mlx_new_image(screen.mlx, screen.width, screen.height);
 	img_world.addr = mlx_get_data_addr(img_world.img, &img_world.bpp,
-									   &img_world.line_length, &img_world.endian);
+								&img_world.line_length, &img_world.endian);
 	screen.img_world = img_world;
 	cub.screen = screen;
 	cub.player = player;

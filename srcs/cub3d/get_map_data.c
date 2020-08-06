@@ -19,7 +19,8 @@ char 	get_texture(char *line, t_img_data *img, void *mlx)
 	if (open(line, O_RDONLY) == -1)
 		return (TEX_ERR);
 	img->img = mlx_xpm_file_to_image(mlx, line, &img->width, &img->height);
-	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_length, &img->endian);
+	img->addr = mlx_get_data_addr(img->img, &img->bpp,&img->line_length,
+																&img->endian);
 	return (1);
 }
 
@@ -27,7 +28,7 @@ char	get_resolution(char *line, int *width, int *height)
 {
 	line += 2;
 	if ((*width = ft_atoi(line)) < 100)
-		return (-2);
+		return (RES_ERR);
 	while ('0' <= *line && *line <= '9')
 		line++;
 	if ((*height = ft_atoi(line)) <= 100)
@@ -64,27 +65,27 @@ char	get_color(char *line, t_color *rgb)
 	return (1);
 }
 
-char 	get_map_data(char *line, t_game_info *game_info, t_screen *screen)
+char 	get_data(char *line, t_game_info *game_info, t_screen *screen)
 {
-	char	result;
+	char	answer;
 
-	result = 0;
+	answer = 0;
 	if (line[0] == 'N' && line[1] == 'O')
-		result = get_texture(line + 2, &(game_info)->textures[0], screen->mlx);
+		answer = get_texture(line + 2, &(game_info)->textures[0], screen->mlx);
 	else if (line[0] == 'S' && line[1] == 'O')
-		result = get_texture(line + 2, &(game_info)->textures[1], screen->mlx);
+		answer = get_texture(line + 2, &(game_info)->textures[1], screen->mlx);
 	else if (line[0] == 'W' && line[1] == 'E')
-		result = get_texture(line + 2, &(game_info)->textures[2], screen->mlx);
+		answer = get_texture(line + 2, &(game_info)->textures[2], screen->mlx);
 	else if (line[0] == 'E' && line[1] == 'A')
-		result = get_texture(line + 2, &(game_info)->textures[3], screen->mlx);
+		answer = get_texture(line + 2, &(game_info)->textures[3], screen->mlx);
 	else if (*line == 'S')
-		result = get_texture(line + 2, &(game_info)->sprite_texture, screen->mlx);
+		answer = get_texture(line + 2, &(game_info)->sprite_texture, screen->mlx);
 	else if (*line == 'R')
-		result = get_resolution(line, &screen->width, &screen->height);
+		answer = get_resolution(line, &screen->width, &screen->height);
 	else if (*line == 'F')
-		result = get_color(line, &game_info->floor_color);
+		answer = get_color(line, &game_info->floor_color);
 	else if (*line == 'C')
-		result = get_color(line, &game_info->celling_color);
+		answer = get_color(line, &game_info->ceiling_color);
 	free(line);
-	return (result);
+	return (answer);
 }

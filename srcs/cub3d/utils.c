@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-int		close_game(t_cub cub)
+void	close_game(t_cub cub)
 {
 	char	i;
 	void	*img;
@@ -27,10 +27,9 @@ int		close_game(t_cub cub)
 	mlx_destroy_image(cub.screen.mlx, cub.game_info.sprite_texture.img);
 	mlx_destroy_window(cub.screen.mlx, cub.screen.win);
 	free(cub.screen.mlx);
-	free(cub.game_info.items);
+	free(cub.game_info.sprites);
 	free(cub.game_info.map.map);
 	exit(0);
-	return (0);
 }
 
 void	exit_failure(char *error)
