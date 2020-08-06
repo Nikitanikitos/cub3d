@@ -71,17 +71,21 @@ int		game_play(int key, t_cub *cub)
 
 int		engine(t_game_info game_info, t_screen screen, char *save)
 {
-	t_cub	cub;
+	t_cub		cub;
+	t_player	player;
 
-	cub = cub_init(screen, &game_info);
+	player = player_init(&game_info);
+	if (!check_valid_map(player))
+		exit_failure("The map must be closed by walls");
+	cub = cub_init(screen, player, &game_info);
 	screen = cub.screen;
 	frame_rendering(&cub, cub.player, screen);
 	if (!ft_strncmp(save, "--save", 6))
 		save_bmp(screen.width, screen.height, screen.img_world.addr);
 	else
 	{
+//		mlx_hook(screen.win, 17, 1L << 17, close_game, &cub);
 		mlx_hook(screen.win, 2, 1L << 0, game_play, &cub);
-		mlx_hook(screen.win, 17, 1L << 17, close_game, &cub);
 		mlx_loop(screen.mlx);
 	}
 	close_game(cub);

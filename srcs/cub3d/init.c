@@ -78,16 +78,11 @@ t_player	player_init(t_game_info *game_info)
 	return (player);
 }
 
-t_cub	cub_init(t_screen screen, t_game_info *game_info)
+t_cub	cub_init(t_screen screen, t_player player, t_game_info *game_info)
 {
-	t_player	player;
 	t_cub		cub;
 	t_img_data	img_world;
 
-	player = player_init(game_info);
-	if (!check_valid_map(player.x / 64, player.y / 64, player.map,
-															player.map.map))
-		exit_failure("Error map");
 	screen.win = mlx_new_window(screen.mlx, screen.width, screen.height,
 																"Cub3D");
 	img_world.img = mlx_new_image(screen.mlx, screen.width, screen.height);

@@ -40,7 +40,9 @@ typedef struct	s_coordinates
 	float		y;
 }				t_coordinates;
 
-t_cub			cub_init(t_screen screen, t_game_info *game_info);
+t_player		player_init(t_game_info *game_info);
+t_cub			cub_init(t_screen screen, t_player player, t_game_info *game_info);
+
 
 void			change_position(int key, t_player *player);
 void			change_pov(int key, t_player *player);

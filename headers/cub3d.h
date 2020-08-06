@@ -115,12 +115,11 @@ typedef	struct		s_cub
 
 int8_t				get_data(char *line, t_game_info *game_info, t_screen *screen);
 int8_t				read_map_data(char fd, t_game_info *game_info, t_map *map);
-int8_t				check_valid_map(int x, int y, t_map map_info, char *map);
+int8_t				check_valid_map(t_player player);
 
 int					engine(t_game_info game_info, t_screen screen, char *save);
 
 void				exit_failure(char *error);
-
 int					close_game(t_cub cub);
 
 # endif
