@@ -21,6 +21,7 @@
 # define FOV_RAD		FOV * PI_DIV_180
 
 # define CELL			64
+# define PLAYER_SPEED	6
 
 # define ARROW_LEFT		65361
 # define ARROW_RIGHT	65363
@@ -43,28 +44,34 @@ t_cub			cub_init(t_screen screen, t_game_info *game_info);
 
 void			change_position(int key, t_player *player);
 void			change_pov(int key, t_player *player);
+void			change_crouch(t_player *player);
 
 void			rendering_floor(t_cub *cub, int height, int wall_x);
 void			rendering_wall(t_cub *cub, int wall_y, int height, int wall_x);
 void			rendering_ceiling(t_cub *cub, int height, int wall_x);
-void			rendering_sprites(t_game_info game_info, t_player player, t_screen screen, float *distances);
+void			rendering_sprites(t_game_info game_info, t_player player,
+											t_screen screen, float *distances);
 
+float			fix_angle(float angle);
 int				check_transparency(t_img_data texture, int index);
+
 void			put_pixel(t_img_data img, int index, t_color color);
 void			put_pixel_img(t_img_data img, t_img_data texture,
-					  int index, int index_texture);
-void			calculate_offset(t_sprite *sprite, t_screen screen, float angle, t_player player);
-void			get_wall_texture(t_cub *cub, float ray_angle,
-								 float distance_to_wall_h, float distance_to_wall_v);
-float			fix_angle(float angle);
-float			calculate_direction_sprite(t_sprite sprite, t_player player, float pov);
-float			calculate_height(float distance_to_wall, t_screen screen);
+												  int index, int index_texture);
 
 float			get_texture_coordinate(float current_x);
 float			get_distance(float x, float y);
+void			get_wall_texture(t_cub *cub, float ray_angle,
+							 float distance_to_wall_h, float distance_to_wall_v);
 
-t_distance		calculating_distance_to_wall_v(t_player player, float ray_angle);
-t_distance		calculating_distance_to_wall_h(t_player player, float ray_angle);
-t_distance		calculating_distance_to_wall(t_cub *cub, float ray_angle);
+float			calculate_height(float distance_to_wall, t_screen screen);
+void			calculate_offset(t_sprite *sprite, t_screen screen, float angle,
+																t_player player);
+float			calculate_direction_sprite(t_sprite sprite, t_player player,
+																	float pov);
+
+t_distance		calculate_distance_to_wall(t_cub *cub, float ray_angle);
+t_distance		calculate_distance_to_wall_v(t_player player, float ray_angle);
+t_distance		calculate_distance_to_wall_h(t_player player, float ray_angle);
 
 #endif

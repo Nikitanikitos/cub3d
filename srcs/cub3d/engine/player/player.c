@@ -14,12 +14,12 @@
 
 int8_t	check_wall(t_player *player, float step_x, float step_y)
 {
-	const int	coor_x = (int)((player->x + step_x) / 64);
-	const int	coor_y = (int)((player->y + step_y) / 64);
+	const int	coord_x = (int)((player->x + step_x * PLAYER_SPEED * 2) / 64);
+	const int	coord_y = (int)((player->y + step_y * PLAYER_SPEED * 2) / 64);
 	t_map		map = player->map;
 
-	return (map.map[coor_x + coor_y * map.line_length] != '1' &&
-			map.map[coor_x + coor_y * map.line_length] != '2');
+	return (map.map[coord_x + coord_y * map.line_length] != '1' &&
+			map.map[coord_x + coord_y * map.line_length] != '2');
 }
 
 void	change_position(int key, t_player *player)
@@ -27,33 +27,34 @@ void	change_position(int key, t_player *player)
 	const float	coss = cosf(player->pov);
 	const float	sinn = -sinf(player->pov);
 
-	if (key == XK_w && check_wall(player, coss * 8, sinn * 8))
+	if (key == XK_w && check_wall(player, coss, sinn))
 	{
-		player->x += coss * 4;
-		player->y += sinn * 4;
+		player->x += coss * PLAYER_SPEED;
+		player->y += sinn * PLAYER_SPEED;
 	}
-	else if (key == XK_s && check_wall(player, -coss * 8, -sinn * 8))
+	else if (key == XK_s && check_wall(player, -coss, -sinn))
 	{
-		player->x -= coss * 4;
-		player->y -= sinn * 4;
+		player->x -= coss * PLAYER_SPEED;
+		player->y -= sinn * PLAYER_SPEED;
 	}
-	else if (key == XK_d && check_wall(player, -sinn * 8, coss * 8))
+	else if (key == XK_d && check_wall(player, -sinn, coss))
 	{
-		player->x -= sinn * 4;
-		player->y += coss * 4;
+		player->x -= sinn * PLAYER_SPEED;
+		player->y += coss * PLAYER_SPEED;
 	}
-	else if (key == XK_a && check_wall(player, sinn * 8, -coss * 8))
+	else if (key == XK_a && check_wall(player, sinn, -coss))
 	{
-		player->x += sinn * 4;
-		player->y -= coss * 4;
+		player->x += sinn * PLAYER_SPEED;
+		player->y -= coss * PLAYER_SPEED;
 	}
-	else if (key == XK_Control_L)
-	{
-		if (player->crouch == 0)
-			player->crouch = -50;
-		else
-			player->crouch = 0;
-	}
+}
+
+void	change_crouch(t_player *player)
+{
+	if (player->crouch == 0)
+		player->crouch = -50;
+	else
+		player->crouch = 0;
 
 }
 

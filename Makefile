@@ -37,9 +37,9 @@ SRCS    = cub3d.c srcs/libft/ft_realloc.c \
 					srcs/cub3d/engine/draw/drawing_map.c \
 					srcs/cub3d/engine/draw/drawing.c \
 					srcs/cub3d/bmp.c \
-					srcs/cub3d/engine/count_dist_to_wall/calculating_distance_to_wall_v.c \
-					srcs/cub3d/engine/count_dist_to_wall/calculating_distance_to_wall_h.c \
-					srcs/cub3d/engine/calculating_distance_to_wall/distance_utils.c
+					srcs/cub3d/engine/count_dist_to_wall/calculate_distance_to_wall_v.c \
+					srcs/cub3d/engine/count_dist_to_wall/calculate_distance_to_wall_h.c \
+					srcs/cub3d/engine/calculate_distance_to_wall/distance_utils.c
 
 OBJS	= $(SRCS:.c=.o)
 LIBS    = -L./minilibx -lmlx -lXext -lX11 -lm

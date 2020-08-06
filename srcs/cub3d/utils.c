@@ -26,9 +26,6 @@ int	close_game(t_cub cub)
 	mlx_destroy_image(cub.screen.mlx, cub.screen.img_world.img);
 	mlx_destroy_image(cub.screen.mlx, cub.game_info.sprite_texture.img);
 	mlx_destroy_window(cub.screen.mlx, cub.screen.win);
-	free(cub.screen.mlx);
-	free(cub.game_info.sprites);
-	free(cub.game_info.map.map);
 	exit(0);
 }
 

@@ -20,7 +20,7 @@ float	ray_casting(t_cub *cub, float ray_angle, int wall_x)
 	float			height;
 	float 			dist;
 
-	dist_to_wall = calculating_distance_to_wall(cub, ray_angle);
+	dist_to_wall = calculate_distance_to_wall(cub, ray_angle);
 	cub->wall_texture.x = (int)(CELL * dist_to_wall.x);
 	height = calculate_height(dist_to_wall.distance, screen);
 	dist = dist_to_wall.distance;
@@ -59,9 +59,10 @@ int		game_play(int key, t_cub *cub)
 	if (key == ARROW_LEFT || key == ARROW_RIGHT ||
 		key == ARROW_DOWN || key == ARROW_UP)
 		change_pov(key, &cub->player);
-	else if (key == XK_a || key == XK_d || key == XK_s || key == XK_w
-		|| key == XK_Control_L)
+	else if (key == XK_a || key == XK_d || key == XK_s || key == XK_w)
 		change_position(key, &cub->player);
+	else if (key == XK_Control_L)
+		change_crouch(&cub->player);
 	else if (key == XK_Escape)
 		close_game(*cub);
 	frame_rendering(cub, cub->player, cub->screen);

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   calculating_distance_to_wall_h.c                          :+:      :+:    :+:   */
+/*   calculate_distance_to_wall_h.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: imicah <imicah@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -26,7 +26,7 @@ float		get_y_horizontal(t_player player, float angle)
 	return (y);
 }
 
-t_distance	calculating_distance_to_wall_h(t_player player, float ray_angle)
+t_distance	calculate_distance_to_wall_h(t_player player, float ray_angle)
 {
 	const float		step_y = (ray_angle < M_PI) ? -CELL : CELL;
 	const float		step_x = -step_y * (1 / tanf(ray_angle));

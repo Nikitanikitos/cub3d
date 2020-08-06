@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   calculating_distance_to_wall_v.c                            :+:      :+:    :+:   */
+/*   calculate_distance_to_wall_v.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: imicah <imicah@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -34,7 +34,7 @@ float		get_y_vertical(t_player player, float x, float angle)
 	return (player.y + (player.x - x) * tanf(angle));
 }
 
-t_distance	calculating_distance_to_wall_v(t_player player, float ray_angle)
+t_distance	calculate_distance_to_wall_v(t_player player, float ray_angle)
 {
 	const float		step_x = get_step_x_vertical(ray_angle);
 	const float		step_y = -step_x * tanf(ray_angle);
