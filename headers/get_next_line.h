@@ -12,24 +12,16 @@
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
+# include <stdlib.h>
+
+# include <unistd.h>
+# include "libft.h"
+
 # define BUFFER_SIZE 32
 
-# include <stdlib.h>
-# include <unistd.h>
-
-typedef struct		s_list
-{
-	void			*content;
-	struct s_list	*next;
-}					t_list;
-
-int					get_next_line(int fd, char **line);
-//int					ft_strchr(const char *src, char c);
-
-char				*ft_strndup(const char *src, int n);
-char				*ft_strjoin(const char *string1, const char *string2);
-
-void				add_list(register t_list **lst, char *buffer);
-t_list				*ft_lstnew(void *content);
+int		get_next_line(int fd, char **line);
+char	*ft_strndup(const char *src, int n);
+void	add_list(register t_list **lst, char *buffer);
+t_list	*ft_lstnew(void *content);
 
 #endif

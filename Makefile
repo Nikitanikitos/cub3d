@@ -6,44 +6,18 @@
 #    By: imicah <imicah@student.21-school.ru>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/03 20:01:04 by imicah            #+#    #+#              #
-#    Updated: 2020/08/03 20:46:28 by imicah           ###   ########.fr        #
+#    Updated: 2020/08/07 18:34:25 by imicah           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME    = cub
+MLX_LIB = libmlx
 
-SRCS    = cub3d.c srcs/libft/ft_realloc.c \
-					srcs/libft/ft_strlen.c \
-					srcs/libft/ft_strdup.c \
-					srcs/libft/ft_bzero.c \
-					srcs/libft/ft_atoi.c \
-					srcs/libft/ft_strcpy.c \
-					srcs/libft/ft_calloc.c \
-					srcs/libft/ft_strjoin.c \
-					srcs/libft/ft_strchr.c \
-					srcs/libft/ft_lstnew.c \
-					srcs/libft/ft_strncmp.c \
-					srcs/libft/ft_memcpy.c \
-					srcs/libft/ft_itoa.c \
-					srcs/get_next_line/get_next_line.c \
-					srcs/get_next_line/get_next_line_utils.c \
-					srcs/cub3d/init.c \
-					srcs/cub3d/utils.c \
-					srcs/cub3d/get_map_data.c \
-					srcs/cub3d/get_map.c \
-					srcs/cub3d/engine/engine.c \
-					srcs/cub3d/engine/count_dist_to_wall/count_dist_to_wall.c \
-					srcs/cub3d/engine/engine_utils.c \
-					srcs/cub3d/engine/draw/drawing_map.c \
-					srcs/cub3d/engine/draw/drawing.c \
-					srcs/cub3d/bmp.c \
-					srcs/cub3d/engine/count_dist_to_wall/calculate_distance_to_wall_v.c \
-					srcs/cub3d/engine/count_dist_to_wall/calculate_distance_to_wall_h.c \
-					srcs/cub3d/engine/calculate_distance_to_wall/distance_utils.c
+SRCS    = $(shell find srcs -type f -name '*.c')
 
 OBJS	= $(SRCS:.c=.o)
 LIBS    = -L./minilibx -lmlx -lXext -lX11 -lm
-MLX		= minilibx/libmlx_Linux.a
+MLX		= minilibx/libmlx.a
 
 .PHONY: clean fclean all
 
@@ -52,8 +26,18 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	gcc ${OBJS} ${LIBS} $(MLX) -o ${NAME}
 
+$(MLX_LIB):
+	cd minilibx
+	make
+
 %.o : %.c
 	gcc -Iheaders -Iminilibx -o $@ -c $<
 
-re:
-	rm $(OBJS)
+clean:
+	rm -f $(OBJS)
+
+fclean: clean
+	rm -f $(NAME)
+
+re: fclean all
+

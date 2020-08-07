@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include "libft.h"
 
 void	write_line(t_list *list, char **line, int result)
 {
@@ -28,20 +27,6 @@ void	write_line(t_list *list, char **line, int result)
 	else if (!result && BUFFER_SIZE != 0)
 		*line = ft_strndup("", 0);
 }
-
-//char	*ft_calloc(void)
-//{
-//	char			*result;
-//	unsigned int	byte_sizes;
-//
-//	byte_sizes = BUFFER_SIZE;
-//	if (!(result = (char*)malloc(sizeof(char) * (BUFFER_SIZE + 1))))
-//		return (NULL);
-//	while (byte_sizes)
-//		result[byte_sizes--] = 0;
-//	result[byte_sizes] = 0;
-//	return (result);
-//}
 
 int		ft_result(t_list **element, int result)
 {
