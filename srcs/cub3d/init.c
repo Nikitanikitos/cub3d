@@ -81,9 +81,14 @@ t_player	player_init(t_game_info *game_info)
 
 t_cub		cub_init(t_screen screen, t_player player, t_game_info *game_info)
 {
+	int 		width_screen;
+	int 		height_screen;
 	t_cub		cub;
 	t_img_data	img_world;
 
+	mlx_get_screen_size(screen.mlx, &width_screen, &height_screen);
+	screen.width = (screen.width > width_screen) ? width_screen: screen.width;
+	screen.height = (screen.height > height_screen) ? height_screen: screen.height;
 	screen.win = mlx_new_window(screen.mlx, screen.width, screen.height,
 																"Cub3D");
 	img_world.img = mlx_new_image(screen.mlx, screen.width, screen.height);

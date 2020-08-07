@@ -122,3 +122,4 @@ void	*mlx_int_new_xshm_image();
 char    **mlx_int_str_to_wordtab();
 void	*mlx_new_image();
 int	shm_att_pb();
+

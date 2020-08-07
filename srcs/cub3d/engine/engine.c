@@ -37,12 +37,11 @@ void	frame_rendering(t_cub *cub, t_player player, t_screen screen)
 	const float	last_ray_angle = player.pov - (FOV_RAD / 2);
 	const float	step = (FOV / (float)screen.width) * PI_DIV_180;
 	float		ray_angle;
-	float		*distances;
+	float		distances[screen.width];
 	int			wall_x;
 
 	wall_x = 0;
 	ray_angle = player.pov + (FOV_RAD / 2);
-	distances = (float*)malloc(sizeof(float) * screen.width);
 	while (ray_angle >= last_ray_angle)
 	{
 		distances[wall_x] = ray_casting(cub, ray_angle, wall_x);
@@ -50,7 +49,6 @@ void	frame_rendering(t_cub *cub, t_player player, t_screen screen)
 		wall_x++;
 	}
 	rendering_sprites(cub->game_info, player, cub->screen, distances);
-	free(distances);
 	mlx_put_image_to_window(screen.mlx, screen.win, screen.img_world.img, 0, 0);
 }
 
@@ -80,7 +78,7 @@ int		engine(t_game_info game_info, t_screen screen, char *save)
 	cub = cub_init(screen, player, &game_info);
 	screen = cub.screen;
 	frame_rendering(&cub, cub.player, screen);
-	if (!ft_strncmp(save, "--save", 6))
+	if (!ft_strcmp(save, "--save"))
 		save_bmp(screen.width, screen.height, screen.img_world.addr);
 	else
 	{

@@ -27,6 +27,7 @@ int					ft_toupper(int c);
 int					ft_atoi(const char *nptr);
 int					ft_atoi_base(const char *str, int str_base);
 
+int					ft_strcmp(const char *arr1, const char *arr2);
 int					ft_memcmp(const void *arr1, const void *arr2,
 							size_t byte_sizes);
 int					ft_strncmp(const char *arr1, const char *arr2,
