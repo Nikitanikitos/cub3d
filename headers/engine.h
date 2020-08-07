@@ -31,7 +31,7 @@
 typedef struct	s_distance
 {
 	float		distance;
-	float 		x;
+	float		x;
 }				t_distance;
 
 typedef struct	s_coordinates
@@ -41,8 +41,8 @@ typedef struct	s_coordinates
 }				t_coordinates;
 
 t_player		player_init(t_game_info *game_info);
-t_cub			cub_init(t_screen screen, t_player player, t_game_info *game_info);
-
+t_cub			cub_init(t_screen screen, t_player player,
+														t_game_info *game_info);
 
 void			change_position(int key, t_player *player);
 void			change_pov(int key, t_player *player);
@@ -58,17 +58,17 @@ float			fix_angle(float angle);
 int				check_transparency(t_img_data texture, int index);
 
 void			put_pixel(t_img_data img, int index, t_color color);
-void			put_pixel_img(t_img_data img, t_img_data texture,
-												  int index, int index_texture);
+void			put_pixel_img(t_img_data img, t_img_data texture, int index,
+															int index_texture);
 
 float			get_texture_coordinate(float current_x);
 float			get_distance(float x, float y);
 void			get_wall_texture(t_cub *cub, float ray_angle,
-							 float distance_to_wall_h, float distance_to_wall_v);
+						float distance_to_wall_h, float distance_to_wall_v);
 
 float			calculate_height(float distance_to_wall, t_screen screen);
 void			calculate_offset(t_sprite *sprite, t_screen screen, float angle,
-																t_player player);
+															t_player player);
 float			calculate_direction_sprite(t_sprite sprite, t_player player,
 																	float pov);
 

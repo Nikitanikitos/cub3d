@@ -49,25 +49,25 @@ typedef struct		s_img_data
 	int				bpp;
 	int				line_length;
 	int				endian;
-	int 			width;
-	int 			height;
+	int				width;
+	int				height;
 }					t_img_data;
 
 typedef struct		s_texture
 {
 	t_img_data		img_data;
 	float			step;
-	int 			x;
-	int 			y;
+	int				x;
+	int				y;
 }					t_texture;
 
 typedef struct		s_map
 {
 	char			*map;
 	int				line_length;
-	int 			column_length;
-	int 			x;
-	int 			y;
+	int				column_length;
+	int				x;
+	int				y;
 }					t_map;
 
 typedef struct		s_player
@@ -83,15 +83,15 @@ typedef struct		s_player
 typedef struct		s_screen
 {
 	void			*mlx;
-	void 			*win;
-	t_img_data 		img_world;
-	int 			width;
-	int 			height;
+	void			*win;
+	t_img_data		img_world;
+	int				width;
+	int				height;
 }					t_screen;
 
 typedef struct		s_sprite
 {
-	float 			x;
+	float			x;
 	float			y;
 	float			dist;
 	int				h_offset;
@@ -119,7 +119,8 @@ typedef	struct		s_cub
 	t_texture		wall_texture;
 }					t_cub;
 
-int8_t				get_data(char *line, t_game_info *game_info, t_screen *screen);
+int8_t				get_data(char *line, t_game_info *game_info,
+															t_screen *screen);
 int8_t				read_map_data(char fd, t_game_info *game_info, t_map *map);
 int8_t				check_valid_map(t_player player);
 
@@ -128,4 +129,4 @@ int					engine(t_game_info game_info, t_screen screen, char *save);
 void				exit_with_error(int error_nbr);
 int					close_game(t_cub cub);
 
-# endif
+#endif

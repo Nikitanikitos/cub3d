@@ -25,7 +25,7 @@ int					ft_isdigit(int c);
 int					ft_tolower(int c);
 int					ft_toupper(int c);
 int					ft_atoi(const char *nptr);
-int 				ft_atoi_base(const char *str, int str_base);
+int					ft_atoi_base(const char *str, int str_base);
 
 int					ft_memcmp(const void *arr1, const void *arr2,
 							size_t byte_sizes);
@@ -42,7 +42,7 @@ void				ft_putendl_fd(char *s, int fd);
 void				ft_putnbr_fd(int nbr, int fd);
 void				ft_bzero(void *dest, size_t byte_sizes);
 void				*ft_calloc(size_t num, size_t byte_sizes);
-void 				*ft_realloc(char *src, int len);
+void				*ft_realloc(char *src, int len);
 void				*ft_memset(void *dest, int chr, size_t byte_sizes);
 void				*ft_memchr(const void *arr, int c, size_t byte_sizes);
 void				*ft_memcpy(void *dest, const void *src, size_t byte_sizes);
@@ -54,15 +54,12 @@ char				*ft_itoa(int n);
 char				*ft_strdup(const char *src);
 char				*ft_strcpy(char *dest, const char *src);
 char				**ft_split(char const *s, char c);
-int 				ft_strchr(const char *str, char ch);
-//char				*ft_strrchr(const char *str, char ch);
+int					ft_strchr(const char *str, char ch);
 char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_strtrim(const char *s1, const char *s2);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 char				*ft_strmapi(const char *s, char (*f)(unsigned int, char));
 char				*ft_strnstr(const char *big, const char *little,
 								size_t len);
-
-
 
 #endif
