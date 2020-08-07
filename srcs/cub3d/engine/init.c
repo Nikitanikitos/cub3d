@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
 #include "engine.h"
 
 void		init_player_coord(t_player *player, int pos_x, int pos_y,
