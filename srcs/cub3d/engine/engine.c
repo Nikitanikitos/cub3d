@@ -76,7 +76,7 @@ int		engine(t_game_info game_info, t_screen screen, char *save)
 
 	player = player_init(&game_info);
 	if (!check_valid_map(player))
-		exit_failure("The map must be closed by walls");
+		exit_with_error(MAP_ERR);
 	cub = cub_init(screen, player, &game_info);
 	screen = cub.screen;
 	frame_rendering(&cub, cub.player, screen);

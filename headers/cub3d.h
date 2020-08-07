@@ -21,13 +21,19 @@
 # include "mlx.h"
 # include "mlx_int.h"
 
-# define MAP_CHAR	" 012NSEW"
-# define PLAYER_POS	"NSEW"
+# define MAP_CHAR		" 012NSEW"
+# define PLAYER_POS		"NSEW"
 
-# define COLOR_ERR	-1
-# define RES_ERR	-2
-# define TEX_ERR	-3
-# define COUNT_ARG	8
+# define COUNT_ARG		8
+
+# define COLOR_ERR		2
+# define RES_ERR		3
+# define TEX_ERR		4
+# define LESS_ARG_ERR	5
+# define MORE_ARG_ERR	6
+# define ARG_ERR		7
+# define FILE_ERR		8
+# define MAP_ERR		9
 
 typedef struct		s_color
 {
@@ -119,7 +125,7 @@ int8_t				check_valid_map(t_player player);
 
 int					engine(t_game_info game_info, t_screen screen, char *save);
 
-void				exit_failure(char *error);
+void				exit_with_error(int error_nbr);
 int					close_game(t_cub cub);
 
 # endif

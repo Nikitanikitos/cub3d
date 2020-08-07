@@ -23,16 +23,18 @@ void	read_game_data(int fd, t_game_info *game_info, t_screen *screen)
 	{
 		answer = get_data(line, game_info, screen);
 		if (answer == COLOR_ERR)
-			exit_failure("Color should be from 0 to 255!");
+			exit_with_error(COLOR_ERR);
 		else if (answer == RES_ERR)
-			exit_failure("Resolution should be from 100");
+			exit_with_error(RES_ERR);
 		else if (answer == TEX_ERR)
-			exit_failure("Error textures path");
+			exit_with_error(TEX_ERR);
 		count_arg += answer;
 	}
 	free(line);
-	if (count_arg != COUNT_ARG)
-		exit_failure("Not enough tools!");
+	if (count_arg < COUNT_ARG)
+		exit_with_error(LESS_ARG_ERR);
+	else if (count_arg > COUNT_ARG)
+		exit_with_error(MORE_ARG_ERR);
 }
 
 int 	main(int ac, char **av)
@@ -42,13 +44,13 @@ int 	main(int ac, char **av)
 	t_screen		screen;
 
 	if (ac == 1)
-		exit_failure("Error");
+		exit_with_error(ARG_ERR);
 	else if (fd == -1)
-		exit_failure("Error file");
+		exit_with_error(FILE_ERR);
 	screen.mlx = mlx_init();
 	read_game_data(fd, &game_info, &screen);
 	if (read_map_data(fd, &game_info, &game_info.map) == 0)
-		exit_failure("Not valid map!");
+		exit_with_error(MAP_ERR);
 	engine(game_info, screen, av[ac - 1]);
 	return (0);
 }
