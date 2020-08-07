@@ -31,7 +31,7 @@ t_bitmap_image_header	image_header_init(int width, int height, int file_size)
 
 	bmp_image_header.size_header = sizeof(bmp_image_header);
 	bmp_image_header.width = width;
-	bmp_image_header.height = height;
+	bmp_image_header.height = -height;
 	bmp_image_header.planes = 1;
 	bmp_image_header.bit_count = 32;
 	bmp_image_header.compression = 0;
@@ -49,16 +49,15 @@ void 					pixel_put(int fd, int image_size, char *data)
 	int 	i;
 
 	i = 0;
-	write(fd, data, sizeof(data));
-//	while (i < image_size)
-//	{
-//		color[0] = data[i];
-//		color[1] = data[i + 1];
-//		color[2] = data[i + 2];
-//		color[3] = data[i + 3];
-//		write(fd, color, sizeof(color));
-//		i += 4;
-//	}
+	while (i < image_size)
+	{
+		color[0] = data[i];
+		color[1] = data[i + 1];
+		color[2] = data[i + 2];
+		color[3] = data[i + 3];
+		write(fd, color, sizeof(color));
+		i += 4;
+	}
 }
 
 void					save_bmp(int width, int height, char *data)
@@ -74,6 +73,6 @@ void					save_bmp(int width, int height, char *data)
 	fd = open("Cub3D.bmp", O_WRONLY);
 	write(fd, &bmp_file_header, 14);
 	write(fd, &bmp_image_header, sizeof(bmp_image_header));
-	pixel_put(fd, image_size * 4, data);
+	write(fd, data, sizeof(data));
 	close(fd);
 }

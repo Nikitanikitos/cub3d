@@ -31,10 +31,10 @@ typedef struct		s_bitmap_file_header
 
 typedef struct		s_bitmap_image_header
 {
-	unsigned int    size_header;
-	unsigned int    width;
-	unsigned int    height;
-	short int       planes;
+	unsigned int	size_header;
+	unsigned int	width;
+	unsigned int	height;
+	short int		planes;
 	short int       bit_count;
 	unsigned int    compression;
 	unsigned int    image_size;
@@ -44,6 +44,6 @@ typedef struct		s_bitmap_image_header
 	unsigned int    clr_important;
 }					t_bitmap_image_header;
 
-void					save_bmp(int width, int height, char *data);
+void				save_bmp(int width, int height, char *data);
 
 #endif
