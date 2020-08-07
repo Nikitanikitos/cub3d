@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "cub3d.h"
+#include "cub3d.h"
 
 t_bitmap_file_header	file_header_init(int file_size)
 {
@@ -43,10 +43,10 @@ t_bitmap_image_header	image_header_init(int width, int height, int file_size)
 	return (bmp_image_header);
 }
 
-void 					pixel_put(int fd, int image_size, char *data)
+void					pixel_put(int fd, int image_size, char *data)
 {
 	char	color[4];
-	int 	i;
+	int		i;
 
 	i = 0;
 	while (i < image_size)

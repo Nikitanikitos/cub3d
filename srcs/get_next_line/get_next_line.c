@@ -74,7 +74,7 @@ int		get_next_line(int fd, char **line)
 	static t_list	*lists[14000];
 
 	if (line == NULL || fd < 0 || fd > 14000 ||
-	        !(buffer = ft_calloc(1, BUFFER_SIZE + 1)))
+			!(buffer = ft_calloc(1, BUFFER_SIZE + 1)))
 		return (-1);
 	while ((result = (read(fd, buffer, BUFFER_SIZE))) > 0)
 	{

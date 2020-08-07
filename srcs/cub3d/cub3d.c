@@ -16,7 +16,7 @@ void	read_game_data(int fd, t_game_info *game_info, t_screen *screen)
 {
 	char	*line;
 	int8_t	count_arg;
-	int8_t 	answer;
+	int8_t	answer;
 
 	count_arg = 0;
 	while (get_next_line(fd, &line) > 0 && count_arg < COUNT_ARG)
@@ -37,7 +37,7 @@ void	read_game_data(int fd, t_game_info *game_info, t_screen *screen)
 		exit_with_error(MORE_ARG_ERR);
 }
 
-int 	main(int ac, char **av)
+int		main(int ac, char **av)
 {
 	const int8_t	fd = (char)open(av[1], O_RDONLY);
 	t_game_info		game_info;
