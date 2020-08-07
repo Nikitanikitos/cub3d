@@ -10,13 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "engine.h"
+#include "engine.h"
 
 int8_t	check_wall(t_player *player, float step_x, float step_y)
 {
 	const int	coord_x = (int)((player->x + step_x * PLAYER_SPEED * 2) / 64);
 	const int	coord_y = (int)((player->y + step_y * PLAYER_SPEED * 2) / 64);
-	t_map		map = player->map;
+	const t_map	map = player->map;
 
 	return (map.map[coord_x + coord_y * map.line_length] != '1' &&
 			map.map[coord_x + coord_y * map.line_length] != '2');
@@ -55,7 +55,6 @@ void	change_crouch(t_player *player)
 		player->crouch = -50;
 	else
 		player->crouch = 0;
-
 }
 
 void	change_pov(int key, t_player *player)

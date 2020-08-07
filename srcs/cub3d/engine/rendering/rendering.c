@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   drawing.c                                          :+:      :+:    :+:   */
+/*   rendering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: imicah <imicah@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -15,7 +15,7 @@
 void	rendering_ceiling(t_cub *cub, int height, int wall_x)
 {
 	const t_img_data	img = cub->screen.img_world;
-	const t_color 		celling_color = cub->game_info.ceiling_color;
+	const t_color		celling_color = cub->game_info.ceiling_color;
 	int					index;
 
 	wall_x *= (img.bpp / 8);
@@ -50,16 +50,16 @@ void	rendering_wall(t_cub *cub, int wall_y, int height, int wall_x)
 {
 	const t_img_data	img = cub->screen.img_world;
 	t_texture			texture;
-	float 				texture_position;
+	float				texture_position;
 	int					index;
-	int 				index_texture;
+	int					index_texture;
 
 	texture = cub->wall_texture;
 	texture.step = 1.0f * (float)texture.img_data.height / (float)height;
 	texture.x *= (texture.img_data.bpp / 8);
 	wall_x *= img.bpp / 8;
-	texture_position = (((float)wall_y - cub->player.look - cub->player.crouch) -
-			(float)cub->screen.height / 2 + (float)height / 2) * texture.step;
+	texture_position = (((float)wall_y - cub->player.look - cub->player.crouch)
+			- (float)cub->screen.height / 2 + (float)height / 2) * texture.step;
 	while (height-- > 0)
 	{
 		texture.y = (int)texture_position & (texture.img_data.height - 1);

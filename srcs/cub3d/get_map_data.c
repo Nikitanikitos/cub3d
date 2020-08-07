@@ -19,7 +19,7 @@ int8_t	get_texture(char *line, t_img_data *img, void *mlx)
 	if (open(line, O_RDONLY) == -1)
 		return (TEX_ERR);
 	img->img = mlx_xpm_file_to_image(mlx, line, &img->width, &img->height);
-	img->addr = mlx_get_data_addr(img->img, &img->bpp,&img->line_length,
+	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_length,
 																&img->endian);
 	return (1);
 }
@@ -38,10 +38,10 @@ int8_t	get_resolution(char *line, int *width, int *height)
 
 int8_t	get_color(char *line, t_color *rgb)
 {
-	int 			color_value;
 	unsigned char	color[3];
+	int				color_value;
 	int8_t			flag;
-	int 			q;
+	int				q;
 
 	q = 0;
 	while (*line)
@@ -79,7 +79,8 @@ int8_t	get_data(char *line, t_game_info *game_info, t_screen *screen)
 	else if (line[0] == 'E' && line[1] == 'A')
 		answer = get_texture(line + 2, &(game_info)->textures[3], screen->mlx);
 	else if (*line == 'S')
-		answer = get_texture(line + 2, &(game_info)->sprite_texture, screen->mlx);
+		answer = get_texture(line + 2, &(game_info)->sprite_texture,
+																screen->mlx);
 	else if (*line == 'R')
 		answer = get_resolution(line, &screen->width, &screen->height);
 	else if (*line == 'F')

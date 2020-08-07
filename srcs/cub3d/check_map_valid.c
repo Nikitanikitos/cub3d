@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "cub3d.h"
+#include "cub3d.h"
 
 int8_t	check_valid_map_recursion(int x, int y, t_map map_info, char *map)
 {

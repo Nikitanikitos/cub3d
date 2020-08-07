@@ -13,7 +13,8 @@
 #include "cub3d.h"
 #include "engine.h"
 
-void	init_player_coord(t_player *player, int pos_x, int pos_y, char direction)
+void		init_player_coord(t_player *player, int pos_x, int pos_y,
+																char direction)
 {
 	player->x = (float)pos_x + 32;
 	player->y = (float)pos_y + 32;
@@ -38,11 +39,11 @@ t_sprite	init_sprite_coord(int x, int y)
 	return (item);
 }
 
-void 	check_positions(t_player *player, char c, int length_line,
+void		check_positions(t_player *player, char c, int length_line,
 													t_sprite *items)
 {
 	static int	current_length_line;
-	static int 	i;
+	static int	i;
 	static int	x;
 	static int	y;
 
@@ -78,7 +79,7 @@ t_player	player_init(t_game_info *game_info)
 	return (player);
 }
 
-t_cub	cub_init(t_screen screen, t_player player, t_game_info *game_info)
+t_cub		cub_init(t_screen screen, t_player player, t_game_info *game_info)
 {
 	t_cub		cub;
 	t_img_data	img_world;

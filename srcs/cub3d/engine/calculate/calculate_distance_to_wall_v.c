@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   calculate_distance_to_wall_v.c                            :+:      :+:    :+:   */
+/*   calculate_distance_to_wall_v.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: imicah <imicah@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "engine.h"
+#include "engine.h"
 
 float		get_step_x_vertical(float angle)
 {
@@ -57,6 +57,7 @@ t_distance	calculate_distance_to_wall_v(t_player player, float ray_angle)
 		map.y = (int)(current.y / CELL);
 	}
 	distance.x = get_texture_coordinate(current.y);
-	distance.distance = get_distance(player.x - current.x, player.y - current.y);
+	distance.distance = get_distance(player.x - current.x,
+									player.y - current.y);
 	return (distance);
 }

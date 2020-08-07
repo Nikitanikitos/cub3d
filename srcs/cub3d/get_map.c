@@ -18,7 +18,8 @@ int		copy_read_map(char *map, char *line, int i)
 
 	while (*line)
 	{
-		if ((ft_strchr(PLAYER_POS, *line) && flag) || !ft_strchr(MAP_CHAR, *line))
+		if ((ft_strchr(PLAYER_POS, *line) && flag) ||
+			!ft_strchr(MAP_CHAR, *line))
 		{
 			free(map);
 			return (0);
@@ -55,9 +56,9 @@ char	*read_map(char *line, char *temp_map, t_map *map)
 char	*copy_write_map(char *map, char *temp_map, int length_line)
 {
 	const int	k = ft_strlen(temp_map);
-	int		current_length_line;
-	int		i;
-	int		q;
+	int			current_length_line;
+	int			i;
+	int			q;
 
 	i = 0;
 	q = 0;
@@ -96,7 +97,7 @@ int		get_number_sprites(char *line)
 int8_t	read_map_data(char fd, t_game_info *game_info, t_map *map)
 {
 	char	*temp_map;
-	char 	*line;
+	char	*line;
 
 	game_info->number_sprites = 0;
 	map->column_length = 0;
@@ -115,7 +116,7 @@ int8_t	read_map_data(char fd, t_game_info *game_info, t_map *map)
 		return (0);
 	free(line);
 	map->map = ft_calloc(sizeof(char),
-						 (map->line_length * map->column_length) + 1);
+					(map->line_length * map->column_length) + 1);
 	map->map = copy_write_map(map->map, temp_map, map->line_length);
 	free(temp_map);
 	return (1);

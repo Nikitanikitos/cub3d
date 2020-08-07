@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "engine.h"
+#include "engine.h"
 
 int		check_transparency(t_img_data texture, int index)
 {
@@ -25,7 +25,6 @@ float	calculate_direction_sprite(t_sprite sprite, t_player player, float pov)
 	float	sprite_dir;
 
 	sprite_dir = atan2f(sprite.y - player.y, sprite.x - player.x);
-
 	while (sprite_dir - pov > M_PI)
 		sprite_dir -= 2 * (float)M_PI;
 	while (sprite_dir - pov < -M_PI)
@@ -34,19 +33,18 @@ float	calculate_direction_sprite(t_sprite sprite, t_player player, float pov)
 }
 
 void	calculate_offset(t_sprite *sprite, t_screen screen, float angle,
-						 t_player player)
+																t_player player)
 {
 	const float	fov = 60.f * (float)M_PI / 180;
 
 	sprite->h_offset = (int)(angle * (float)screen.width / fov +
-						   (float)screen.width / 2 - (float)sprite->height / 2);
+						(float)screen.width / 2 - (float)sprite->height / 2);
 	sprite->v_offset = screen.height / 2 - ((float)sprite->height / 2) + 30
-											   + player.look + player.crouch;
+												+ player.look + player.crouch;
 }
 
 void	put_pixel(t_img_data img, int index, t_color color)
 {
-
 	img.addr[index] = (char)color.b;
 	img.addr[index + 1] = (char)color.g;
 	img.addr[index + 2] = (char)color.r;

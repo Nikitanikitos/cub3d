@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rendering_sprites.c                                    :+:      :+:    :+:   */
+/*   rendering_sprites.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: imicah <imicah@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -16,7 +16,7 @@ void	put_sprite(t_sprite sprite, t_screen screen, t_img_data img, int i)
 {
 	const t_img_data	texture = sprite.texture.img_data;
 	int					index_texture;
-	int 				index;
+	int					index;
 	int					x;
 
 	x = 0;
@@ -55,7 +55,7 @@ void	sorting_sprites(t_sprite *items, int number_items)
 {
 	t_sprite	temp_item;
 	int			q;
-	int 		i;
+	int			i;
 	int			flag;
 
 	q = 0;
@@ -75,7 +75,7 @@ void	sorting_sprites(t_sprite *items, int number_items)
 			i++;
 		}
 		if (flag == 0)
-			return;
+			return ;
 		q++;
 	}
 }
@@ -104,7 +104,7 @@ void	rendering_sprites(t_game_info game_info, t_player player,
 											t_screen screen, float *distances)
 {
 	t_sprite	sprite;
-	int 		q;
+	int			q;
 
 	q = 0;
 	sprites_init(&game_info, player, screen);
