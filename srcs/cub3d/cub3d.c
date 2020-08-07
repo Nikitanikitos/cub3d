@@ -51,6 +51,7 @@ int 	main(int ac, char **av)
 	read_game_data(fd, &game_info, &screen);
 	if (read_map_data(fd, &game_info, &game_info.map) == 0)
 		exit_with_error(MAP_ERR);
+	close(fd);
 	engine(game_info, screen, av[ac - 1]);
 	return (0);
 }

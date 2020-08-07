@@ -14,10 +14,14 @@
 
 int8_t	get_texture(char *line, t_img_data *img, void *mlx)
 {
+	int 	fd;
+
 	while (*line == ' ')
 		line++;
-	if (open(line, O_RDONLY) == -1)
+	fd = open(line, O_RDONLY);
+	if (fd == -1)
 		return (TEX_ERR);
+	close(fd);
 	img->img = mlx_xpm_file_to_image(mlx, line, &img->width, &img->height);
 	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_length,
 																&img->endian);

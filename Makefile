@@ -19,12 +19,12 @@ OBJS	= $(SRCS:.c=.o)
 LIBS    = -L./minilibx -lmlx -lXext -lX11 -lm
 MLX		= minilibx/libmlx.a
 
-.PHONY: clean fclean all
+.PHONY: clean fclean all bonus
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	gcc ${OBJS} ${LIBS} $(MLX) -o ${NAME}
+	gcc -Wall -Wextra -Werror ${OBJS} ${LIBS} $(MLX) -o ${NAME}
 
 $(MLX_LIB):
 	cd minilibx
@@ -32,6 +32,8 @@ $(MLX_LIB):
 
 %.o : %.c
 	gcc -Iheaders -Iminilibx -o $@ -c $<
+
+bonus: all
 
 clean:
 	rm -f $(OBJS)
