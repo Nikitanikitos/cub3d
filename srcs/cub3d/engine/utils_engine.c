@@ -34,17 +34,17 @@ float	calculate_height(float distance_to_wall, t_screen screen)
 void	get_wall_texture(t_cub *cub, float ray_angle, float distance_to_wall_h,
 													float distance_to_wall_v)
 {
-	if (distance_to_wall_h > distance_to_wall_v)
+	if (distance_to_wall_h < distance_to_wall_v)
 	{
-		if ((ray_angle < 2 / M_PI) || (ray_angle > 3 * M_PI / 2))
+		if (ray_angle < M_PI)
 			cub->wall_texture.img_data = cub->game_info.textures[0];
 		else
-			cub->wall_texture.img_data = cub->game_info.textures[1];
+			cub->wall_texture.img_data = cub->game_info.textures[2];
 	}
 	else
 	{
-		if (ray_angle > M_PI)
-			cub->wall_texture.img_data = cub->game_info.textures[2];
+		if (ray_angle > M_PI / 2 && ray_angle < M_PI * 3 / 2)
+			cub->wall_texture.img_data = cub->game_info.textures[1];
 		else
 			cub->wall_texture.img_data = cub->game_info.textures[3];
 	}

@@ -76,9 +76,9 @@ int8_t	get_data(char *line, t_game_info *game_info, t_screen *screen)
 	answer = 0;
 	if (line[0] == 'N' && line[1] == 'O')
 		answer = get_texture(line + 2, &(game_info)->textures[0], screen->mlx);
-	else if (line[0] == 'S' && line[1] == 'O')
-		answer = get_texture(line + 2, &(game_info)->textures[1], screen->mlx);
 	else if (line[0] == 'W' && line[1] == 'E')
+		answer = get_texture(line + 2, &(game_info)->textures[1], screen->mlx);
+	else if (line[0] == 'S' && line[1] == 'O')
 		answer = get_texture(line + 2, &(game_info)->textures[2], screen->mlx);
 	else if (line[0] == 'E' && line[1] == 'A')
 		answer = get_texture(line + 2, &(game_info)->textures[3], screen->mlx);
