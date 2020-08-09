@@ -33,8 +33,6 @@ void	read_game_data(int fd, t_game_info *game_info, t_screen *screen)
 	free(line);
 	if (count_arg < COUNT_ARG)
 		exit_with_error(LESS_ARG_ERR);
-	else if (count_arg > COUNT_ARG)
-		exit_with_error(MORE_ARG_ERR);
 }
 
 int		main(int ac, char **av)
