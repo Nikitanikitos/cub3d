@@ -40,7 +40,7 @@ int8_t	check_valid_map(t_player player)
 
 	temp_map = ft_strdup(player.map.map);
 	if (!check_valid_map_recursion((int)player.x / 64, (int)player.y / 64,
-								   player.map, temp_map))
+									player.map, temp_map))
 		return (0);
 	free(temp_map);
 	return (1);

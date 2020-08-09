@@ -82,8 +82,8 @@ int		engine(t_game_info game_info, t_screen screen, char *save)
 		save_bmp(screen.width, screen.height, screen.img_world.addr);
 	else
 	{
-//		mlx_hook(screen.win, 17, 1L << 17, close_game, &cub);
-		mlx_hook(screen.win, 2, 1L << 0, game_play, &cub);
+		mlx_hook(screen.win, DestroyNotify, 1L << 17, close_game, &cub);
+		mlx_hook(screen.win, KeyPress, KeyPressMask, game_play, &cub);
 		mlx_loop(screen.mlx);
 	}
 	close_game(cub);
