@@ -4,3 +4,5 @@ cmake-build-debug/
 cub
 *.o
 Cub3D.bmp
+minilibx/libmlx.a
+minilibx/test/mlx-test
