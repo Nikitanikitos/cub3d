@@ -6,7 +6,7 @@
 #    By: imicah <imicah@student.21-school.ru>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/03 20:01:04 by imicah            #+#    #+#              #
-#    Updated: 2020/08/07 18:34:25 by imicah           ###   ########.fr        #
+#    Updated: 2020/08/13 14:55:30 by imicah           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,12 +23,11 @@ MLX		= minilibx/libmlx.a
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) $(MLX)
 	gcc -Wall -Wextra -Werror ${OBJS} ${LIBS} $(MLX) -o ${NAME}
 
-$(MLX_LIB):
-	cd minilibx
-	make
+$(MLX):
+	$(MAKE) -C minilibx
 
 %.o : %.c
 	gcc -Iheaders -Iminilibx -o $@ -c $<
