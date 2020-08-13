@@ -65,7 +65,7 @@ void	sorting_sprites(t_sprite *items, int number_items)
 		flag = 0;
 		while (i < number_items - q)
 		{
-			if (items[i].dist < items[i + 1].dist)
+			if ((i + 1) < number_items && items[i].dist < items[i + 1].dist)
 			{
 				temp_item = items[i];
 				items[i] = items[i + 1];

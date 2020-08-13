@@ -63,7 +63,11 @@ int		game_play(int key, t_cub *cub)
 		change_crouch(&cub->player);
 	else if (key == XK_Escape)
 		close_game(*cub);
-	frame_rendering(cub, cub->player, cub->screen);
+	if (key == ARROW_LEFT || key == ARROW_RIGHT ||
+		key == ARROW_DOWN || key == ARROW_UP ||
+		key == XK_a || key == XK_d || key == XK_s || key == XK_w ||
+			key == XK_Control_L)
+		frame_rendering(cub, cub->player, cub->screen);
 	return (0);
 }
 
