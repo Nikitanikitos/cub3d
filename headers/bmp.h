@@ -13,13 +13,6 @@
 #ifndef BMP_H
 # define BMP_H
 
-typedef struct		s_rgb_data
-{
-	float			r;
-	float			g;
-	float 			b;
-}					t_rgb_data;
-
 typedef struct		s_bitmap_file_header
 {
 	char			bitmap_type[2];

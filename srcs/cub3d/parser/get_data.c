@@ -14,7 +14,7 @@
 
 int8_t	get_texture(char *line, t_img_data *img, void *mlx)
 {
-	int		fd;
+	int8_t	fd;
 
 	while (*line == ' ')
 		line++;

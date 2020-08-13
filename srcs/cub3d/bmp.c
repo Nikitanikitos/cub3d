@@ -43,26 +43,9 @@ t_bitmap_image_header	image_header_init(int width, int height, int file_size)
 	return (bmp_image_header);
 }
 
-void					pixel_put(int fd, int image_size, char *data)
-{
-	char	color[4];
-	int		i;
-
-	i = 0;
-	while (i < image_size)
-	{
-		color[0] = data[i];
-		color[1] = data[i + 1];
-		color[2] = data[i + 2];
-		color[3] = data[i + 3];
-		write(fd, color, sizeof(color));
-		i += 4;
-	}
-}
-
 void					save_bmp(int width, int height, char *data)
 {
-	int						fd;
+	int8_t					fd;
 	t_bitmap_file_header	bmp_file_header;
 	t_bitmap_image_header	bmp_image_header;
 	const int				image_size = width * height;
@@ -70,9 +53,9 @@ void					save_bmp(int width, int height, char *data)
 
 	bmp_file_header = file_header_init(file_size);
 	bmp_image_header = image_header_init(width, height, file_size);
-	fd = open("Cub3D.bmp", O_CREAT);
+	fd = open("Cub3D.bmp", O_CREAT | O_WRONLY, 777);
 	write(fd, &bmp_file_header, 14);
 	write(fd, &bmp_image_header, sizeof(bmp_image_header));
-	write(fd, data, sizeof(data));
+	write(fd, data, image_size * 4);
 	close(fd);
 }
