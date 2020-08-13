@@ -11,7 +11,6 @@
 # **************************************************************************** #
 
 NAME    = cub
-MLX_LIB = libmlx
 
 SRCS    = $(shell find srcs -type f -name '*.c')
 
