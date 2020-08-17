@@ -30,7 +30,6 @@
 # define RES_ERR		3
 # define TEX_ERR		4
 # define LESS_ARG_ERR	5
-# define MORE_ARG_ERR	6
 # define ARG_ERR		7
 # define FILE_ERR		8
 # define MAP_ERR		9
