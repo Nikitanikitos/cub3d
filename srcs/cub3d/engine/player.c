@@ -63,9 +63,9 @@ void	change_pov(int key, t_player *player)
 		player->pov += PI_DIV_180 * 5;
 	else if (key == ARROW_RIGHT)
 		player->pov -= PI_DIV_180 * 5;
-	else if (key == ARROW_UP)
-		player->look += 10;
-	else if (key == ARROW_DOWN)
-		player->look -= 10;
+	else if (key == ARROW_UP && player->look < 400)
+		player->look += 20;
+	else if (key == ARROW_DOWN && player->look > -400)
+		player->look -= 20;
 	player->pov = fix_angle(player->pov);
 }

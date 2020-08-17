@@ -126,7 +126,7 @@ int8_t				check_valid_map(t_player player);
 
 int					engine(t_game_info game_info, t_screen screen, char *save);
 
-void				exit_with_error(int error_nbr);
+void				exit_with_error(int8_t error_nbr);
 int					close_game(t_cub cub);
 
 #endif

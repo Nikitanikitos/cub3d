@@ -60,10 +60,12 @@ int		close_game(t_cub cub)
 	mlx_destroy_image(cub.screen.mlx, cub.screen.img_world.img);
 	mlx_destroy_image(cub.screen.mlx, cub.game_info.sprite_texture.img);
 	mlx_destroy_window(cub.screen.mlx, cub.screen.win);
+	free(cub.game_info.sprites);
+	free(cub.player.map.map);
 	exit(EXIT_SUCCESS);
 }
 
-void	exit_with_error(int error_nbr)
+void	exit_with_error(int8_t error_nbr)
 {
 	const char *errors[8] = {"Color should be from 0 to 255",
 							"Resolution should be from 100",

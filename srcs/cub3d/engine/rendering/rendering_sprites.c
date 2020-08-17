@@ -45,7 +45,7 @@ void	rendering_sprite(t_sprite item, t_screen screen, const float *distances)
 	while (y < item.height)
 	{
 		if ((item.h_offset + y > 0 && item.h_offset + y <= screen.width) &&
-			(distances[item.h_offset + y] > item.dist))
+			(distances[item.h_offset + y]  > item.dist * 0.9))
 			put_sprite(item, screen, img, y);
 		y++;
 	}
