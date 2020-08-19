@@ -6,7 +6,7 @@
 /*   By: imicah <imicah@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/13 19:35:45 by imicah            #+#    #+#             */
-/*   Updated: 2020/06/13 19:35:47 by imicah           ###   ########.fr       */
+/*   Updated: 2020/08/17 20:18:31 by imicah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int		main(int ac, char **av)
 	t_game_info		game_info;
 	t_screen		screen;
 
+	check_arguments(fd, ac, av);
 	if (ac == 1)
 		exit_with_error(ARG_ERR);
 	else if (fd == -1)
@@ -50,6 +51,6 @@ int		main(int ac, char **av)
 	if (read_map_data(fd, &game_info, &game_info.map) == 0)
 		exit_with_error(MAP_ERR);
 	close(fd);
-	engine(game_info, screen, av[ac - 1]);
+	engine(game_info, screen, av[2]);
 	return (0);
 }

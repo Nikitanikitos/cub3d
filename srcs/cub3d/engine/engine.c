@@ -50,6 +50,7 @@ void	frame_rendering(t_cub *cub, t_player player, t_screen screen)
 	}
 	rendering_sprites(cub->game_info, player, cub->screen, distances);
 	mlx_put_image_to_window(screen.mlx, screen.win, screen.img_world.img, 0, 0);
+	mlx_do_sync(screen.mlx);
 }
 
 int		game_play(int key, t_cub *cub)
@@ -71,7 +72,7 @@ int		game_play(int key, t_cub *cub)
 	return (0);
 }
 
-int		engine(t_game_info game_info, t_screen screen, char *save)
+void	engine(t_game_info game_info, t_screen screen, char *save)
 {
 	t_cub		cub;
 	t_player	player;
@@ -90,5 +91,4 @@ int		engine(t_game_info game_info, t_screen screen, char *save)
 		mlx_loop(screen.mlx);
 	}
 	close_game(cub);
-	return (0);
 }

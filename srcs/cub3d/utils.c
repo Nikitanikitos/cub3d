@@ -46,7 +46,23 @@ int8_t	check_valid_map(t_player player)
 	return (1);
 }
 
-int		close_game(t_cub cub)
+void	check_arguments(int fd, int ac, char **av)
+{
+	int		len_arg;
+
+	if (ac == 1)
+		exit_with_error(ARG_ERR);
+	else if (fd == -1)
+		exit_with_error(FILE_ERR);
+	len_arg = ft_strlen(av[1]);
+	if (av[1][len_arg - 1] != 'b' && av[1][len_arg - 2] != 'u' &&
+			av[1][len_arg - 3] != 'c' || av[1][len_arg - 4] != '.')
+		exit_with_error(FORMAT_ERR);
+	else if ((ac == 3 && ft_strcmp(av[2], "--save")) || ac > 3)
+		exit_with_error(UNKNOWN_ERR);
+}
+
+void	close_game(t_cub cub)
 {
 	int8_t	i;
 	void	*img;
@@ -67,14 +83,16 @@ int		close_game(t_cub cub)
 
 void	exit_with_error(int8_t error_nbr)
 {
-	const char *errors[8] = {"Color should be from 0 to 255",
+	const char *errors[10] = {"Color should be from 0 to 255",
 							"Resolution should be from 100",
 							"Wrong texture path",
 							"Not enough tools",
 							"Double tools",
 							"No file name argument",
 							"Invalid file",
-							"Invalid map"};
+							"Invalid map",
+							"Unknown argument",
+							"Wrong file format"};
 
 	error_nbr -= 2;
 	write(1, "Error!\n", 7);

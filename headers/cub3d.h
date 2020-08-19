@@ -33,6 +33,8 @@
 # define ARG_ERR		7
 # define FILE_ERR		8
 # define MAP_ERR		9
+# define UNKNOWN_ERR	10
+# define FORMAT_ERR		11
 
 typedef struct		s_color
 {
@@ -122,10 +124,11 @@ int8_t				get_data(char *line, t_game_info *game_info,
 															t_screen *screen);
 int8_t				read_map_data(char fd, t_game_info *game_info, t_map *map);
 int8_t				check_valid_map(t_player player);
+void				check_arguments(int fd, int ac, char **av);
 
-int					engine(t_game_info game_info, t_screen screen, char *save);
+void				engine(t_game_info game_info, t_screen screen, char *save);
 
 void				exit_with_error(int8_t error_nbr);
-int					close_game(t_cub cub);
+void				close_game(t_cub cub);
 
 #endif
