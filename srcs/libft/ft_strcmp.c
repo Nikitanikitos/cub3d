@@ -16,6 +16,8 @@ int		ft_strcmp(const char *arr1, const char *arr2)
 {
 	if (arr1 == arr2)
 		return (0);
+	else if (arr1 == NULL)
+		return (1);
 	while (*arr1 == *arr2 && *arr2 && *arr1)
 	{
 		arr1++;
