@@ -12,6 +12,16 @@
 
 #include "engine.h"
 
+int8_t	compare_pov(t_player player, float pov, float look)
+{
+	return (player.pov != pov || player.look != look);
+}
+
+int8_t	compare_position(t_player player, float x, float y)
+{
+	return (player.x != x || player.y != y);
+}
+
 float	fix_angle(float angle)
 {
 	if (angle <= 0)

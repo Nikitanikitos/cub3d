@@ -40,7 +40,7 @@ void	calculate_offset(t_sprite *sprite, t_screen screen, float angle,
 	sprite->h_offset = (int)(angle * (float)screen.width / fov +
 						(float)screen.width / 2 - (float)sprite->height / 2);
 	sprite->v_offset = screen.height / 2 - ((float)sprite->height / 2)
-												+ player.look + player.crouch;
+												+ player.look;
 }
 
 void	put_pixel(t_img_data img, int index, t_color color)

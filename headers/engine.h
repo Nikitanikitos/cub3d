@@ -46,7 +46,9 @@ t_cub			cub_init(t_screen screen, t_player player,
 
 void			change_position(int key, t_player *player);
 void			change_pov(int key, t_player *player);
-void			change_crouch(t_player *player);
+
+int8_t			compare_pov(t_player player, float pov, float look);
+int8_t			compare_position(t_player player, float x, float y);
 
 void			rendering_floor(t_cub *cub, int height, int wall_x);
 void			rendering_wall(t_cub *cub, int wall_y, int height, int wall_x);

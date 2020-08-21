@@ -49,14 +49,6 @@ void	change_position(int key, t_player *player)
 	}
 }
 
-void	change_crouch(t_player *player)
-{
-	if (player->crouch == 0)
-		player->crouch = -50;
-	else
-		player->crouch = 0;
-}
-
 void	change_pov(int key, t_player *player)
 {
 	if (key == ARROW_LEFT)

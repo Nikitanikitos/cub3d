@@ -58,7 +58,7 @@ void	rendering_wall(t_cub *cub, int wall_y, int height, int wall_x)
 	texture.step = 1.0f * (float)texture.img_data.height / (float)height;
 	texture.x *= (texture.img_data.bpp / 8);
 	wall_x *= img.bpp / 8;
-	texture_position = (((float)wall_y - cub->player.look - cub->player.crouch)
+	texture_position = (((float)wall_y - cub->player.look)
 			- (float)cub->screen.height / 2 + (float)height / 2) * texture.step;
 	while (height-- > 0)
 	{

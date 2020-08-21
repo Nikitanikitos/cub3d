@@ -25,7 +25,7 @@ float	ray_casting(t_cub *cub, float ray_angle, int wall_x)
 	height = calculate_height(dist_to_wall.distance, screen);
 	dist = dist_to_wall.distance;
 	dist_to_wall.distance = ((float)screen.height / 2 - height / 2) +
-													player.crouch + player.look;
+																	player.look;
 	rendering_floor(cub, (int)dist_to_wall.distance, wall_x);
 	rendering_wall(cub, (int)dist_to_wall.distance, (int)height, wall_x);
 	rendering_ceiling(cub, (int)(dist_to_wall.distance + height), wall_x);
@@ -55,19 +55,20 @@ void	frame_rendering(t_cub *cub, t_player player, t_screen screen)
 
 int		game_play(int key, t_cub *cub)
 {
+	const float		x = cub->player.x;
+	const float		y = cub->player.y;
+	const float		look = cub->player.look;
+	const float		pov = cub->player.pov;
+
 	if (key == ARROW_LEFT || key == ARROW_RIGHT ||
 		key == ARROW_DOWN || key == ARROW_UP)
 		change_pov(key, &cub->player);
 	else if (key == XK_a || key == XK_d || key == XK_s || key == XK_w)
 		change_position(key, &cub->player);
-	else if (key == XK_Control_L)
-		change_crouch(&cub->player);
 	else if (key == XK_Escape)
 		close_game(*cub);
-	if (key == ARROW_LEFT || key == ARROW_RIGHT ||
-		key == ARROW_DOWN || key == ARROW_UP ||
-		key == XK_a || key == XK_d || key == XK_s || key == XK_w ||
-			key == XK_Control_L)
+	if (compare_pov(cub->player, pov, look) ||
+		compare_position(cub->player, x, y))
 		frame_rendering(cub, cub->player, cub->screen);
 	return (0);
 }

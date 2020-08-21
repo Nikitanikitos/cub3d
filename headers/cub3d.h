@@ -77,7 +77,6 @@ typedef struct		s_player
 	float			x;
 	float			y;
 	float			pov;
-	float			crouch;
 	float			look;
 }					t_player;
 
