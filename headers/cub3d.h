@@ -35,6 +35,7 @@
 # define MAP_ERR		9
 # define UNKNOWN_ERR	10
 # define FORMAT_ERR		11
+# define UNKNOWN_TOOL	12
 
 typedef struct		s_color
 {
@@ -121,9 +122,10 @@ typedef	struct		s_cub
 
 int8_t				get_data(char *line, t_game_info *game_info,
 															t_screen *screen);
-int8_t				read_map_data(char fd, t_game_info *game_info, t_map *map);
+int8_t				read_map_data(int8_t fd, t_game_info *game_info,
+																	t_map *map);
 int8_t				check_valid_map(t_player player);
-void				check_arguments(int fd, int ac, char **av);
+void				check_arguments(int8_t fd, int ac, char **av);
 
 void				engine(t_game_info game_info, t_screen screen, char *save);
 

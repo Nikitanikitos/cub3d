@@ -94,7 +94,7 @@ int		get_number_sprites(char *line)
 	return (result);
 }
 
-int8_t	read_map_data(char fd, t_game_info *game_info, t_map *map)
+int8_t	read_map_data(int8_t fd, t_game_info *game_info, t_map *map)
 {
 	char	*temp_map;
 	char	*line;
@@ -105,6 +105,10 @@ int8_t	read_map_data(char fd, t_game_info *game_info, t_map *map)
 	temp_map = NULL;
 	while (get_next_line(fd, &line) > 0)
 	{
+		if (!*line && !temp_map)
+			continue;
+		else if (!*line && temp_map)
+			break ;
 		game_info->number_sprites += get_number_sprites(line);
 		temp_map = read_map(line, temp_map, map);
 		free(line);

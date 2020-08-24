@@ -28,6 +28,8 @@ void	read_game_data(int fd, t_game_info *game_info, t_screen *screen)
 			exit_with_error(RES_ERR);
 		else if (answer == TEX_ERR)
 			exit_with_error(TEX_ERR);
+		else if (answer == UNKNOWN_TOOL)
+			exit_with_error(UNKNOWN_TOOL);
 		count_arg += answer;
 	}
 	free(line);

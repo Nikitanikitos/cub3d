@@ -46,7 +46,7 @@ int8_t	check_valid_map(t_player player)
 	return (1);
 }
 
-void	check_arguments(int fd, int ac, char **av)
+void	check_arguments(int8_t fd, int ac, char **av)
 {
 	int		len_arg;
 
@@ -83,7 +83,7 @@ void	close_game(t_cub cub)
 
 void	exit_with_error(int8_t error_nbr)
 {
-	const char *errors[10] = {"Color should be from 0 to 255",
+	const char *errors[11] = {"Color should be from 0 to 255",
 							"Resolution should be from 100",
 							"Wrong texture path",
 							"Not enough tools",
@@ -92,7 +92,8 @@ void	exit_with_error(int8_t error_nbr)
 							"Invalid file",
 							"Invalid map",
 							"Unknown argument",
-							"Wrong file format"};
+							"Wrong file format",
+							"Unknown tool"};
 
 	error_nbr -= 2;
 	write(1, "Error!\n", 7);

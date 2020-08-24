@@ -91,6 +91,8 @@ int8_t	get_data(char *line, t_game_info *game_info, t_screen *screen)
 		answer = get_color(line, &game_info->floor_color);
 	else if (*line == 'C')
 		answer = get_color(line, &game_info->ceiling_color);
+	else if (33 <= *line && *line <= 126)
+		answer = UNKNOWN_TOOL;
 	free(line);
 	return (answer);
 }
