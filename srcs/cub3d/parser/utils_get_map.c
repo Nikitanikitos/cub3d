@@ -28,20 +28,15 @@ int		get_number_sprites(char *line)
 
 int8_t	check_end_file(int8_t fd)
 {
-	int		i;
 	char	*line;
 
 	while (get_next_line(fd, &line) > 0)
 	{
-		i = 0;
-		while (line[i])
-		{
-			if (!(line[i] == '0' || line[i] == '1' ||
-				line[i] == '2' || line[i] == ' '))
-				return (1);
-			i++;
-		}
+		if (*line != '\0')
+			return (1);
+		free(line);
 	}
+	free(line);
 	return (0);
 }
 

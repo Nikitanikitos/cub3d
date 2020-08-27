@@ -14,7 +14,7 @@
 
 int		copy_read_map(char *map, char *line, int i)
 {
-	static char	flag;
+	static int8_t	flag;
 
 	while (*line)
 	{
