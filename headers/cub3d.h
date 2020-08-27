@@ -124,6 +124,12 @@ int8_t				get_data(char *line, t_game_info *game_info,
 															t_screen *screen);
 int8_t				read_map_data(int8_t fd, t_game_info *game_info,
 																	t_map *map);
+int					get_number_sprites(char *line);
+int8_t				check_line_map(char *line, char *temp_map);
+int8_t				check_end_file(int8_t fd);
+void				map_init(t_map *map, t_game_info *game_info,
+															char **temp_map);
+
 int8_t				check_valid_map(t_player player);
 void				check_arguments(int8_t fd, int ac, char **av);
 

@@ -80,34 +80,17 @@ char	*copy_write_map(char *map, char *temp_map, int length_line)
 	return (map);
 }
 
-int		get_number_sprites(char *line)
-{
-	int	result;
-
-	result = 0;
-	while (*line)
-	{
-		if (*line == '2')
-			result++;
-		line++;
-	}
-	return (result);
-}
-
 int8_t	read_map_data(int8_t fd, t_game_info *game_info, t_map *map)
 {
 	char	*temp_map;
 	char	*line;
 
-	game_info->number_sprites = 0;
-	map->column_length = 0;
-	map->line_length = 0;
-	temp_map = NULL;
+	map_init(map, game_info, &temp_map);
 	while (get_next_line(fd, &line) > 0)
 	{
 		if (!*line && !temp_map)
 			continue;
-		else if (!*line && temp_map)
+		else if (check_line_map(line, temp_map))
 			break ;
 		game_info->number_sprites += get_number_sprites(line);
 		temp_map = read_map(line, temp_map, map);
