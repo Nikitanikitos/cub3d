@@ -15,11 +15,16 @@
 int8_t	get_texture(char *line, t_img_data *img, void *mlx)
 {
 	int8_t	fd;
+	int		len;
 
 	while (*line == ' ')
 		line++;
 	fd = open(line, O_RDONLY);
 	if (fd == -1)
+		return (TEX_ERR);
+	len = ft_strlen(line);
+	if (line[len - 1] != 'm' && line[len - 2] != 'p' &&
+			line[len - 3] != 'x' && line[len - 4] != '.')
 		return (TEX_ERR);
 	close(fd);
 	img->img = mlx_xpm_file_to_image(mlx, line, &img->width, &img->height);
@@ -30,13 +35,28 @@ int8_t	get_texture(char *line, t_img_data *img, void *mlx)
 
 int8_t	get_resolution(char *line, int *width, int *height)
 {
-	line += 2;
-	if ((*width = ft_atoi(line)) < 100)
+	int		resolution[2];
+	int		resolution_value;
+	int8_t	flag;
+	int		q;
+
+	q = 0;
+	while (*line++)
+		if ((('0' <= *line && *line <= '9') || *line == '-') && flag)
+		{
+			resolution_value = ft_atoi(line);
+			flag = 0;
+			if (100 <= resolution_value)
+				resolution[q++] = resolution_value;
+			else
+				return (RES_ERR);
+		}
+		else if (!(('0' <= *line && *line <= '9') || *line == '-'))
+			flag = 1;
+	if (q != 2)
 		return (RES_ERR);
-	while ('0' <= *line && *line <= '9')
-		line++;
-	if ((*height = ft_atoi(line)) <= 100)
-		return (RES_ERR);
+	*width = resolution[0];
+	*height = resolution[1];
 	return (1);
 }
 
@@ -48,8 +68,7 @@ int8_t	get_color(char *line, t_color *rgb)
 	int				q;
 
 	q = 0;
-	while (*line)
-	{
+	while (*line++)
 		if ((('0' <= *line && *line <= '9') || *line == '-') && flag)
 		{
 			color_value = ft_atoi(line);
@@ -61,8 +80,8 @@ int8_t	get_color(char *line, t_color *rgb)
 		}
 		else if (!(('0' <= *line && *line <= '9') || *line == '-'))
 			flag = 1;
-		line++;
-	}
+	if (q != 3)
+		return (COLOR_ERR);
 	rgb->r = color[0];
 	rgb->g = color[1];
 	rgb->b = color[2];
