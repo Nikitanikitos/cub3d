@@ -56,7 +56,7 @@ int8_t	check_line_map(char *line, char *temp_map)
 
 void	map_init(t_map *map, t_game_info *game_info, char **temp_map)
 {
-	map->column_length = 0;
+	map->line_length = 0;
 	map->column_length = 0;
 	game_info->number_sprites = 0;
 	*temp_map = NULL;
