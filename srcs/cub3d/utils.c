@@ -56,7 +56,7 @@ void	check_arguments(int8_t fd, int ac, char **av)
 		exit_with_error(FILE_ERR);
 	len_arg = ft_strlen(av[1]);
 	if (av[1][len_arg - 1] != 'b' && av[1][len_arg - 2] != 'u' &&
-			av[1][len_arg - 3] != 'c' || av[1][len_arg - 4] != '.')
+			av[1][len_arg - 3] != 'c' && av[1][len_arg - 4] != '.')
 		exit_with_error(FORMAT_ERR);
 	else if ((ac == 3 && ft_strcmp(av[2], "--save")) || ac > 3)
 		exit_with_error(UNKNOWN_ERR);

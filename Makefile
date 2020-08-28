@@ -23,13 +23,13 @@ MLX		= minilibx/libmlx.a
 all: $(NAME)
 
 $(NAME): $(OBJS) $(MLX)
-	gcc -Wall -Wextra -Werror ${OBJS} ${LIBS} $(MLX) -o ${NAME}
+	gcc  -Wall -Wextra -Werror ${OBJS} ${LIBS} $(MLX) -o ${NAME}
 
 $(MLX):
 	$(MAKE) -C minilibx
 
 %.o : %.c
-	gcc -Iheaders -Iminilibx -o $@ -c $<
+	gcc -Wall -Wextra -Werror -Iheaders -Iminilibx -o $@ -c $<
 
 bonus: all
 
