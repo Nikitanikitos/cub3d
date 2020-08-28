@@ -37,4 +37,6 @@ char				*ft_strdup(const char *src);
 char				*ft_strcpy(char *dest, const char *src);
 char				*ft_strjoin(char const *s1, char const *s2);
 
+int8_t				ft_isdigit(char c);
+
 #endif

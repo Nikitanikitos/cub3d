@@ -32,6 +32,8 @@ void	read_game_data(int fd, t_game_info *game_info, t_screen *screen)
 			exit_with_error(UNKNOWN_TOOL);
 		count_arg += answer;
 	}
+	if (*line)
+		exit_with_error(UNKNOWN_TOOL);
 	free(line);
 	if (count_arg < COUNT_ARG)
 		exit_with_error(LESS_ARG_ERR);

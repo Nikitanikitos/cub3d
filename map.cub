@@ -1,5 +1,6 @@
 NO ./textures/wall1h.xpm
 SO ./textures/wall1v.xpm
+
 WE ./textures/wall2h.xpm
 EA ./textures/wall2v.xpm
 
@@ -8,7 +9,7 @@ S  ./textures/cat.xpm
 F   0, 191, 252
 C 128, 128, 128
 
-R  600 1200
+R 1200 600
 
         1111111111111111111111111
         1000000000110000000000001
