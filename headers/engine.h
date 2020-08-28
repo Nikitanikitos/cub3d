@@ -50,9 +50,9 @@ void			change_pov(int key, t_player *player);
 int8_t			compare_pov(t_player player, float pov, float look);
 int8_t			compare_position(t_player player, float x, float y);
 
-void			rendering_floor(t_cub *cub, int height, int wall_x);
-void			rendering_wall(t_cub *cub, int wall_y, int height, int wall_x);
 void			rendering_ceiling(t_cub *cub, int height, int wall_x);
+void			rendering_wall(t_cub *cub, int wall_y, int height, int wall_x);
+void			rendering_floor(t_cub *cub, int height, int wall_x);
 void			rendering_sprites(t_game_info game_info, t_player player,
 											t_screen screen, float *distances);
 

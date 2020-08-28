@@ -26,9 +26,9 @@ float	ray_casting(t_cub *cub, float ray_angle, int wall_x)
 	dist = dist_to_wall.distance;
 	dist_to_wall.distance = ((float)screen.height / 2 - height / 2) +
 																	player.look;
-	rendering_floor(cub, (int)dist_to_wall.distance, wall_x);
+	rendering_ceiling(cub, (int)dist_to_wall.distance, wall_x);
 	rendering_wall(cub, (int)dist_to_wall.distance, (int)height, wall_x);
-	rendering_ceiling(cub, (int)(dist_to_wall.distance + height), wall_x);
+	rendering_floor(cub, (int)(dist_to_wall.distance + height), wall_x);
 	return (dist);
 }
 

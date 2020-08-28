@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME    = cub
+NAME    = cub3D
 
 SRCS    = $(shell find srcs -type f -name '*.c')
 
@@ -20,7 +20,7 @@ MLX		= minilibx/libmlx.a
 
 .PHONY: clean fclean all bonus
 
-all: $(NAME)
+all:    $(NAME)
 
 $(NAME): $(OBJS) $(MLX)
 	gcc  -Wall -Wextra -Werror ${OBJS} ${LIBS} $(MLX) -o ${NAME}
@@ -28,10 +28,10 @@ $(NAME): $(OBJS) $(MLX)
 $(MLX):
 	$(MAKE) -C minilibx
 
-%.o : %.c
+%.o :   %.c
 	gcc -Wall -Wextra -Werror -Iheaders -Iminilibx -o $@ -c $<
 
-bonus: all
+bonus:  all
 
 clean:
 	rm -f $(OBJS)
@@ -39,5 +39,4 @@ clean:
 fclean: clean
 	rm -f $(NAME)
 
-re: fclean all
-
+re:     fclean all

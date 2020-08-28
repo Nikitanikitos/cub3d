@@ -12,10 +12,10 @@
 
 #include "engine.h"
 
-void	rendering_ceiling(t_cub *cub, int height, int wall_x)
+void	rendering_floor(t_cub *cub, int height, int wall_x)
 {
 	const t_img_data	img = cub->screen.img_world;
-	const t_color		celling_color = cub->game_info.ceiling_color;
+	const t_color		celling_color = cub->game_info.floor_color;
 	int					index;
 
 	wall_x *= (img.bpp / 8);
@@ -28,10 +28,10 @@ void	rendering_ceiling(t_cub *cub, int height, int wall_x)
 	}
 }
 
-void	rendering_floor(t_cub *cub, int height, int wall_x)
+void	rendering_ceiling(t_cub *cub, int height, int wall_x)
 {
 	const t_img_data	img = cub->screen.img_world;
-	const t_color		floor_color = cub->game_info.floor_color;
+	const t_color		floor_color = cub->game_info.ceiling_color;
 	int					y;
 	int					index;
 
