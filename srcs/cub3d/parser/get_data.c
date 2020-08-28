@@ -40,7 +40,7 @@ int8_t	get_resolution(char *line, int *width, int *height)
 	while (*(++line))
 		if (ft_isdigit(*line) && flag)
 		{
-			if ((resolution_value = ft_atoi(line)) >= 100)
+			if ((resolution_value = ft_atoi(line)) >= 100 && q < 2)
 				resolution[q++] = resolution_value;
 			else
 				return (RES_ERR);
@@ -67,7 +67,7 @@ int8_t	get_color(char *line, t_color *rgb)
 		if (ft_isdigit(*line) && flag)
 		{
 			color_value = ft_atoi(line);
-			if (0 <= color_value && color_value <= 255)
+			if (0 <= color_value && color_value <= 255 && q < 3)
 				color[q++] = (unsigned char)color_value;
 			else
 				return (COLOR_ERR);
