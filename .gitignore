@@ -1,8 +1,11 @@
-CMakeLists.txt
 .idea/
 cmake-build-debug/
-cub
-*.o
+minilibx/test
+
+.gitignore
+
+CMakeLists.txt
+cub3D
 Cub3D.bmp
+*.o
 minilibx/libmlx.a
-minilibx/test/mlx-test
