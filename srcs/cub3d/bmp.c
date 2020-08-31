@@ -53,7 +53,7 @@ void					save_bmp(int width, int height, char *data)
 
 	bmp_file_header = file_header_init(file_size);
 	bmp_image_header = image_header_init(width, height, file_size);
-	fd = open("Cub3D.bmp",  O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
+	fd = open("Cub3D.bmp", O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
 	write(fd, &bmp_file_header, 14);
 	write(fd, &bmp_image_header, sizeof(bmp_image_header));
 	write(fd, data, image_size * 4);
